@@ -1,3 +1,4 @@
+<!--
 {% load static %}
 
 <html>
@@ -10,4 +11,145 @@
       <input type="submit"/>
   </form>
   </body>
+</html>
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Your profile</title>
+	<meta charset="utf-8">
+	<style type="text/css">
+		#profile_title{
+			text-align: center;
+			margin-top: 40px;
+			margin-bottom: 80px;
+
+		}
+		table{
+			border : 1px solid black;
+		}
+		tr, td, th{
+			border: 1px solid black;
+		}
+		#scoreboard{
+			margin-top: 80px;
+			width: 1400px;
+			display: flex;
+			flex-direction: column;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		#scoreboard_title{
+			text-align: center;
+		}
+		#disconnection{
+			position: absolute;
+			margin-top: 0px;
+			margin-left: 1590px;
+		}
+		#new_game_button{
+			width: 200px;
+			height: 90px;
+			font-size: 25px;
+			margin: 0px auto;
+		}
+		#new_game_div{
+			display: flex;
+		}
+	</style>
+</head>
+<body>
+	<button id="disconnection">Disconnection</button>
+	<div id="profile_title">
+		<h1>Welcome Back User</h1>
+
+	</div>
+	<div id="new_game_div">
+		<button id="new_game_button">New game</button>
+	</div>
+	<div id="scoreboard">
+		<h1 id="scoreboard_title">Your scoreboard :</h1>
+		<table>
+			<tr>
+				<th>Game id</th>
+				<th>Opponent name</th>
+				<th>Boxes taken</th>
+				<th>Boxes conceded</th>
+				<th>Game time</th>
+			</tr>
+			<tr>
+				<td>1</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>4</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>5</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>6</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>7</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>8</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>9</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>10</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+	</div>
+
+</body>
 </html>
