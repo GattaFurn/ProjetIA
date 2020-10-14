@@ -1,3 +1,4 @@
+<!--
 {% load static %}
 
 <html>
@@ -9,5 +10,123 @@
         {{ form }}
         <input type="submit"/>
     </form>
+  </body>
+</html>
+
+-->
+
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Game - Connection</title>
+		<style type="text/css">
+			.connect_form{
+				width: 500px;
+				display: inline;
+				
+			}
+			#connect_div{
+				display: flex;
+				justify-content: space-around;
+				width: 1400px;
+				text-align: center;
+				margin : 0px auto;
+			}
+			#connect_title{
+				text-align: center;
+				margin-top: 40px;
+				margin-bottom: 80px;
+			}
+			form{
+				border : 1px solid black;
+				border-radius: 10px;
+			}
+			form div{
+				margin-top: 10px;
+			}
+			label{
+				display: inline-block;
+				width: 130px;
+				text-align: left;
+			}
+			input, textarea, select{
+				width: 300px;
+				box-sizing: border-box;
+				border: 1px solid black;
+			}
+			button{
+				padding: 5px;
+				margin-bottom: 10px;
+				margin-right: 32px;
+			}
+			.connect_valid{
+				display: flex;
+				justify-content: flex-end;
+			}
+		</style>
+		<script type="text/javascript">
+			function colorChoice(){
+				listOptions = document.getElementsByTagName("option");
+				for (element of listOptions){
+					element.style.backgroundColor = element.value;
+				}
+			}
+		</script>
+	</head>
+  <body onload="colorChoice()">
+    <h1 id="connect_title">Welcome to the game</h1>
+
+    <div id="connect_div">
+	    
+	    <div class="connect_form">
+	    	<h2>Connect you to join the game :</h2>
+	    	<form method="POST" action="/connection/">
+		    	<div>
+		    		<label for="name">Name : </label>
+		    		<input type="text" id="name" name="player_name" required="" placeholder="..." maxlength="50">
+		    	</div>
+		    	<div>
+		    		<label for="password">Password : </label>
+		    		<input type="text" id="password" name="player_password" required="" placeholder="...">
+		    	</div>
+		    	<div class="connect_valid">
+		    		<button type="submit">Sign in</button>
+		    	</div>
+		    </form>
+	    </div>
+	    
+	    <div class="connect_form">
+	    	<h2>New player, register you :</h2>
+	    	<form method="POST" action="/connection/">
+		    	<div>
+		    		<label for="name">Name : </label>
+		    		<input type="text" id="name" name="player_name" required="" placeholder="..." maxlength="50">
+		    	</div>
+		    	<div>
+		    		<label for="password">Password : </label>
+		    		<input type="text" id="password" name="player_password" required="" placeholder="...">
+		    	</div>
+		    	<div>
+		    		<label for="password">Choose your color : </label>
+		    		<select name="colors" id="colors-select" required="">
+		    			<option value="">Please choose an option</option>
+		    			<option value="blue"></option>
+		    			<option value="red"></option>
+		    			<option value="orange"></option>
+		    			<option value="green"></option>
+		    			<option value="yellow"></option>
+		    			<option value="purple"></option>
+		    			<option value="cyan"></option>
+		    			<option value="lemonchiffon"></option>
+		    		</select>
+		    	</div>
+		    	<div class="connect_valid">
+		    		<button type="submit">Sign up</button>
+		    	</div>
+	    	</form>
+	    </div>
+    </div>
+    
+    
   </body>
 </html>
