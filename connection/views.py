@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django import forms
 
 class ConnectionForm (forms.Form):
-    username = forms.CharField(label = "Username")
+    username = forms.CharField(label = "Username", initial="...")
     password = forms.CharField(label="Password", widget=forms.PasswordInput())
 
 

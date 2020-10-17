@@ -83,7 +83,10 @@
 	    	<h2>Connect you to join the game :</h2>
 			<form method="POST" action="/connection/"> <!--Action : url vers lequel les données doivent être envoyée-->
 				{% csrf_token %} <!--protection contre certaines actions malveillantes-->
-				{{ form }}
+				<div>
+					{{ form }}
+				</div>
+				
 		    	<div>
 		    		<label for="name">Name : </label>
 		    		<input type="text" id="name" name="player_name" required="" placeholder="..." maxlength="50">
@@ -102,6 +105,9 @@
 	    	<h2>New player, register you :</h2>
 			<form method="POST" action="/connection/">
 				{% csrf_token %} <!--protection contre certaines actions malveillantes-->
+				<div>
+					{{ form }}
+				</div>
 		    	<div>
 		    		<label for="name">Name : </label>
 		    		<input type="text" id="name" name="player_name" required="" placeholder="..." maxlength="50">
