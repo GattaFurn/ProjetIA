@@ -85,24 +85,28 @@
 	</style>
 </head>
 <body>
-	<button id="disconnection">Disconnection</button>
-	<div id="profile_title">
-		<h1>Welcome Back User</h1>
-	</div>
-		<div id="connect_div">
-			<div class="connect_form">
-				<h2>Player 1</h2>
-				<p>Player name : </p>
-				<p style="display: inline;">Player color : </p>
-			</div>
-			<div>
-				<h2>Player 2</h2>
-				<div class="connect_form">
-					<button><a href="http://127.0.0.1:8000/connection/">Connect you</a></button>
-				</div>
-				
-			</div>
-		</div>
-		<button id="newGameButton">New Game</button> 
+    <button id="disconnection">Disconnection</button>
+    <div id="profile_title">
+      <h1>Welcome Back User</h1>
+    </div>
+      <div id="connect_div">
+        <div class="connect_form">
+          <h2>Player 1</h2>
+          <p>Player name : </p>
+          <p style="display: inline;">Player color : </p>
+        </div>
+        <div>
+          <h2>Player 2</h2>
+          <div class="connect_form">
+            <button><a href="http://127.0.0.1:8000/connection/">Connect you</a></button>
+          </div>
+        </div>
+      </div>
+    <form method="POST" action="/game/">
+      {% csrf_token %}
+      {{form}}
+      <br>
+    <input type="submit"/>
+  </form>
 </body>
 </html>
