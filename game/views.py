@@ -9,6 +9,8 @@ import random
 class NewGameForm(forms.Form):
     player1 = forms.CharField(label="Player 1")
     player2 = forms.CharField(label="Player 2")
+    player3 = forms.CharField(label="Player 3")
+    player4 = forms.CharField(label="Player 4")
 
 
 def index(request):
