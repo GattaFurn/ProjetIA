@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django import forms
+from django.shortcuts import redirect
 
 #iterables
 COLOR_CHOICES = (
@@ -23,6 +24,8 @@ class ConnectionFormNewPlayer(forms.Form):
     password = forms.CharField(label="Password", max_length=20, widget=forms.PasswordInput())
     colorchoice = forms.ChoiceField(label="Your color", choices=COLOR_CHOICES)
 
+
+
 def index(request):
     if request.method == "GET": # get connection page
         formPlayer = ConnectionFormPlayer() # empty form
@@ -34,5 +37,5 @@ def index(request):
         
         if formPlayer.is_valid():
             # Check credentials
-            return HttpResponse("OK")
+            return HttpResponseRedirect('/game')
         return HttpResponse("KO")
