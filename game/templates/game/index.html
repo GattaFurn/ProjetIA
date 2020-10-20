@@ -27,130 +27,85 @@
 			margin-bottom: 80px;
 
 		}
-		table{
-			border : 1px solid black;
-		}
-		tr, td, th{
-			border: 1px solid black;
-		}
-		#scoreboard{
-			margin-top: 80px;
-			width: 1400px;
-			display: flex;
-			flex-direction: column;
-			margin-left: auto;
-			margin-right: auto;
-		}
-		#scoreboard_title{
-			text-align: center;
-		}
 		#disconnection{
 			position: absolute;
 			margin-top: 0px;
 			margin-left: 1590px;
 		}
-		#new_game_button{
-			width: 200px;
-			height: 90px;
-			font-size: 25px;
-			margin: 0px auto;
-		}
-		#new_game_div{
-			display: flex;
-		}
+		.connect_form{
+				width: 500px;
+				display: inline;
+				
+			}
+			#connect_div{
+				display: flex;
+				justify-content: space-around;
+				width: 1400px;
+				text-align: center;
+				margin : 0px auto;
+			}
+			#connect_title{
+				text-align: center;
+				margin-top: 40px;
+				margin-bottom: 80px;
+			}
+			form{
+				border : 1px solid black;
+				border-radius: 10px;
+			}
+			form div{
+				margin-top: 10px;
+			}
+			label{
+				display: inline-block;
+				width: 130px;
+				text-align: left;
+			}
+			input, textarea, select{
+				width: 300px;
+				box-sizing: border-box;
+				border: 1px solid black;
+			}
+			button{
+				padding: 5px;
+				margin-bottom: 10px;
+				margin-right: 32px;
+			}
+			.connect_valid{
+				display: flex;
+				justify-content: flex-end;
+			}
+			#newGameButton{
+				font-size: 40px;
+				padding : 10px;
+				margin-top: 50px;
+				text-align: center;
+				margin-left: auto;
+				margin-right: auto;
+			}
 	</style>
 </head>
 <body>
 	<button id="disconnection">Disconnection</button>
 	<div id="profile_title">
 		<h1>Welcome Back User</h1>
-
 	</div>
-	<div id="new_game_div">
-		<button id="new_game_button">New game</button>
-	</div>
-	<div id="scoreboard">
-		<h1 id="scoreboard_title">Your scoreboard :</h1>
-		<table>
-			<tr>
-				<th>Game id</th>
-				<th>Opponent name</th>
-				<th>Boxes taken</th>
-				<th>Boxes conceded</th>
-				<th>Game time</th>
-			</tr>
-			<tr>
-				<td>1</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>2</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>3</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>4</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>5</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>6</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>7</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>8</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>9</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>10</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-		</table>
-	</div>
-
+		<div id="connect_div">
+			<div class="connect_form">
+				<h2>Player 1</h2>
+				<p>Player name : </p>
+				<p style="display: inline;">Player color : </p>
+			</div>
+			<div>
+				<h2>Player 2</h2>
+				<div class="connect_form">
+					<button><a href="http://127.0.0.1:8000/connection/joinGame=True">Connect you</a></button>
+				</div>
+				
+			</div>
+		</div>
+		<button id="newGameButton">New Game</button>
+		
+	    
 </body>
 </html>
