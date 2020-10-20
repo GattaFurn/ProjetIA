@@ -1,125 +1,93 @@
-{% load static %}
+{% load static %} <!--Génère l'url absolue des fichiers statiques-->
 
 <html>
-<head>
-	<style>
-		#wrapper{
-			margin-right:auto;
-			margin-left:auto;
-			width:800px;
-			background-color:white;
-			border-radius:8px;
-			padding:20px;
-		}
-		
-		h1{
-			text-align:center;
-			border-bottom:4px solid black;
-			padding-bottom:30px;
-		}
-		
-		body{
-			background-color:lightblue;
-		}
-		
-		.fondNoir {
-			background-color: lightblue; 
-			color: black;
-			margin-bottom: 0;
-			border-top:1px solid black;
-		}
-		.fondNoir,.description{
-			border-left:1px solid black;
-			border-right:1px solid black;
-			padding: 4px;
-		}
-		.description { 
-			font-style: italic;
-			background-color: lemonchiffon;
-			margin-top: 0; 
-			border-bottom: 1px solid black;
-		}
-		
-		table {
-			border-collapse: collapse; 
-			margin-left:auto;
-			margin-right:auto;
-		}
-		
-		table td, th { 
-			border:1px solid black; 
-			text-align: center;
-			padding: 3px;
-		}
-		
-		table tr:first-of-type {
-			font-weight: bold;
-			text-transform: uppercase;
-		}
-		
-		table th {
-			background-color: lemonchiffon;
-			color:red;
-		}
-		
-		caption{
-			border: 1px solid black;
-			font-weight:bold;
-			text-transform: uppercase;
-		}
-		
-		div{
-			margin-bottom:15px;
-		}
-	</style>
-</head>
-<body>
-	<div id="wrapper">
-		<h1>Animations et transitions CSS</h1>
-		<p class="fondNoir">Transformations</p>
-		<p class="description">Il y en a 4 : translate, scale, rotate et skew.</p>
-		<p class="fondNoir">Transitions</p>
-		<p class="description">CSS permet de choisir les propriétés modifiées dans la transition, sa durée, sa fonction d’évolution et le délai de déclenchement.</p>
-		<p>Le tableau suivant reprend les différents types d’animations ; les plus compliquées étant mises en évidence.</p>
+	<head>
+		<meta charset="utf-8">
+		<title>Game - Connection</title>
+		<style type="text/css">
+			.connect_form{
+				width: 500px;
+				display: inline;
+				
+			}
+			#connect_div{
+				display: flex;
+				justify-content: space-around;
+				width: 1400px;
+				text-align: center;
+				margin : 0px auto;
+			}
+			#connect_title{
+				text-align: center;
+				margin-top: 40px;
+				margin-bottom: 80px;
+			}
+			form{
+				border : 1px solid black;
+				border-radius: 10px;
+			}
+			form div{
+				margin-top: 10px;
+			}
+			label{
+				display: inline-block;
+				width: 130px;
+				text-align: left;
+			}
+			input, textarea, select{
+				width: 300px;
+				box-sizing: border-box;
+				border: 1px solid black;
+			}
+			button{
+				padding: 5px;
+				margin-bottom: 10px;
+				margin-right: 32px;
+			}
+			.connect_valid{
+				display: flex;
+				justify-content: flex-end;
+			}
+		</style>
+		<script type="text/javascript">
+			function colorChoice(){
+				listOptions = document.getElementsByTagName("option");
+				for (element of listOptions){
+					element.style.backgroundColor = element.value;
+				}
+			}
+		</script>
+	</head>
+  <body onload="colorChoice()">
+    <h1 id="connect_title">Welcome to the game</h1>
 
-		<table>
-			<caption>Types d’animations</caption>
-			<tr>
-				<td>Transformations</td>
-				<td>Transitions</td>
-			</tr>
-			<tr>
-				<td>Translate</td>
-				<td>Transition-property</td>
-			</tr>
-			<tr>
-				<td>Scale</td>
-				<td>Transition-duration</td>
-			</tr>
-			<tr>
-				<td>Rotate</td>
-				<th>Transition-timing-function</th>
-			</tr>
-			<tr>
-				<th>Skew</th>
-				<td>Transition-delay</td>
-			</tr>
-		</table>
-
-		<form action="demandeInfos.php" method="post">
-			<fieldset>
-				<legend><h2>Pour recevoir des informations supplémentaires...</h2></legend>
-					<label for="email">Votre adresse mail :</label>
-					<input type="email" placeholder="Exemple@gmail.com" id="email" required />
-				<p>Choisissez le sujet sur lequel vous désirez des informations (un seul sujet par demande) : <br/>
-					<input type="radio" id="transfo"name="option" />
-					<label for="transfo">Transformations</label> <br/>
-					<input type="radio" id="trans" name="option" />
-					<label for="trans">Transitions</label>
-				</p>
-				<p><input type="submit" value="Envoyer" /></p>
-			</fieldset>
-		</form>
-	</div>
-</body>
+    <div id="connect_div">
+	    
+	    <div class="connect_form">
+	    	<h2>Connect you to join the game :</h2>
+			<form method="POST" action="/connection/"> <!--Action : url vers lequel les données doivent être envoyée-->
+				{% csrf_token %} <!--protection contre certaines actions malveillantes-->
+				<div>
+					{{ formPlayer.as_p }} <!--recupere la variable form--> 
+				</div>
+		    	<div class="connect_valid">
+		    		<button type="submit">Sign in</button>
+		    	</div>
+		    </form>
+	    </div>
+	    
+	    <div class="connect_form">
+	    	<h2>New player, register you :</h2>
+			<form method="POST" action="/connection/">
+				{% csrf_token %} <!--protection contre certaines actions malveillantes-->
+				<div>
+					{{ formNewPlayer.as_p }}
+				</div>
+		    	<div class="connect_valid">
+		    		<button type="submit">Sign up</button>
+		    	</div>
+	    	</form>
+	    </div>
+    </div>
+  </body>
 </html>
