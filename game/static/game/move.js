@@ -1,5 +1,5 @@
 window.onload = function() {
-    document.getElementById("my_button").addEventListener("click", () => {
+    document.getElementsByClassName("button_move").addEventListener("click", () => {
         main();
     });
 }
