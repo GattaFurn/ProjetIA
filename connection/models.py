@@ -15,3 +15,6 @@ class Utilisateur(models.Model):
     pseudo = models.CharField(max_length=50)
     password = models.CharField(max_length=20)
     color = models.CharField(max_length=2,choices = COLOR_CHOICES,default = 'BL')
+
+    def __str__(self):
+        return self.pseudo,self.color
