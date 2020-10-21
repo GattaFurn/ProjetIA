@@ -3,9 +3,11 @@ window.onload = function() {
         main();
     });
 }
+
 async function main() {
     const response = await jsonRPC("/game/move", {game_id: "1", player_id: "42", move: [1, 0]});
-    document.getElementById("my_board").textContent = JSON.stringify(response.board)
+    //document.getElementById("my_board").textContent = JSON.stringify(response.board)
+    updateBoard(JSON.stringify(response.board))
 }
 
 function jsonRPC(url, data) {

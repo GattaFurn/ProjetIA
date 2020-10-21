@@ -1,24 +1,23 @@
 {% load static %} {% csrf_token %}
 
 <html>
-<head>
-    <title>Game</title>
-    <meta charset="UTF-8">
-    <style>
-        table{
-            border : 1px solid black
-        }
-        table td{
-            border : 1px solid black
-        }
-    </style>
-</head>    
-<body>
+    <head>
+        <style>
+    		td{ 
+				width: 40px;
+				height: 40px;
+				border: 1px solid black;
+				background-color: white; 
+			} 
+		</style>
+        <script src="{% static 'game/board.js' %}"></script>
         <script src="{% static 'game/move.js' %}"></script>
-        
-        <div id="my_board">
-            {{board}}
-        </div>
+    </head>
+    <body>
+        <title>Game</title>
+        <p><div id="my_board">
+        <script>createBoard({{board}})</script>
+        </div></p>
         <button id="my_button">Move</button>
     </body>
 </html>
