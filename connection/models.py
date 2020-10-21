@@ -17,4 +17,4 @@ class Utilisateur(models.Model):
     color = models.CharField(max_length=2,choices = COLOR_CHOICES,default = 'BL')
 
     def __str__(self):
-        return self.pseudo,self.color
+        return self.pseudo
