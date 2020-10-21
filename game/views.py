@@ -12,11 +12,11 @@ class NewGameForm(forms.Form):
 
 
 def index(request):
-    if request.method == "GET":
+    if request.method == "GET": #quand c'est la premiere fois qu'on vient
         form = NewGameForm()
         return render(request, "game/index.html", { "form": form })
 
-    if request.method == "POST": 
+    if request.method == "POST": #quand on a les noms des joueurs pour commencer la partie
         form = NewGameForm(request.POST)
 
         if form.is_valid():

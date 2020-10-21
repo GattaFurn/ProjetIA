@@ -1,7 +1,10 @@
 window.onload = function() {
-    document.getElementById("my_button").addEventListener("click", () => {
-        main();
-    });
+    list_buttons = document.getElementsByClassName("button_move");
+    
+    for(let button of list_buttons){
+      button.addEventListener("click", () => {main()});
+    }
+
 }
 
 async function main() {
