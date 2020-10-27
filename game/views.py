@@ -14,7 +14,10 @@ class NewGameForm(forms.Form):
 def index(request):
     if request.method == "GET": #quand c'est la premiere fois qu'on vient
         form = NewGameForm()
-        return render(request, "game/index.html", { "form": form })
+        if(request.session['player2'] == None):
+            return render(request, "game/index.html", { "form": form ,"player1":request.session['player1'],"player2":None})
+        else:
+            return render(request, "game/index.html", { "form": form ,"player1":request.session['player1'],"player2":request.session['player2']})
 
     if request.method == "POST": #quand on a les noms des joueurs pour commencer la partie
         form = NewGameForm(request.POST)
