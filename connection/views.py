@@ -32,6 +32,8 @@ def index(request):
     if request.method == "GET": # get connection page
         formPlayer = ConnectionFormPlayer() # empty form
         formNewPlayer = ConnectionFormNewPlayer()
+        request.session["player1"] = None
+        request.session["player2"] = None
         return render(request, "connection/index.html", { "formPlayer": formPlayer , "formNewPlayer": formNewPlayer})
 
     if request.method == "POST": # post a connection
@@ -43,7 +45,7 @@ def index(request):
                 utilisateur = Utilisateur.objects.get(pseudo = username, password = password)
                 if(request.session.get('player1') == None):
                     request.session['player1'] = {"username":utilisateur.pseudo,"color":utilisateur.color}
-                    return HttpResponse(request.session.get('player1'))
+                    return redirect('../game')
                 else:
                     request.session['player2'] = {"username":utilisateur.pseudo,"color":utilisateur.color}
                 return redirect('../game')
