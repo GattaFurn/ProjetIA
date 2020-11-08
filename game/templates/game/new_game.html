@@ -4,11 +4,20 @@
     <head>
         <style>
     		#my_board td{ 
-				width: 80px;
-				height: 80px;
-				border: 1px solid black;
+				width: 70px;
+				height: 70px;
+				border: 2px solid black;
 				background-color: white; 
 			}
+            #board_letter_number td{
+                width: 70px;
+				height: 70px;
+                margin-bottom: 15px;
+                text-align: center;
+                font-size: 32px;
+                font-weight: bolder;
+                border: 2px solid black;
+            }
             h1{
 				text-align: center;
 				margin-top: 30px;
@@ -47,7 +56,8 @@
                 margin-left: auto;
                 margin-right: auto;
                 border-radius: 10px;
-                background-color: ;
+                margin-bottom: 10px;
+                background-color: #00cc00;
             }
             #player1_panel_color{
                 background-color: blue;
@@ -63,15 +73,34 @@
             #button_not_your_turn{
                 background-color: grey;
             }
-		</style>
+        </style>
+        
         <script src="{% static 'game/board.js' %}"></script>
         <script src="{% static 'game/move.js' %}"></script>
         <title>Game</title>
     </head>
     <body>
+        <script>
+            function player_focused(player_turn){
+                if(player_turn == 1){
+                    let element = document.getElementById("player2_panel_color");
+                    element.id = "player_panel_not_your_turn";
+                    element.querySelector("button").setAttribute("disabled", "");
+                    element.querySelector("button").id = "button_not_your_turn"
+                }
+                else{
+                    let element = document.getElementById("player1_panel_color");
+                    element.id = "player_panel_not_your_turn";
+                    element.querySelector("button").setAttribute("disabled", "");
+                    element.querySelector("button").id = "button_not_your_turn"
+                }
+            }
+            window.onload = function(){player_focused(1);}
+
+        </script>
         <h1>The Game</h1>
         <div id="game_content">
-            <div class="player_panel" id="player_panel_not_your_turn">
+            <div class="player_panel" id="player1_panel_color">
                 <h2>Player 1</h2>
                 <div class="div_informations">
                     <p style="display: inline;">Boxes taken : </p>
@@ -82,7 +111,7 @@
                     <p style="display: inline;">10</p>
                 </div>
                 <div class="div_informations">
-                    <p style="display: inline;">Travel history :</p>
+                    <p>Travel history :</p>
                 </div>
                 <div>
                     <table class="table_moves">
@@ -118,11 +147,93 @@
                         </tr>
                     </table>
                 </div>
-                <button class="button_move" id="button_not_your_turn" disabled>Move</button>                
+                <button class="button_move">Move</button>                
             </div>
-            <div id="my_board">
-                <script>createBoard({{board}})</script>
+
+
+            <div >
+                <table id="board_letter_number">
+                    <tr>
+                        <td>
+                            
+                        </td>
+                        <td>
+                            A
+                        </td>
+                        <td>
+                            B
+                        </td>
+                        <td>
+                            C
+                        </td>
+                        <td>
+                            D
+                        </td>
+                        <td>
+                            E
+                        </td>
+                        <td>
+                            F
+                        </td>
+                        <td>
+                            G
+                        </td>
+                        <td>
+                            H
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            1
+                        </td>
+                        <td style="border: none;" id="my_board" rowspan="8" colspan="8">
+                            <script>createBoard({{board}})</script>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            2
+                        </td>
+                        
+                    </tr>
+                    <tr>
+                        <td>
+                            3
+                        </td>
+                        
+                    </tr>
+                    <tr>
+                        <td>
+                            4
+                        </td>
+                        
+                    </tr>
+                    <tr>
+                        <td>
+                            5
+                        </td>
+                        
+                    </tr>
+                    <tr>
+                        <td>
+                            6
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            7
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            8
+                        </td>
+                    </tr>
+                </table>
+                
             </div>
+
+
             <div class="player_panel" id="player2_panel_color">
                 <h2>Player 2</h2>
                 <div class="div_informations">

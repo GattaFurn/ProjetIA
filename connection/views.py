@@ -32,13 +32,33 @@ def index(request):
     if request.method == "GET": # get connection page
         formPlayer = ConnectionFormPlayer() # empty form
         formNewPlayer = ConnectionFormNewPlayer()
+        request.session["player1"] = None
+        request.session["player2"] = None
         return render(request, "connection/index.html", { "formPlayer": formPlayer , "formNewPlayer": formNewPlayer})
 
     if request.method == "POST": # post a connection
         username = request.POST.get("username") #auto fill form with info in POST
         password = request.POST.get("password")
-        try:
-             utilisateur = Utilisateur.objects.get(pseudo = username, password = password)
-             return HttpResponseRedirect('/game')
-        except ObjectDoesNotExist:
-            return HttpResponse("KO")
+        colorchoice = request.POST.get("colorchoice")
+        if(colorchoice == None):
+            try:
+                utilisateur = Utilisateur.objects.get(pseudo = username, password = password)
+                if(request.session.get('player1') == None):
+                    request.session['player1'] = {"username":utilisateur.pseudo,"color":utilisateur.color}
+                    return redirect('../game')
+                else:
+                    request.session['player2'] = {"username":utilisateur.pseudo,"color":utilisateur.color}
+                return redirect('../game')
+            except ObjectDoesNotExist:
+                return HttpResponse("KO")
+        else:
+            try:
+                utilisateur = Utilisateur.objects.get(pseudo = username)
+                return HttpResponse("L'utilisateur existe déjà")
+            except ObjectDoesNotExist:
+                new_utilisateur = Utilisateur.objects.create(pseudo = username, password = password, color = colorchoice)
+                formPlayer = ConnectionFormPlayer() # empty form
+                formNewPlayer = ConnectionFormNewPlayer()
+                return render(request, "connection/index.html", { "formPlayer": formPlayer , "formNewPlayer": formNewPlayer})
+        
+

@@ -1,18 +1,3 @@
-<!--
-{% load static %}
-<html>
-  <body>
-    <title>New Game</title>
-    <h1>Welcome in Game</h1>
-    <form method="POST" action="/game/">
-      {% csrf_token %}
-      {{ form }}
-      <input type="submit"/>
-  </form>
-  </body>
-</html>
--->
-
 {% load static %}
 <!DOCTYPE html>
 <html>
@@ -83,24 +68,61 @@
       margin-right: auto;
     }
 	</style>
+    {{ player1|json_script:"player1" }}
+    {{ player2|json_script:"player2" }}
+    <script>
+      const player1 = JSON.parse(document.getElementById('player1').textContent);
+      const player2 = JSON.parse(document.getElementById('player2').textContent);
+    </script>
+    <script>
+    let COLOR_CHOICES = new Map();
+    COLOR_CHOICES.set("BL", "Blue");
+    COLOR_CHOICES.set("PK", "Pink");
+    COLOR_CHOICES.set('YW', 'Yellow');
+    COLOR_CHOICES.set('GN', 'Green');
+    COLOR_CHOICES.set('VT', 'Violet');
+    COLOR_CHOICES.set('RD', 'Red');
+    COLOR_CHOICES.set('OE', 'Orange');
+    COLOR_CHOICES.set('CN', 'Cyan');
+      function createDiv(){
+        let div = document.getElementById("connect_div");
+        let div_button = document.createElement("div");
+        div_button.append(document.createElement("button"));
+        let h2;
+        let p = [];
+        let div_player = [];
+        let ind = 0;
+        for(player of [player1,player2]){
+          div_player[ind] = document.createElement("div");
+          div_player[ind].className = "connect_form";
+          h2 = document.createElement("h2");
+          h2.innerHTML = "Player "+(ind+1);
+          div_player[ind].append(h2);
+          if(player == null){
+            div_player[ind].append(div_button); 
+          }else{
+            p[0] = document.createElement("p");
+            p[0].innerHTML = "Player name: "+player.username;
+            p[1] = document.createElement("p");
+            p[1].innerHTML = "Player color: "+COLOR_CHOICES.get(player.color);
+           div_player[ind].append(p[0],p[1]);
+          }
+          ind++;
+        }
+        div.append(div_player[0]);
+        div.append(div_player[1]);
+      }
+
+      window.onload = createDiv;
+    </script
+    
 </head>
 <body>
-    <button id="disconnection">Disconnection</button>
+    <button id="disconnection"><a href = ""> Disconnection</a></button>
     <div id="profile_title">
       <h1>Welcome Back User</h1>
     </div>
       <div id="connect_div">
-        <div class="connect_form">
-          <h2>Player 1</h2>
-          <p>Player name : </p>
-          <p style="display: inline;">Player color : </p>
-        </div>
-        <div>
-          <h2>Player 2</h2>
-          <div class="connect_form">
-            <button><a href="http://127.0.0.1:8000/connection/">Connect you</a></button>
-          </div>
-        </div>
       </div>
     <form method="POST" action="/game/">
       {% csrf_token %}
