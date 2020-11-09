@@ -7,8 +7,13 @@
 				width: 70px;
 				height: 70px;
 				border: 2px solid black;
-				background-color: white; 
 			}
+            .my_board td{
+                width: 70px;
+				height: 70px;
+				border: 2px solid #999999;
+                color : #999999;
+            }
             #board_letter_number td{
                 width: 70px;
 				height: 70px;
@@ -73,13 +78,17 @@
             #button_not_your_turn{
                 background-color: grey;
             }
+            #dark_mode{
+			position: absolute;
+			margin-bottom: 1200px;
+			margin-left: 1590px;
+		    }
+            #my_board {
+                background-color: blueviolet;
+            }
+
         </style>
         
-        <script src="{% static 'game/board.js' %}"></script>
-        <script src="{% static 'game/move.js' %}"></script>
-        <title>Game</title>
-    </head>
-    <body>
         <script>
             function player_focused(player_turn){
                 if(player_turn == 1){
@@ -95,10 +104,30 @@
                     element.querySelector("button").id = "button_not_your_turn"
                 }
             }
-            window.onload = function(){player_focused(1);}
+
+            function darkMode(){
+                document.body.style.backgroundColor = '#262626';
+                
+            }
+            
+            window.onload = function(){
+                let button = document.getElementById("dark_mode");
+                button.addEventListener('click', darkMode);
+            }
 
         </script>
+        
+        <script src="{% static 'game/move.js' %}"></script>
+        <script src="{% static 'game/board.js' %}"></script>
+        <title>Game</title>
+    </head>
+    <body>
+        <button id="dark_mode">Dark mode</button>
+        
+        
+        
         <h1>The Game</h1>
+        
         <div id="game_content">
             <div class="player_panel" id="player1_panel_color">
                 <h2>Player 1</h2>

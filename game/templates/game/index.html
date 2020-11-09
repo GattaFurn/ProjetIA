@@ -86,8 +86,10 @@
     COLOR_CHOICES.set('CN', 'Cyan');
       function createDiv(){
         let div = document.getElementById("connect_div");
-        let div_button = document.createElement("div");
-        div_button.append(document.createElement("button"));
+        let button = document.createElement("button");
+        button.append(document.createElement("a"));
+        button.childNodes[0].href = "/connection";
+        button.childNodes[0].innerHTML = "Connection";
         let h2;
         let p = [];
         let div_player = [];
@@ -99,7 +101,7 @@
           h2.innerHTML = "Player "+(ind+1);
           div_player[ind].append(h2);
           if(player == null){
-            div_player[ind].append(div_button); 
+            div_player[ind].append(button); 
           }else{
             p[0] = document.createElement("p");
             p[0].innerHTML = "Player name: "+player.username;
@@ -118,7 +120,7 @@
     
 </head>
 <body>
-    <button id="disconnection"><a href = ""> Disconnection</a></button>
+    <button id="disconnection"><a href = "../connection/deconnection"> Disconnection</a></button>
     <div id="profile_title">
       <h1>Welcome Back User</h1>
     </div>

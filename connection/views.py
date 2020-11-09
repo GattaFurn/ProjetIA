@@ -26,14 +26,14 @@ class ConnectionFormNewPlayer(forms.Form):
     password = forms.CharField(label= "Password", max_length=20, widget=forms.PasswordInput())
     colorchoice = forms.ChoiceField(label="Your color", choices=COLOR_CHOICES)
 
-
-
 def index(request):
     if request.method == "GET": # get connection page
         formPlayer = ConnectionFormPlayer() # empty form
         formNewPlayer = ConnectionFormNewPlayer()
-        request.session["player1"] = None
-        request.session["player2"] = None
+        if(request.session.get("active", 0) == 0):
+            request.session["active"] = True
+            request.session["player1"] = None
+            request.session["player2"] = None
         return render(request, "connection/index.html", { "formPlayer": formPlayer , "formNewPlayer": formNewPlayer})
 
     if request.method == "POST": # post a connection
@@ -56,9 +56,17 @@ def index(request):
                 utilisateur = Utilisateur.objects.get(pseudo = username)
                 return HttpResponse("L'utilisateur existe déjà")
             except ObjectDoesNotExist:
+                #script = "alert('Le joueur à bien été crée, veuillez vous connectez maintenant');"
+                js_data = "Le joueur à bien été crée, veuillez vous connectez maintenant"
                 new_utilisateur = Utilisateur.objects.create(pseudo = username, password = password, color = colorchoice)
+                
                 formPlayer = ConnectionFormPlayer() # empty form
                 formNewPlayer = ConnectionFormNewPlayer()
                 return render(request, "connection/index.html", { "formPlayer": formPlayer , "formNewPlayer": formNewPlayer})
-        
+
+def deconnection(request):
+    request.session["active"] = False
+    request.session["player1"] = None
+    request.session["player2"] = None
+    return redirect('../connection')
 
