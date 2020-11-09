@@ -62,7 +62,8 @@
   <body>
 	  <script type="text/javascript">
 			var received_data = "{{ data|safe }}";
-			alert(received_data);
+			if(received_data != "")
+				alert(received_data);
 	  </script>
 	<h1 id="connect_title">Welcome to the game</h1>
 
