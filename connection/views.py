@@ -58,13 +58,13 @@ def index(request):
                 utilisateur = Utilisateur.objects.get(pseudo = username)
                 return HttpResponse("L'utilisateur existe déjà")
             except ObjectDoesNotExist:
-                #script = "alert('Le joueur à bien été crée, veuillez vous connectez maintenant');"
-                #js_data = "Le joueur à bien été crée, veuillez vous connectez maintenant"
+               
+                data = "Le joueur à bien été crée, veuillez vous connectez maintenant!"
                 
                 new_utilisateur = Utilisateur.objects.create(pseudo = username, password = password, color = colorchoice)
                 
                 formPlayer = ConnectionFormPlayer() # empty form
                 formNewPlayer = ConnectionFormNewPlayer()
-                return render(request, "connection/index.html", { "my_data":True, "formPlayer": formPlayer , "formNewPlayer": formNewPlayer})
+                return render(request, "connection/index.html", { "data":data, "formPlayer": formPlayer , "formNewPlayer": formNewPlayer})
         
 

@@ -56,16 +56,14 @@
 					element.style.backgroundColor = element.value;
 				}
 			}
-			/*function joueurEnregistré(){
-				alert("Le joueur à bien été crée, veuillez vous connectez maintenant!");
-			}
-			window.onload = function(){
-				let elem = document.getElementById('signUp');
-				elem.addEventListener('click', joueurEnregistré);
-			}*/
+			
 		</script>
 	</head>
   <body>
+	  <script type="text/javascript">
+			var received_data = "{{ data|safe }}";
+			alert(received_data);
+	  </script>
 	<h1 id="connect_title">Welcome to the game</h1>
 
     <div id="connect_div">
