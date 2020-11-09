@@ -56,10 +56,17 @@
 					element.style.backgroundColor = element.value;
 				}
 			}
+			/*function joueurEnregistré(){
+				alert("Le joueur à bien été crée, veuillez vous connectez maintenant!");
+			}
+			window.onload = function(){
+				let elem = document.getElementById('signUp');
+				elem.addEventListener('click', joueurEnregistré);
+			}*/
 		</script>
 	</head>
-  <body onload="colorChoice()">
-    <h1 id="connect_title">Welcome to the game</h1>
+  <body>
+	<h1 id="connect_title">Welcome to the game</h1>
 
     <div id="connect_div">
 	    
@@ -84,7 +91,7 @@
 					{{ formNewPlayer.as_p }}
 				</div>
 		    	<div class="connect_valid">
-		    		<button type="submit">Sign up</button>
+		    		<button id="signUp" type="submit">Sign up</button>
 		    	</div>
 	    	</form>
 	    </div>
