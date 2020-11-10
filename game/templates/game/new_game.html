@@ -83,13 +83,15 @@
 			margin-bottom: 1200px;
 			margin-left: 1590px;
 		    }
-            #my_board {
-                background-color: blueviolet;
-            }
+            
 
         </style>
         
         <script>
+            function casePick(color){
+                this.style.backgroundColor = color;
+            }
+            
             function player_focused(player_turn){
                 if(player_turn == 1){
                     let element = document.getElementById("player2_panel_color");
@@ -111,8 +113,7 @@
             }
             
             window.onload = function(){
-                let button = document.getElementById("dark_mode");
-                button.addEventListener('click', darkMode);
+                
             }
 
         </script>
