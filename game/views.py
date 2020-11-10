@@ -27,14 +27,14 @@ def index(request):
                 "game_id" : 11,
                 "board" : [[1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,2]],
                 "players" : [{
-                        "id" :  10,
-                        "name" : "Alice",
-                        "color" : "cyan",
+                        "id" :  request.session['player1'].id,
+                        "name" : request.session['player1'].username,
+                        "color" : request.session['player1'].color,
                         "position" : [0,0]
                     },{
-                        "id" :  20,
-                        "name" : "Bob",
-                        "color" : "orange",
+                        "id" :  request.session['player2'].id,
+                        "name" : request.session['player2'].username,
+                        "color" : request.session['player2'].color,
                         "position" : [7,7]
                     }],
                 "current_player" : 1,
@@ -63,25 +63,3 @@ def index(request):
     }
 
     return HttpResponse(json.dumps(game_state))
-
-def apply_move(request) :
-
-    random_board = [[random.randint(0,2) for i in range(8)]for i in range(8)]
-    game_state = {
-        "game_id" : 11,
-        "board" : random_board,
-        "players" : [{
-                "id" :  10,
-                "name" : "Alice",
-                "color" : "cyan",
-                "position" : [0,0]
-            },{
-                "id" :  20,
-                "name" : "Bob",
-                "color" : "orange",
-                "position" : [7,7]
-            }],
-        "current_player" : 1,
-        "code" : 0
-    }
-    return JsonResponse(game_state)
