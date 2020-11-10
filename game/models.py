@@ -6,6 +6,9 @@ class IA(models.Model):
     pseudo = models.CharField(max_length=50)
     color = models.CharField(max_length=2,choices = COLOR_CHOICES,default = 'BL')
 
+    def __str__(self):
+        return self.pseudo
+
 class Player(models.Model):
     utilisateur = models.ForeignKey(Utilisateur, on_delete=models.CASCADE,null = True)
     ia = models.ForeignKey(IA, on_delete=models.CASCADE,null = True)

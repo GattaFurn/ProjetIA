@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django import forms
 from django.shortcuts import redirect
 from .models import Utilisateur
+from game.models import Player
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -61,7 +62,7 @@ def index(request):
                 data = "Le joueur à bien été crée, veuillez vous connectez maintenant!"
                 
                 new_utilisateur = Utilisateur.objects.create(pseudo = username, password = password, color = colorchoice)
-                
+                Player.objects.create(utilisateur = new_utilisateur)
                 formPlayer = ConnectionFormPlayer() # empty form
                 formNewPlayer = ConnectionFormNewPlayer()
                 return render(request, "connection/index.html", { "data":data,"formPlayer": formPlayer , "formNewPlayer": formNewPlayer})
