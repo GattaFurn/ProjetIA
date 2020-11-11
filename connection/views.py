@@ -46,10 +46,10 @@ def index(request):
             try:
                 utilisateur = Utilisateur.objects.get(pseudo = username, password = password)
                 if(request.session.get('player1') == None):
-                    request.session['player1'] = {"username":utilisateur.pseudo,"color":utilisateur.color}
+                    request.session['player1'] = {"id":utilisateur.id,"username":utilisateur.pseudo,"color":utilisateur.color}
                     return redirect('../game')
                 else:
-                    request.session['player2'] = {"username":utilisateur.pseudo,"color":utilisateur.color}
+                    request.session['player2'] = {"id":utilisateur.id,"username":utilisateur.pseudo,"color":utilisateur.color}
                 return redirect('../game')
             except ObjectDoesNotExist:
                 return HttpResponse("KO")
