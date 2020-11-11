@@ -1,4 +1,5 @@
-{% load static %} {% csrf_token %}
+{% load static %} 
+{% csrf_token %}
 
 <html>
     <head>
@@ -83,11 +84,19 @@
 			margin-bottom: 1200px;
 			margin-left: 1590px;
 		    }
+
+            .image_joueur {
+	            max-width: 100%;
+	            height: auto;
+            }
             
 
-        </style>
-        
+        </style> 
+        {{game_state|json_script:"game_state"}}
         <script>
+            var pic1 = "{% static "image/Robot1.png" %}";
+            var pic2 = "{% static "image/Robot2.png" %}";
+            const game_state = JSON.parse(document.getElementById('game_state').textContent);
             function casePick(color){
                 this.style.backgroundColor = color;
             }
@@ -217,7 +226,7 @@
                             1
                         </td>
                         <td style="border: none;" id="my_board" rowspan="8" colspan="8">
-                            <script>createBoard({{board}})</script>
+                            <script>createBoard(game_state)</script>
                         </td>
                     </tr>
                     <tr>

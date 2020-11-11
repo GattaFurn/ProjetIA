@@ -1,5 +1,6 @@
 let tableau = new Array();
-function createBoard(current_board){
+function createBoard(game_state){
+    let current_board = game_state["board"];
     let table = document.createElement("table");
     table.id = "grid";
     for (let iLig = 0; iLig < 8; iLig++){
@@ -12,17 +13,20 @@ function createBoard(current_board){
             ligne.appendChild(celulle);
             tableau[iLig][iCol] = celulle;
         }
-    }   
+    }
+    player_position(game_state.players[0].position,game_state.players[1].position)
     document.getElementById("my_board").appendChild(table);
 }
 
-function updateBoard(current_board){
-    current_board = JSON.parse(current_board)
+function updateBoard(game_state){
+    game_state = JSON.parse(game_state)
+    let current_board = game_state["board"]
     for (let iLig = 0; iLig < 8; iLig++){
         for (let iCol = 0; iCol < 8; iCol++){
             box_distribution(tableau[iLig][iCol],current_board[iLig][iCol])
         }
-    }   
+    }
+    player_position(game_state.players[0].position,game_state.players[1].position)   
 }
 
 function box_distribution(box,number_player){
@@ -33,4 +37,18 @@ function box_distribution(box,number_player){
         if(number_player == 2)
         box.style.background = "red";
     }
+    if(box.childElementCount != 0){
+        box.childNodes[0].remove();
+    }
+}
+
+function player_position(posPlayer1,posPlayer2){
+    let image = document.createElement("img");
+    image.src = pic1;
+    image.className ="image_joueur";
+    tableau[posPlayer1[0]][posPlayer1[1]].appendChild(image);
+    image = document.createElement("img");
+    image.className ="image_joueur";
+    image.src = pic2;
+    tableau[posPlayer2[0]][posPlayer2[1]].appendChild(image);
 }

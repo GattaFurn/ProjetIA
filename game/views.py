@@ -21,26 +21,25 @@ def index(request):
 
     if request.method == "POST": #quand on a les noms des joueurs pour commencer la partie
         form = NewGameForm(request.POST)
-
         if form.is_valid():
             game_state = {
                 "game_id" : 11,
                 "board" : [[1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,2]],
                 "players" : [{
-                        "id" :  request.session['player1'].id,
-                        "name" : request.session['player1'].username,
-                        "color" : request.session['player1'].color,
+                        "id" :  request.session['player1'].get("id"),
+                        "name" : request.session['player1'].get("username"),
+                        "color" : request.session['player1'].get("color"),
                         "position" : [0,0]
                     },{
-                        "id" :  request.session['player2'].id,
-                        "name" : request.session['player2'].username,
-                        "color" : request.session['player2'].color,
+                        "id" :  request.session['player2'].get("id"),
+                        "name" : request.session['player2'].get("username"),
+                        "color" : request.session['player2'].get("color"),
                         "position" : [7,7]
                     }],
                 "current_player" : 1,
                 "code" : 0
             }
-            return render(request, 'game/new_game.html', game_state)
+            return render(request, 'game/new_game.html',{"game_state":game_state})
 
         return HttpResponse("KO")
 

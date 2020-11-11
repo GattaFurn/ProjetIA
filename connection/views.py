@@ -32,7 +32,8 @@ def index(request):
     if request.method == "GET": # get connection page
         formPlayer = ConnectionFormPlayer() # empty form
         formNewPlayer = ConnectionFormNewPlayer()
-        if(request.session.get("active", 0) == 0):
+        print(request.session["active"])
+        if(request.session.get("active", False) == False):
             request.session["active"] = True
             request.session["player1"] = None
             request.session["player2"] = None

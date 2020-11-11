@@ -8,9 +8,9 @@ window.onload = function() {
 }
 
 async function main() {
-    const response = await jsonRPC("/game/move", {game_id: "1", player_id: "42", move: [1, 0]});
+    const response = await jsonRPC("/game/move",{game_state: game_state,move: [1, 0]});
     //document.getElementById("my_board").textContent = JSON.stringify(response.board)
-    updateBoard(JSON.stringify(response.board))
+    updateBoard(JSON.stringify(response.game_state))
 }
 
 function jsonRPC(url, data) {
@@ -22,7 +22,7 @@ function jsonRPC(url, data) {
         .value;
       xhr.setRequestHeader("X-CSRFToken", csrftoken);
       xhr.onload = function () {
-        if (this.status >= 200 && this.status < 300) {
+        if (this.status >= 200 && this.status <= 500) {
           resolve(JSON.parse(xhr.response));
         } else {
           reject({
