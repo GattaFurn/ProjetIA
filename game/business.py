@@ -25,7 +25,7 @@ def index(request):
                 "color" : "orange",
                 "position" : [random.randint(0,7) for i in range(2)]
             }],
-        "current_player" : 1,
+        "current_player" : random.randint(0,1),
         "code" : 0
     }
     return JsonResponse({"game_state":game_state})

@@ -1,12 +1,28 @@
 let tableau = new Array();
+
 function createBoard(game_state){
     let current_board = game_state["board"];
     let table = document.createElement("table");
-    table.id = "grid";
+    table.id = "board_letter_number";
+
+    let ligne = document.createElement("tr");
+    let celulle = document.createElement("td");
+    ligne.appendChild(celulle);
+	for (let i = 1; i <= 8; i++) {
+        let celulle = document.createElement("td");
+        celulle.innerHTML = i
+        ligne.appendChild(celulle);
+    }
+    table.appendChild(ligne);
+
     for (let iLig = 0; iLig < 8; iLig++){
         tableau[iLig] = new Array();
         let ligne = document.createElement("tr");
         table.appendChild(ligne);
+
+        let celulle = document.createElement("td");
+        celulle.innerHTML = iLig+1;
+        ligne.appendChild(celulle);
         for (let iCol = 0; iCol < 8; iCol++){
             let celulle = document.createElement("td");
             box_distribution(celulle,current_board[iLig][iCol])

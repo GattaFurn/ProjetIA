@@ -1,6 +1,6 @@
 {% load static %} 
 {% csrf_token %}
-
+<!DOCTYPE html> 
 <html>
     <head>
         <style>
@@ -56,6 +56,7 @@
                 border: 1px solid black;
             }
             .button_move{
+                font-size: 32px;
                 width : 270px;
                 height: 90px;
                 margin-top: 10px;
@@ -71,13 +72,10 @@
             #player2_panel_color{
                 background-color: red;
             }
-            #player_panel_not_your_turn {
+            .player_panel_not_your_turn {
                 background-color: grey;
                 border : 4px solid lightgrey;
                 opacity: 0.5;
-            }
-            #button_not_your_turn{
-                background-color: grey;
             }
             #dark_mode{
 			position: absolute;
@@ -93,42 +91,49 @@
 
         </style> 
         {{game_state|json_script:"game_state"}}
+        <script>var game_state = JSON.parse(document.getElementById('game_state').textContent);</script>
+        <script src="{% static 'game/move.js' %}"></script>
+        <script src="{% static 'game/board.js' %}"></script>
         <script>
+
             var pic1 = "{% static "image/Robot1.png" %}";
             var pic2 = "{% static "image/Robot2.png" %}";
-            const game_state = JSON.parse(document.getElementById('game_state').textContent);
+
+            window.onload = function(){
+                bouton_creation();
+                button_function();
+                player_focused(game_state["current_player"]);
+                createBoard(game_state);
+            };
+            
             function casePick(color){
                 this.style.backgroundColor = color;
-            }
-            
-            function player_focused(player_turn){
-                if(player_turn == 1){
-                    let element = document.getElementById("player2_panel_color");
-                    element.id = "player_panel_not_your_turn";
-                    element.querySelector("button").setAttribute("disabled", "");
-                    element.querySelector("button").id = "button_not_your_turn"
-                }
-                else{
-                    let element = document.getElementById("player1_panel_color");
-                    element.id = "player_panel_not_your_turn";
-                    element.querySelector("button").setAttribute("disabled", "");
-                    element.querySelector("button").id = "button_not_your_turn"
-                }
             }
 
             function darkMode(){
                 document.body.style.backgroundColor = '#262626';
                 
             }
-            
-            window.onload = function(){
-                
-            }
 
+            function bouton_creation(){
+                const flèches = new Map();
+                flèches.set("↑",[-1,0]);
+                flèches.set("↓",[1,0]);
+                flèches.set("←",[0,-1]);
+                flèches.set("→",[0,1]);
+                let divs = document.getElementsByClassName("button");
+                for(div of divs){
+                    for (const[key,value] of flèches){
+                        let button = document.createElement("button");
+                        button.className = "button_move";
+                        button.innerHTML = key;
+                        button.moveset = value;
+                        div.appendChild(button);
+                    }
+                }
+            }
         </script>
-        
-        <script src="{% static 'game/move.js' %}"></script>
-        <script src="{% static 'game/board.js' %}"></script>
+
         <title>Game</title>
     </head>
     <body>
@@ -138,8 +143,8 @@
         
         <h1>The Game</h1>
         
-        <div id="game_content">
-            <div class="player_panel" id="player1_panel_color">
+        <di id="game_content">
+            <div  class = "player_panel" id="player1_panel_color">
                 <h2>Player 1</h2>
                 <div class="div_informations">
                     <p style="display: inline;">Boxes taken : </p>
@@ -157,123 +162,18 @@
                         <tr>
                             <td>De la case A1 vers la case A2</td>
                         </tr>
-                        <tr>
-                            <td>De la case A2 vers la case A3</td>
-                        </tr>
-                        <tr>
-                            <td>De la case A3 vers la case B3</td>
-                        </tr>
-                        <tr>
-                            <td>De la case B3 vers la case C3</td>
-                        </tr>
-                        <tr>
-                            <td>De la case C3 vers la case C4</td>
-                        </tr>
-                        <tr>
-                            <td>De la case C4 vers la case C5</td>
-                        </tr>
-                        <tr>
-                            <td>De la case C5 vers la case D5</td>
-                        </tr>
-                        <tr>
-                            <td>De la case D5 vers la case D4</td>
-                        </tr>
-                        <tr>
-                            <td>De la case D4 vers la case D3</td>
-                        </tr>
-                        <tr>
-                            <td>De la case D3 vers la case E3</td>
-                        </tr>
                     </table>
                 </div>
-                <button class="button_move">Move</button>                
+                <div class="button">   
+                </div>        
+            </div>
+
+            <div id ="my_board">
+            
             </div>
 
 
-            <div >
-                <table id="board_letter_number">
-                    <tr>
-                        <td>
-                            
-                        </td>
-                        <td>
-                            A
-                        </td>
-                        <td>
-                            B
-                        </td>
-                        <td>
-                            C
-                        </td>
-                        <td>
-                            D
-                        </td>
-                        <td>
-                            E
-                        </td>
-                        <td>
-                            F
-                        </td>
-                        <td>
-                            G
-                        </td>
-                        <td>
-                            H
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            1
-                        </td>
-                        <td style="border: none;" id="my_board" rowspan="8" colspan="8">
-                            <script>createBoard(game_state)</script>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            2
-                        </td>
-                        
-                    </tr>
-                    <tr>
-                        <td>
-                            3
-                        </td>
-                        
-                    </tr>
-                    <tr>
-                        <td>
-                            4
-                        </td>
-                        
-                    </tr>
-                    <tr>
-                        <td>
-                            5
-                        </td>
-                        
-                    </tr>
-                    <tr>
-                        <td>
-                            6
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            7
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            8
-                        </td>
-                    </tr>
-                </table>
-                
-            </div>
-
-
-            <div class="player_panel" id="player2_panel_color">
+            <div class = "player_panel" id="player2_panel_color">
                 <h2>Player 2</h2>
                 <div class="div_informations">
                     <p style="display: inline;">Boxes taken : </p>
@@ -291,38 +191,11 @@
                         <tr>
                             <td>De la case A1 vers la case A2</td>
                         </tr>
-                        <tr>
-                            <td>De la case A2 vers la case A3</td>
-                        </tr>
-                        <tr>
-                            <td>De la case A3 vers la case B3</td>
-                        </tr>
-                        <tr>
-                            <td>De la case B3 vers la case C3</td>
-                        </tr>
-                        <tr>
-                            <td>De la case C3 vers la case C4</td>
-                        </tr>
-                        <tr>
-                            <td>De la case C4 vers la case C5</td>
-                        </tr>
-                        <tr>
-                            <td>De la case C5 vers la case D5</td>
-                        </tr>
-                        <tr>
-                            <td>De la case D5 vers la case D4</td>
-                        </tr>
-                        <tr>
-                            <td>De la case D4 vers la case D3</td>
-                        </tr>
-                        <tr>
-                            <td>De la case D3 vers la case E3</td>
-                        </tr>
                     </table>
                 </div>
-                <button class="button_move">Move</button>
+                <div class="button">   
+                </div>     
             </div>
         </div>
-        
     </body>
 </html>
