@@ -28,11 +28,13 @@ class ConnectionFormNewPlayer(forms.Form):
     password = forms.CharField(label= "Password", max_length=20, widget=forms.PasswordInput())
     colorchoice = forms.ChoiceField(label="Your color", choices=COLOR_CHOICES)
 
+
 def index(request):
     if request.method == "GET": # get connection page
         formPlayer = ConnectionFormPlayer() # empty form
         formNewPlayer = ConnectionFormNewPlayer()
-        if(request.session.get("active", False) == False):
+        print(request.session["active"])
+        if(request.session["active"] == False):
             request.session["active"] = True
             request.session["player1"] = None
             request.session["player2"] = None

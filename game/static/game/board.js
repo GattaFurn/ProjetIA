@@ -34,15 +34,16 @@ function createBoard(game_state){
     document.getElementById("my_board").appendChild(table);
 }
 
-function updateBoard(game_state){
-    game_state = JSON.parse(game_state)
-    let current_board = game_state["board"]
+function updateBoard(game){
+    game_state = JSON.parse(game);
+    current_board = game_state["board"]
     for (let iLig = 0; iLig < 8; iLig++){
         for (let iCol = 0; iCol < 8; iCol++){
-            box_distribution(tableau[iLig][iCol],current_board[iLig][iCol])
+            box_distribution(tableau[iLig][iCol],current_board[iLig][iCol]);
         }
     }
-    player_position(game_state.players[0].position,game_state.players[1].position)   
+    player_position(game_state.players[0].position,game_state.players[1].position);
+    game_state["board"] = current_board;
 }
 
 function box_distribution(box,number_player){
