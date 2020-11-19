@@ -87,7 +87,7 @@
 			<form method="POST" action="/connection/">
 				{% csrf_token %} <!--protection contre certaines actions malveillantes-->
 				<div>
-					{{ formNewPlayer.as_p }}
+					{{formPlayer.as_p }}
 				</div>
 		    	<div class="connect_valid">
 		    		<button id="signUp" type="submit">Sign up</button>

@@ -126,9 +126,9 @@
     <div id="profile_title">
       <h1>Welcome Back User</h1>
     </div>
+    <form method="POST" action="/game/">
       <div id="connect_div">
       </div>
-    <form method="POST" action="/game/">
       {% csrf_token %}
       {{form}}
       <br>
