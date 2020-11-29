@@ -1,6 +1,6 @@
 let tableau = new Array();
 
-function createBoard(game_state){
+function createBoard(){
     let current_board = game_state["board"];
     let table = document.createElement("table");
     table.id = "board_letter_number";

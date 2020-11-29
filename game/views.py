@@ -30,17 +30,7 @@ def index(request):
             game_state = {
                 "game_id" : 11,
                 "board" : [[1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,2]],
-                "players" : [{
-                        "id" :  request.session['player1'].get("id"),
-                        "name" : request.session['player1'].get("username"),
-                        "color" : request.session['player1'].get("color"),
-                        "position" : [0,0]
-                    },{
-                        "id" :  request.session['player2'].get("id"),
-                        "name" : request.session['player2'].get("username"),
-                        "color" : request.session['player2'].get("color"),
-                        "position" : [7,7]
-                    }],
+                "players" : [request.session['player1'],request.session['player2']],
                 "current_player" : 1,
                 "code" : 0
             }

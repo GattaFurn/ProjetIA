@@ -5,19 +5,26 @@ from connection.models import *
 class IA(models.Model):
     id = models.AutoField(primary_key=True)
     pseudo = models.CharField(max_length=50)
-    color = models.CharField(max_length=2,choices = COLOR_CHOICES,default = 'BL')
+    Q_table = models.TextField(default = '[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]')
+    color = models.CharField(max_length=2,choices = COLOR_CHOICES, default = 'BL')
 
     def __str__(self):
-        return self.pseudo
+        return str(self.id) +" - "+ self.pseudo
 
 class Player(models.Model):
     id = models.AutoField(primary_key=True)
-    utilisateur = models.ForeignKey(Utilisateur, on_delete=models.CASCADE,null = True)
-    ia = models.ForeignKey(IA, on_delete=models.CASCADE,null = True)
+    utilisateur = models.OneToOneField(Utilisateur, on_delete=models.CASCADE,null = True, blank=True)
+    ia = models.OneToOneField(IA, on_delete=models.CASCADE,null = True, blank=True)
+
+    def __str__(self):
+        if(self.utilisateur):
+            return str(self.utilisateur)
+        else:
+            return str(self.ia)
 
 class Game(models.Model):
     id = models.AutoField(primary_key=True)
-    board = models.CharField(max_length=145)
+    board = models.TextField()
     positionPlayer1 = models.CharField(max_length=5)
     positionPlayer2 = models.CharField(max_length=5)
     currentPlayer = models.IntegerField(choices = [(0,0),(1,1)])
