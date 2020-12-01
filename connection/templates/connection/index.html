@@ -5,10 +5,16 @@
 		<meta charset="utf-8">
 		<title>Game - Connection</title>
 		<style type="text/css">
+			body{
+				background-color: #ffb366;
+			}
 			.connect_form{
-				width: 500px;
+				width: 400px;
 				display: inline;
-				
+			}
+			.connect_form h2{
+				font-size: 30px;
+				text-align: center;
 			}
 			#connect_div{
 				display: flex;
@@ -24,30 +30,48 @@
 			}
 			form{
 				border : 1px solid black;
-				border-radius: 10px;
+				height : 500px;
 			}
 			form div{
 				margin-top: 10px;
 			}
 			label{
 				display: inline-block;
-				width: 130px;
-				text-align: left;
+				width: 400px;
+				text-align: center;
+				font-size: 24px;
+				margin-bottom: 15px;
+				
 			}
 			input, textarea, select{
-				width: 300px;
+				height : 50px;
+				width: 250px;
 				box-sizing: border-box;
 				border: 1px solid black;
 			}
 			button{
+				font-size: 36px;
+				height: 80px;
+				width : 200px;
 				padding: 5px;
 				margin-bottom: 10px;
-				margin-right: 32px;
+				text-align: center;
+				background-color: #70db70;
+				border : 1px solid #70db70;
+				border-radius: 5px;;
+			}
+			button:hover{
+				box-shadow: 5px 5px 2px 1px #248f24;
+				background-color: #5cd65c;
 			}
 			.connect_valid{
-				display: flex;
-				justify-content: flex-end;
+				margin-top: 100px;
 			}
+			.div_form p{
+				height: 60px;
+				padding-top : 30px
+			}
+
 		</style>
 		<script type="text/javascript">
 			function colorChoice(){
@@ -65,15 +89,15 @@
 			if(received_data != "")
 				alert(received_data);
 	  </script>
-	<h1 id="connect_title">Welcome to the game</h1>
+	<h1 id="connect_title">Welcome to Cub-e</h1>
 
     <div id="connect_div">
 	    
 	    <div class="connect_form">
-	    	<h2>Connect you to join the game :</h2>
+	    	<h2>Connect you to join the game</h2>
 			<form method="POST" action="/connection/"> <!--Action : url vers lequel les données doivent être envoyée-->
 				{% csrf_token %} <!--protection contre certaines actions malveillantes-->
-				<div>
+				<div class="div_form">
 					{{formPlayer.as_p}} <!--recupere la variable form--> 
 				</div>
 		    	<div class="connect_valid">
@@ -83,10 +107,10 @@
 	    </div>
 	    
 	    <div class="connect_form">
-	    	<h2>New player, register you :</h2>
+	    	<h2>New player, register you</h2>
 			<form method="POST" action="/connection/">
 				{% csrf_token %} <!--protection contre certaines actions malveillantes-->
-				<div>
+				<div class="div_form">
 					{{formNewPlayer.as_p }}
 				</div>
 		    	<div class="connect_valid">
@@ -96,10 +120,10 @@
 	    </div>
 
 		<div class="connect_form">
-	    	<h2>Wanna play against an IA :</h2>
+	    	<h2>Wanna play against an IA</h2>
 			<form method="POST" action="/connection/">
 				{% csrf_token %} <!--protection contre certaines actions malveillantes-->
-				<div>
+				<div class="div_form">
 					{{formIA.as_p}}
 				</div>
 		    	<div class="connect_valid">
