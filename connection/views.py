@@ -39,9 +39,9 @@ def index(request):
         formPlayer = ConnectionFormPlayer() # empty form
         formNewPlayer = ConnectionFormNewPlayer()
         FormIA = ConnectionFormIA()
-        if(request.session["player1"] != None and request.session["player2"] != None):
+        if(request.session.get("player1",0) != None and request.session.get("player2",0) != None):
             return redirect('../game')
-        if(request.session["active"] == False):
+        if(request.session.get("active",False) == False):
             request.session["active"] = True
             request.session["player1"] = None
             request.session["player2"] = None
@@ -56,10 +56,10 @@ def index(request):
             try:
                 if(password == None):
                     ia = IA.objects.get(pseudo = iachoice)
-                    user = {"id":ia.id,"username":ia.pseudo,"color":ia.color,"st":[],"atp1": 0, "at": 0,"Q_table":json.loads(ia.Q_table),"position":[],"box_taken":0}
+                    user = {"id":ia.id,"username":ia.pseudo,"color":ia.color,"st":[],"atp1": 0, "at": 0,"position":[],"box_taken":0,"type":"IA"}
                 else: 
                     utilisateur = Utilisateur.objects.get(pseudo = username, password = password)
-                    user = {"id":utilisateur.id,"username":utilisateur.pseudo,"color":utilisateur.color,"st": [],"position":[],"box_taken":0}
+                    user = {"id":utilisateur.id,"username":utilisateur.pseudo,"color":utilisateur.color,"st": [],"position":[],"box_taken":0,"type":"user"}
                 if(request.session.get('player1') == None):
                     user["st"] = [0,0]
                     user["position"] = [0,0]
