@@ -9,7 +9,7 @@ function button_function(){
 async function main(action) {
   let current_player = game_state["players"][game_state["current_player"]];
   let move = [];
-  for(let i = 0; i<2;i++){
+  for(let i = 0; i<action.length;i++){
     move[i]=action[i]+current_player["position"][i];
   }
   var response = await jsonRPC("/game/move",{"game_state": game_state,"move": move});

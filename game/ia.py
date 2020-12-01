@@ -3,6 +3,8 @@ import numpy as np
 from game.models import Qtable
 from django.core.exceptions import ObjectDoesNotExist
 import game.business
+from django.http import HttpResponse, JsonResponse
+
 
 
 actions = [
@@ -32,13 +34,12 @@ def index(game_state):
     fake_row_q_table = get_qTable(game_state)
     game_state.get("players")[game_state["current_player"]]["atp1"] = take_action(fake_row_q_table, 0.0,[0,1,2,3])
     game.business.switch_player(game_state)
-    return game_state
+    return JsonResponse({"game_state":game_state})
 
 def get_qTable(game_state):
     try:
         qTable = Qtable.objects.get(board = game_state["board"], posP1 = game_state.get("players")[0]["position"],posP2 = game_state.get("players")[1]["position"],playerTurn = game_state["current_player"])
     except ObjectDoesNotExist:
-        print(game_state["current_player"])
         qTable = Qtable.objects.create(board = game_state["board"], posP1 = game_state.get("players")[0]["position"],posP2 = game_state.get("players")[1]["position"],playerTurn = game_state["current_player"])
     return [qTable.up,qTable.down,qTable.left,qTable.right]
 

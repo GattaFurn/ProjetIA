@@ -6,16 +6,16 @@ def index(request):
     data = json.loads(request.body)
     game_state = data.get("game_state")
     if(game_state["players"][game_state["current_player"]]["type"] == "IA"):
-        game_state =  game.ia.index(game_state)
+        return game.ia.index(game_state)
     else:
         move = data.get("move")
-        if(correct_move(game_state,move)):
+        if(move != [] and correct_move(game_state,move)):
             apply_move(game_state,move)
             position = game_state["players"][game_state["current_player"]]["position"]
             zone_search(game_state["board"],game_state["current_player"],position)
             switch_player(game_state)
     if(game_state["players"][game_state["current_player"]]["type"] == "IA"):
-        game_state =  game.ia.index(game_state)
+        return game.ia.index(game_state)
     return JsonResponse({"game_state":game_state})
     
 def zone_search(board,current_player,position):
