@@ -39,7 +39,7 @@ def index(request):
         formPlayer = ConnectionFormPlayer() # empty form
         formNewPlayer = ConnectionFormNewPlayer()
         FormIA = ConnectionFormIA()
-        if(request.session.get("player1",0) != None and request.session.get("player2",0) != None):
+        if(request.session.get("player1",None) != None and request.session.get("player2",None) != None):
             return redirect('../game')
         if(request.session.get("active",False) == False):
             request.session["active"] = True
@@ -56,10 +56,10 @@ def index(request):
             try:
                 if(password == None):
                     ia = IA.objects.get(pseudo = iachoice)
-                    user = {"id":ia.id,"username":ia.pseudo,"color":ia.color,"st":[],"atp1": 0, "at": 0,"position":[],"box_taken":0,"type":"IA"}
+                    user = {"id":ia.id,"username":ia.pseudo,"color":ia.color,"st":[],"atp1": 0, "at": 0,"position":[],"box_taken":0,"Q_table":ia.Q_table}
                 else: 
                     utilisateur = Utilisateur.objects.get(pseudo = username, password = password)
-                    user = {"id":utilisateur.id,"username":utilisateur.pseudo,"color":utilisateur.color,"st": [],"position":[],"box_taken":0,"type":"user"}
+                    user = {"id":utilisateur.id,"username":utilisateur.pseudo,"color":utilisateur.color,"st": [],"position":[],"box_taken":0,}
                 if(request.session.get('player1') == None):
                     user["st"] = [0,0]
                     user["position"] = [0,0]
