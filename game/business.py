@@ -1,17 +1,23 @@
 from django.http import HttpResponse, JsonResponse
+import game.ia
 import json
 
 def index(request):
     data = json.loads(request.body)
     game_state = data.get("game_state")
-    move = data.get("move")
-    if(correct_move(game_state,move)):
-        apply_move(game_state,move)
-        position = game_state["players"][game_state["current_player"]]["position"]
-        zone_search(game_state["board"],game_state["current_player"],position)
-        switch_player(game_state)
+    if(game_state["players"][game_state["current_player"]]["type"] == "IA"):
+        return game.ia.index(game_state)
+    else:
+        move = data.get("move")
+        if(move != [] and correct_move(game_state,move)):
+            apply_move(game_state,move)
+            position = game_state["players"][game_state["current_player"]]["position"]
+            zone_search(game_state["board"],game_state["current_player"],position)
+            switch_player(game_state)
+    if(game_state["players"][game_state["current_player"]]["type"] == "IA"):
+        return game.ia.index(game_state)
     return JsonResponse({"game_state":game_state})
-
+    
 def zone_search(board,current_player,position):
     zone = []
     elem = voisin(zone,position[0],position[1],board,current_player)
@@ -54,8 +60,6 @@ def correct_move(game_state,move):
     position_player = game_state["players"][game_state["current_player"]]["position"]
     board = game_state["board"]
     if(move[0]>=0 and move[1]>=0 and move[0]<=7 and move[1]<=7): #pas en dehors du tableau
-        print("player ",((game_state["current_player"]+1%2)),"move:", board[move[0]][move[1]])
-        print(((game_state["current_player"]+1)%2)+1)
         if(board[move[0]][move[1]] != (((game_state["current_player"]+1)%2)+1)): #pas sur la case d'une autre joueur
             return True
     return False
