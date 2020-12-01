@@ -31,7 +31,7 @@ def index(request):
                 "game_id" : 11,
                 "board" : [[1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,2]],
                 "players" : [request.session['player1'],request.session['player2']],
-                "current_player" : 1,
+                "current_player" : random.randint(0,1),
                 "code" : 0
             }
             return render(request, 'game/new_game.html',{"game_state":game_state})

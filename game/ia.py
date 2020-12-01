@@ -1,6 +1,9 @@
-from game.business import * 
 import random
 import numpy as np
+from game.models import Qtable
+from django.core.exceptions import ObjectDoesNotExist
+import game.business
+
 
 actions = [
         [-1, 0], # Up
@@ -9,28 +12,36 @@ actions = [
         [0, 1] # Right
     ]
 
-def index(request):
-    data = json.loads(request.body)
+def index(game_state):
     direction = [0,1,2,3]
-    game_state = data.get("game_state")
     IA = game_state.get("players")[game_state["current_player"]]
     st = game_state.get("players")[game_state["current_player"]]["position"]
-    fake_row_q_table = list(IA.get("Q_table")[st[0]*8+st[1]])
+    fake_row_q_table = get_qTable(game_state)
     at = take_action(fake_row_q_table, 0.4, direction)
     stp1 = step(at,st)
-    while(stp1 == st or not correct_move(game_state,stp1)):
+    while(stp1 == st or not game.business.correct_move(game_state,stp1)):
             fake_row_q_table[at] = 0
             at = take_action(fake_row_q_table, 0.4,direction)
             stp1 = step(at,st)
     if(game_state.get("board")[stp1[0]][stp1[1]] == 0):
-        apply_move(game_state,stp1)
-        zone_search(game_state["board"],game_state["current_player"],stp1)
+        game.business.apply_move(game_state,stp1)
+        game.business.zone_search(game_state["board"],game_state["current_player"],stp1)
     else:
         square_taken = 0
     game_state.get("players")[game_state["current_player"]]["position"] = stp1
-    game_state.get("players")[game_state["current_player"]]["atp1"] = take_action(IA.get("Q_table")[stp1[0]*8+stp1[1]], 0.0,[0,1,2,3])
-    switch_player(game_state)
-    return JsonResponse({"game_state":game_state})
+    fake_row_q_table = get_qTable(game_state)
+    game_state.get("players")[game_state["current_player"]]["atp1"] = take_action(fake_row_q_table, 0.0,[0,1,2,3])
+    game.business.switch_player(game_state)
+    return game_state
+
+def get_qTable(game_state):
+    try:
+        qTable = Qtable.objects.get(board = game_state["board"], posP1 = game_state.get("players")[0]["position"],posP2 = game_state.get("players")[1]["position"],playerTurn = game_state["current_player"])
+    except ObjectDoesNotExist:
+        print(game_state["current_player"])
+        qTable = Qtable.objects.create(board = game_state["board"], posP1 = game_state.get("players")[0]["position"],posP2 = game_state.get("players")[1]["position"],playerTurn = game_state["current_player"])
+    return [qTable.up,qTable.down,qTable.left,qTable.right]
+
 
 def step(action, st): #OK
     """

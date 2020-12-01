@@ -100,11 +100,11 @@
             var pic2 = "{% static "image/Robot2.png" %}";
 
             window.onload = function(){
-                console.log(game_state)
                 bouton_creation();
                 button_function();
                 createBoard();
                 player_focused(game_state["current_player"]);
+                main([]);
             };
             
             function casePick(color){

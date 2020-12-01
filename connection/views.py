@@ -10,8 +10,8 @@ import json
 
 #iterables
 COLOR_CHOICES = (
-    ("BL", "Blue"),
-    ("PK", "Pink"),
+    ('BL', "Blue"),
+    ('PK', "Pink"),
     ('YW', 'Yellow'),
     ('GN', 'Green'),
     ('VT', 'Violet'),
@@ -56,10 +56,12 @@ def index(request):
             try:
                 if(password == None):
                     ia = IA.objects.get(pseudo = iachoice)
-                    user = {"id":ia.id,"username":ia.pseudo,"color":ia.color,"st":[],"atp1": 0, "at": 0,"position":[],"box_taken":0,"Q_table":ia.Q_table}
+                    ia_player = Player.objects.get(ia = ia)
+                    user = {"id":ia_player.id,"username":ia.pseudo,"color":ia.color,"st":[],"atp1": 0, "at": 0,"position":[],"box_taken":0,"type":"IA"}
                 else: 
                     utilisateur = Utilisateur.objects.get(pseudo = username, password = password)
-                    user = {"id":utilisateur.id,"username":utilisateur.pseudo,"color":utilisateur.color,"st": [],"position":[],"box_taken":0,}
+                    utilisateur_player = Player.objects.get(utilisateur = utilisateur)
+                    user = {"id":utilisateur_player.id,"username":utilisateur.pseudo,"color":utilisateur.color,"st": [],"position":[],"box_taken":0,"type":"User"}
                 if(request.session.get('player1') == None):
                     user["st"] = [0,0]
                     user["position"] = [0,0]

@@ -7,5 +7,4 @@ from . import ia
 urlpatterns = [
     path('', views.index, name='index'), #décide de la page a renvoyer via les views
     path('move', business.index),
-    path('iamove',ia.index)
 ] 
