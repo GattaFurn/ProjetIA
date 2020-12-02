@@ -68,14 +68,14 @@ def index(request):
                     request.session['player1'] = user
                     return redirect('../game')
                 else:
-                    user["st"] = [7,7]
-                    user["position"] = [7,7]
-                    request.session['player2'] = user
-                    if(request.session['player1'].get("id") == request.session['player2'].get("id")):
+                    if(request.session['player1'].get("id") == user.get("id")):
                         data = "Le joueur a déjà été selectionné"
                         formPlayer = ConnectionFormPlayer() # empty form
                         formNewPlayer = ConnectionFormNewPlayer()
                         return render(request, "connection/index.html", { "data":data,"formPlayer": formPlayer , "formNewPlayer": formNewPlayer,"formIA":ConnectionFormIA})
+                    user["st"] = [7,7]
+                    user["position"] = [7,7]
+                    request.session['player2'] = user
                 return redirect('../game')
             except ObjectDoesNotExist:
                 return HttpResponse("KO")
