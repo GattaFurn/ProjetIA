@@ -5,15 +5,16 @@ import json
 def index(request):
     data = json.loads(request.body)
     game_state = data.get("game_state")
-    if(game_state["players"][game_state["current_player"]]["type"] == "IA"):
-        return game.ia.index(game_state)
-    else:
-        move = data.get("move")
-        if(move != [] and correct_move(game_state,move)):
+    move = data.get("move")
+    if(correct_move(game_state,move)):
+        if(game_state.get("board")[move[0]][move[1]] == 0):
             apply_move(game_state,move)
             position = game_state["players"][game_state["current_player"]]["position"]
-            zone_search(game_state["board"],game_state["current_player"],position)
-            switch_player(game_state)
+            game_state["players"][game_state["current_player"]]["box_taken"] = zone_search(game_state["board"],game_state["current_player"],position)
+        else:
+            apply_move(game_state,move)
+            game_state["players"][game_state["current_player"]]["box_taken"] = 0
+        switch_player(game_state)
     if(game_state["players"][game_state["current_player"]]["type"] == "IA"):
         return game.ia.index(game_state)
     return JsonResponse({"game_state":game_state})
@@ -26,6 +27,7 @@ def zone_search(board,current_player,position):
         zone = zone_blocker(zone,elem[ind][0],elem[ind][1],board,current_player)
         ind+=1
     remplissage_zone_block(board,zone,current_player)
+    return len(zone) + 1
 
 def remplissage_zone_block(board,zone,current_player):
     for elem in zone:
@@ -70,3 +72,21 @@ def apply_move(game_state,move) :
     
 def switch_player(game_state):
     game_state["current_player"] = (game_state["current_player"]+1) % 2
+
+def game_is_win(game_state):
+    nb_cases_player1 = 0
+    nb_cases_player2 = 0
+    for line in game_state["board"]:
+        nb_cases_player1 += line.count(1)
+        nb_cases_player2 += line.count(2)
+    if(nb_cases_player1 > 32):
+        game_state["code"] = 1
+    elif(nb_cases_player2 > 32):
+        game_state["code"] = 2
+    elif(nb_cases_player1 == 32 and nb_cases_player2 == 32):
+        game_state["code"] = 3
+    if(game_state["players"][1]["type"] == "IA"):
+        return nb_cases_player1,nb_cases_player2
+
+
+    
