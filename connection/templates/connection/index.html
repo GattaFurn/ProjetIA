@@ -5,12 +5,16 @@
 		<meta charset="utf-8">
 		<title>Game - Connection</title>
 		<style type="text/css">
+			*{
+				Font-family: Blippo, fantasy;
+			}
 			body{
-				background-color: #ffb366;
+				background-color: #C0392B;
 			}
 			.connect_form{
 				width: 400px;
 				display: inline;
+				opacity : 0;
 			}
 			.connect_form h2{
 				font-size: 30px;
@@ -26,12 +30,29 @@
 			#connect_title{
 				text-align: center;
 				margin-top: 40px;
-				margin-bottom: 80px;
+				margin-bottom: 40px;
+				animation: fadein 1.3s;
+				font-size: 70px;
+				font-family: Blippo, fantasy;
 			}
 			form{
-				border : 1px solid black;
-				height : 500px;
+				height : 550px;
+				background-color: #CD6155;
+				border-radius: 20px;
 			}
+			@keyframes zoom{
+				from{
+					-webkit-transform: scale(1);
+				}
+				to{
+					-webkit-transform: scale(1.05);
+				}
+			}
+			.zoom:hover{
+				animation: zoom 0.25s;
+				-webkit-transform: scale(1.05);
+			}
+			
 			form div{
 				margin-top: 10px;
 			}
@@ -45,39 +66,114 @@
 			}
 			input, textarea, select{
 				height : 50px;
-				width: 250px;
-				box-sizing: border-box;
-				border: 1px solid black;
+				width: 280px;
+				box-sizing: content-box;
+				border: none;
+				border-radius: 7px;
+				background-color:#D98880;
+			}
+			input:focus, textarea:focus{
+				outline: none;
+			}
+			select:focus{
+				outline: none;
+				border-radius: 7px 7px 0px 0px;
 			}
 			button{
 				font-size: 36px;
-				height: 80px;
-				width : 200px;
+				height: 120px;
+				width : 300px;
 				padding: 5px;
-				margin-bottom: 10px;
-				text-align: center;
-				background-color: #70db70;
-				border : 1px solid #70db70;
-				border-radius: 5px;;
+				background-color: #28B463;
+				border : none;
+				border-radius: 10px;;
+				position : relative;
 			}
-			button:hover{
-				box-shadow: 5px 5px 2px 1px #248f24;
-				background-color: #5cd65c;
+			@keyframes animButton{
+				from{
+					-webkit-transform: scale(1);
+				}
+				to{
+					-webkit-transform: scale(1.10);
+				}
 			}
+			option:disabled{
+				background-color: black;
+			}
+			.aniBut:hover{
+				animation: animButton 0.25s;
+				-webkit-transform: scale(1.10);
+			}
+			#signIn{
+				top : 130px;
+			}
+			#signUp{
+				top : 25px;
+			}
+			#choose{
+				top : 235px;
+			}
+			
 			.connect_valid{
-				margin-top: 100px;
+				margin-top: 50px;
+				height: 230px;
 			}
 			.div_form p{
 				height: 60px;
 				padding-top : 30px
 			}
+			@keyframes fadein{
+				from{
+					opacity: 0;
+				}
+				to{
+					opacity: 1;
+				}
+			}
+			#fade{
+				animation: fadein 1s;
+			}
 
 		</style>
 		<script type="text/javascript">
+			let couleurs = new Map();
+			//["BL","Blue"], ['PK',"Pink"], ['YW','Yellow'], ['GN','Green'], ['VT','Violet'], ['RD','Red'], ['OE','Orange'], ['CN','Cyan']);
+			couleurs.set("BL", "Blue");
+			couleurs.set("PK", "Pink");
+			couleurs.set("YW", "Yellow");
+			couleurs.set("GN", "Green");
+			couleurs.set("VT", "Violet");
+			couleurs.set("RD", "Red");
+			couleurs.set("OE", "Orange");
+			couleurs.set("CN", "Cyan");
+
+			function fadeIn(){
+				let divs = document.getElementsByClassName("connect_form");
+				let time = 70;
+				for(let div of divs){
+					setTimeout(function(){div.id = "fade"}, time);
+					setTimeout(function(){div.style.opacity = 1;}, time);
+					time += 400;
+				}
+			}
+			
 			function colorChoice(){
-				listOptions = document.getElementsByTagName("option");
-				for (element of listOptions){
-					element.style.backgroundColor = element.value;
+				let listOptions = document.getElementsByTagName("option");
+				for (let elem of listOptions){
+					for(let [key, value] of couleurs){
+						if(elem.value == key)
+							elem.style.backgroundColor = value;
+					}
+					
+				}
+			}
+
+			window.onload = function(){
+				fadeIn();
+				colorChoice();
+				let forms = document.getElementsByTagName("form");
+				for(let form of forms){
+					form.classList.add("zoom");
 				}
 			}
 			
@@ -88,6 +184,7 @@
 			var received_data = "{{ data|safe }}";
 			if(received_data != "")
 				alert(received_data);
+			
 	  </script>
 	<h1 id="connect_title">Welcome to Cub-e</h1>
 
@@ -101,7 +198,7 @@
 					{{formPlayer.as_p}} <!--recupere la variable form--> 
 				</div>
 		    	<div class="connect_valid">
-		    		<button type="submit">Sign in</button>
+		    		<button type="submit" id="signIn" class="aniBut">Sign in</button>
 		    	</div>
 		    </form>
 	    </div>
@@ -114,7 +211,7 @@
 					{{formNewPlayer.as_p }}
 				</div>
 		    	<div class="connect_valid">
-		    		<button id="signUp" type="submit">Sign up</button>
+		    		<button id="signUp" type="submit" class="aniBut">Sign up</button>
 		    	</div>
 	    	</form>
 	    </div>
@@ -127,7 +224,7 @@
 					{{formIA.as_p}}
 				</div>
 		    	<div class="connect_valid">
-		    		<button id="signUp" type="submit">Sign up</button>
+		    		<button id="choose" type="submit" class="aniBut">Choose</button>
 		    	</div>
 	    	</form>
 	    </div>
