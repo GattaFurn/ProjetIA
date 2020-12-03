@@ -5,18 +5,20 @@ import json
 def index(request):
     data = json.loads(request.body)
     game_state = data.get("game_state")
-    move = data.get("move")
-    if(correct_move(game_state,move)):
-        if(game_state.get("board")[move[0]][move[1]] == 0):
-            apply_move(game_state,move)
-            position = game_state["players"][game_state["current_player"]]["position"]
-            game_state["players"][game_state["current_player"]]["box_taken"] = zone_search(game_state["board"],game_state["current_player"],position)
-        else:
-            apply_move(game_state,move)
-            game_state["players"][game_state["current_player"]]["box_taken"] = 0
-        switch_player(game_state)
-    if(game_state["players"][game_state["current_player"]]["type"] == "IA"):
-        return game.ia.index(game_state)
+    if(game_state["code"] == 0):
+        move = data.get("move")
+        if(correct_move(game_state,move)):
+            if(game_state.get("board")[move[0]][move[1]] == 0):
+                apply_move(game_state,move)
+                position = game_state["players"][game_state["current_player"]]["position"]
+                game_state["players"][game_state["current_player"]]["box_taken"] = zone_search(game_state["board"],game_state["current_player"],position)
+            else:
+                apply_move(game_state,move)
+                game_state["players"][game_state["current_player"]]["box_taken"] = 0
+            game_is_win(game_state)
+            switch_player(game_state)
+        if(game_state["players"][game_state["current_player"]]["type"] == "IA"):
+            return game.ia.index(game_state)
     return JsonResponse({"game_state":game_state})
     
 def zone_search(board,current_player,position):
@@ -71,7 +73,8 @@ def apply_move(game_state,move) :
     game_state["players"][game_state["current_player"]]["position"] = move
     
 def switch_player(game_state):
-    game_state["current_player"] = (game_state["current_player"]+1) % 2
+    if(game_state["code"] == 0):
+        game_state["current_player"] = (game_state["current_player"]+1) % 2
 
 def game_is_win(game_state):
     nb_cases_player1 = 0

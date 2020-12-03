@@ -7,14 +7,14 @@ function button_function(){
 }
 
 async function main(action) {
-  let current_player = game_state["players"][game_state["current_player"]];
-  let move = [];
-  for(let i = 0; i<action.length;i++){
-    move[i]=action[i]+current_player["position"][i];
-  }
-  var response = await jsonRPC("/game/move",{"game_state": game_state,"move": move});
-  updateBoard(JSON.stringify(response.game_state));
-  player_focused(response.game_state["current_player"],game_state["code"]);
+    let current_player = game_state["players"][game_state["current_player"]];
+    let move = [];
+    for(let i = 0; i<action.length;i++){
+      move[i]=action[i]+current_player["position"][i];
+    }
+    var response = await jsonRPC("/game/move",{"game_state": game_state,"move": move});
+    updateBoard(JSON.stringify(response.game_state));
+    player_focused(response.game_state["current_player"],game_state["code"]);
 } 
 
 function player_focused(player_turn,code){
@@ -54,7 +54,7 @@ function jsonRPC(url, data) {
     const csrftoken = document.querySelector("[name=csrfmiddlewaretoken]").value;
     xhr.setRequestHeader("X-CSRFToken", csrftoken);
     xhr.onload = function () {
-      if (this.status >= 200 && this.status <= 500) {
+      if (this.status >= 200 && this.status <= 300) {
         resolve(JSON.parse(xhr.response));
       } else {
         reject({
