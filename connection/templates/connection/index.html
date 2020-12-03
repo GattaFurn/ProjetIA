@@ -3,7 +3,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Game - Connection</title>
+		<title>Cub-e  Connection</title>
 		<style type="text/css">
 			*{
 				Font-family: Blippo, fantasy;
@@ -130,7 +130,7 @@
 					opacity: 1;
 				}
 			}
-			#fade{
+			.fade{
 				animation: fadein 1s;
 			}
 
@@ -151,7 +151,7 @@
 				let divs = document.getElementsByClassName("connect_form");
 				let time = 70;
 				for(let div of divs){
-					setTimeout(function(){div.id = "fade"}, time);
+					setTimeout(function(){div.classList.add("fade")}, time);
 					setTimeout(function(){div.style.opacity = 1;}, time);
 					time += 400;
 				}
