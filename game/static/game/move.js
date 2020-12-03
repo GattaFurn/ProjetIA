@@ -14,21 +14,26 @@ async function main(action) {
   }
   var response = await jsonRPC("/game/move",{"game_state": game_state,"move": move});
   updateBoard(JSON.stringify(response.game_state));
-  player_focused(response.game_state["current_player"]);
+  player_focused(response.game_state["current_player"],game_state["code"]);
 } 
 
-function player_focused(player_turn){
+function player_focused(player_turn,code){
   let panel_player2 = document.getElementById("player2_panel_color");
-  let panel_player1 = document.getElementById("player1_panel_color"); 
-  if(player_turn == 1){
+  let panel_player1 = document.getElementById("player1_panel_color");
+  if(code != 0){
     panel_player1.classList.add("player_panel_not_your_turn");
-    panel_player2.classList.remove("player_panel_not_your_turn");
-    modified_state_button(panel_player1,panel_player2)
-  }
-  else{
     panel_player2.classList.add("player_panel_not_your_turn");
-    panel_player1.classList.remove("player_panel_not_your_turn");
-    modified_state_button(panel_player2,panel_player1)
+  }else{
+    if(player_turn == 1){
+      panel_player1.classList.add("player_panel_not_your_turn");
+      panel_player2.classList.remove("player_panel_not_your_turn");
+      modified_state_button(panel_player1,panel_player2)
+    }
+    else{
+      panel_player2.classList.add("player_panel_not_your_turn");
+      panel_player1.classList.remove("player_panel_not_your_turn");
+      modified_state_button(panel_player2,panel_player1)
+    }
   }
 }
 

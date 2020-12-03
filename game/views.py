@@ -22,16 +22,22 @@ def index(request):
         else:
             form.fields["player2_name"].initial= request.session['player2'].get("username")
             form.fields["player2_color"].initial = request.session['player2'].get("color")
+            if(request.session['player1']["type"] == "IA"):
+                request.session['player1'],request.session['player2'] = request.session['player2'],request.session['player1']
             return render(request, "game/index.html", { "form": form ,"player1":request.session['player1'],"player2":request.session['player2']})
 
     if request.method == "POST": #quand on a les noms des joueurs pour commencer la partie
         form = NewGameForm(request.POST)
         if form.is_valid():
+            player1 = request.session['player1'].copy()
+            player_creation(player1,1)
+            player2 = request.session['player2'].copy()
+            player_creation(player2,2)
             game_state = {
                 "game_id" : 11,
                 "board" : [[1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,2]],
-                "players" : [request.session['player1'],request.session['player2']],
-                "current_player" : random.randint(0,1),
+                "players" : [player1,player2],
+                "current_player" : 0,
                 "code" : 0
             }
             return render(request, 'game/new_game.html',{"game_state":game_state})
@@ -57,3 +63,10 @@ def index(request):
     }
 
     return HttpResponse(json.dumps(game_state))
+
+def player_creation(player,position):
+    player["position"] = [0,0] if position == 1 else [7,7]
+    if(player["type"] == "IA"):
+        player["st"] = player["position"]
+        player["atp1"] = player["at"] = 0
+    player["box_taken"] = 0

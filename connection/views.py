@@ -57,28 +57,23 @@ def index(request):
                 if(password == None):
                     ia = IA.objects.get(pseudo = iachoice)
                     ia_player = Player.objects.get(ia = ia)
-                    user = {"id":ia_player.id,"username":ia.pseudo,"color":ia.color,"st":[],"atp1": 0, "at": 0,"position":[],"box_taken":0,"type":"IA"}
+                    user = {"id":ia_player.id,"username":ia.pseudo,"color":ia.color,"type":"IA"}
                 else: 
                     utilisateur = Utilisateur.objects.get(pseudo = username, password = password)
                     utilisateur_player = Player.objects.get(utilisateur = utilisateur)
-                    user = {"id":utilisateur_player.id,"username":utilisateur.pseudo,"color":utilisateur.color,"st": [],"position":[],"box_taken":0,"type":"User"}
+                    user = {"id":utilisateur_player.id,"username":utilisateur.pseudo,"color":utilisateur.color,"type":"User"}
                 if(request.session.get('player1') == None):
-                    user["st"] = [0,0]
-                    user["position"] = [0,0]
                     request.session['player1'] = user
                     return redirect('../game')
                 else:
                     if(request.session['player1'].get("id") == user.get("id")):
                         data = "Le joueur a déjà été selectionné"
-                        formPlayer = ConnectionFormPlayer() # empty form
-                        formNewPlayer = ConnectionFormNewPlayer()
-                        return render(request, "connection/index.html", { "data":data,"formPlayer": formPlayer , "formNewPlayer": formNewPlayer,"formIA":ConnectionFormIA})
-                    user["st"] = [7,7]
-                    user["position"] = [7,7]
+                        return reconnection_to_the_page(request,data)
                     request.session['player2'] = user
                 return redirect('../game')
             except ObjectDoesNotExist:
-                return HttpResponse("KO")
+                data = "Le joueur n'existe pas"
+                return reconnection_to_the_page(request,data)
         else:
             try:
                 utilisateur = Utilisateur.objects.get(pseudo = username)
@@ -89,13 +84,19 @@ def index(request):
                 
                 new_utilisateur = Utilisateur.objects.create(pseudo = username, password = password, color = colorchoice)
                 Player.objects.create(utilisateur = new_utilisateur)
-                formPlayer = ConnectionFormPlayer() # empty form
-                formNewPlayer = ConnectionFormNewPlayer()
-                return render(request, "connection/index.html", { "data":data,"formPlayer": formPlayer , "formNewPlayer": formNewPlayer,"formIA":ConnectionFormIA})
+                return reconnection_to_the_page(request,data)
+
 
 def deconnection(request):
     request.session["active"] = False
     request.session["player1"] = None
     request.session["player2"] = None
     return redirect('../connection')
+
+
+def reconnection_to_the_page(request,data):
+    formPlayer = ConnectionFormPlayer() # empty form
+    formNewPlayer = ConnectionFormNewPlayer()
+    return render(request, "connection/index.html", { "data":data,"formPlayer": formPlayer , "formNewPlayer": formNewPlayer,"formIA":ConnectionFormIA})
+
 
