@@ -1,5 +1,5 @@
 function button_function(){
-  list_buttons = document.getElementsByClassName("button_move");
+  let list_buttons = document.getElementsByClassName("button_move");
   
   for(let button of list_buttons){
     button.addEventListener("click", () => {main(button.moveset)});
