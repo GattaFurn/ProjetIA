@@ -21,6 +21,7 @@
                 font-size: 32px;
                 font-weight: bolder;
                 background-color:#D98880;
+                opacity: 0;
             }
             .casesHeader{
                 background-color: #C0392B;
@@ -37,6 +38,7 @@
                 border: none;
                 border-radius: 20px;
                 padding-top: 5px;
+                opacity: 0;
             }
            
             .button_move{
@@ -53,10 +55,10 @@
                 outline: none;
             }
             #player1_panel_color{
-                background-color: blue;
+                
             }
             #player2_panel_color{
-                background-color: red;
+                
             }
             .player_panel_not_your_turn {
                 animation: fadeinDark 0.3s;
@@ -73,8 +75,7 @@
             #dark_mode{
 			    position: absolute;
 			    margin-bottom: 1200px;
-			    margin-left: 1580px;
-                animation: fadein 1.5s;
+			    margin-left: 1400px;
                 font-size: 20px;
                 background-color: #28B463;
                 height: 40px;
@@ -82,7 +83,12 @@
                 border-radius: 10px;
                 outline: none;
                 border: none;
+                opacity: 0;
 		    }
+            #dark_mode:hover{
+				animation: zoom 0.25s;
+				-webkit-transform: scale(1.10);
+			}
 
             .image_joueur {
 	            max-width: 60px;
@@ -96,13 +102,11 @@
             .infoJoueur{
                 margin-top: 15px;
                 height : 40px;
-                
                 margin-left: 60px;
                 margin-right: 60px;
                 border-radius: 7px;
                 font-size: 20px;
                 padding-top: 15px;
-                background-color:#D98880;
             }
             .boutonHaut{
                 display: block;
@@ -130,12 +134,24 @@
 			.fade{
 				animation: fadein 1s;
 			}
+            @keyframes fadeinDark{
+				from{
+					opacity: 0;
+				}
+				to{
+					opacity: 0.3;
+				}
+			}
+            .fadeDark{
+                animation: fadinDark 1s;
+            }
             .blackPanel{
                 background-color: black;
                 border : none;
                 border-radius: 20px;
                 height: 555px;
                 margin-top: 50px;
+                opacity: 0;
             }
             @keyframes zoom{
 				from{
@@ -149,6 +165,26 @@
 				animation: zoom 0.25s;
 				-webkit-transform: scale(1.10);
 			}
+            #disconnection{
+			    position: absolute;
+			    left: 1530px;
+                font-size: 20px;
+                background-color: #28B463;
+                height: 40px;
+                width : 140px;
+                border-radius: 10px;
+                outline: none;
+                border: none; 
+                opacity: 0;          
+		    }
+            #disconnection:hover{
+				animation: zoom 0.25s;
+				-webkit-transform: scale(1.10);
+			}
+            a{
+                text-decoration: none;
+                color: black;
+            }
         </style> 
         {{game_state|json_script:"game_state"}}
         <script>var game_state = JSON.parse(document.getElementById('game_state').textContent);</script>
@@ -159,11 +195,125 @@
             var pic1 = "{% static "image/logoCub-e.png" %}";
             var pic2 = "{% static "image/logoCub-e.png" %}";
 
+            function zoom(){
+                let panels = document.getElementsByClassName("black_panel");
+                for(let panel of panels){
+                    div.classList.add("zoom");
+                }
+      }
+
+            function fadeIn(divs){
+				let time = 70;
+				for(let div of divs){
+					setTimeout(function(){div.classList.add("fade")}, time);
+                    setTimeout(function(){div.style.opacity = 1;}, time);
+                    setTimeout(function(){elem.classList.toggle("fade");}, time+1000);
+					time += 800;
+				}
+            }
+            function fadeInTab(cellules){
+				let time = 470;
+				for(let cellule of cellules){
+					setTimeout(function(){cellule.classList.add("fade")}, time);
+                    setTimeout(function(){cellule.style.opacity = 1;}, time);
+                    setTimeout(function(){elem.classList.toggle("fade");}, time+1000);
+					time += 40;
+				}
+            }
+
+            function fadeInUnique(elem){
+				let time = 70;
+				setTimeout(function(){elem.classList.add("fade")}, time);
+                setTimeout(function(){elem.style.opacity = 1;}, time);
+                setTimeout(function(){elem.classList.toggle("fade");}, time+1000);
+                
+            }
+            
+            function setColorPanel(){
+                let panels = document.getElementsByClassName("player_panel");
+                let iPlayer = 0;
+                for(let panel of panels){
+                    panel.style.backgroundColor = COLOR_CHOICES.get(game_state.players[iPlayer].color);
+                    iPlayer++;
+                }
+            }
+            function setPlayerName(){
+                let namePlayers = document.getElementsByTagName("h2");
+                let iPlayer = 0;
+                for(let name of namePlayers){
+                    name.innerHTML = game_state.players[iPlayer].username;
+                    iPlayer++;
+                }
+            }
+            function LightenDarkenColor(col,amt) {
+
+    var usePound = false;
+    if ( col[0] == "#" ) {
+        col = col.slice(1);
+        usePound = true;
+    }
+
+    var num = parseInt(col,16);
+
+    var r = (num >> 16) + amt;
+
+    if ( r > 255 ) r = 255;
+    else if  (r < 0) r = 0;
+
+    var b = ((num >> 8) & 0x00FF) + amt;
+
+    if ( b > 255 ) b = 255;
+    else if  (b < 0) b = 0;
+
+    var g = (num & 0x0000FF) + amt;
+
+    if ( g > 255 ) g = 255;
+    else if  ( g < 0 ) g = 0;
+
+    return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
+}
+            
+            
+            function setColorInfoJoueur(){
+                let infos = document.getElementById("player1_panel_color").getElementsByClassName("infoJoueur");
+                for(let info of infos){
+                    info.style.backgroundColor = LightenDarkenColor(COLOR_CHOICES.get(game_state.players[0].color), 60);
+                }
+                infos = document.getElementById("player2_panel_color").getElementsByClassName("infoJoueur");
+                for(let info of infos){
+                    info.style.backgroundColor = LightenDarkenColor(COLOR_CHOICES.get(game_state.players[1].color), 60);
+                }
+            }
+            
+
             window.onload = function(){
                 bouton_creation();
                 button_function();
                 createBoard();
+                setColorPanel();
+                setPlayerName();
+                setColorInfoJoueur();
+                zoom();
+                let disconnection = document.getElementById("disconnection")
+                fadeInUnique(disconnection);
+
+                let darkMode = document.getElementById("dark_mode");
+                fadeInUnique(darkMode);
+
+                let panelPlayer1 = document.getElementById("player1_panel_color");
+                fadeInUnique(panelPlayer1);
                 
+                let panelPlayer2 = document.getElementById("player2_panel_color");
+                let time = 870;
+				setTimeout(function(){panelPlayer2.classList.add("fadeDark")}, time);
+				setTimeout(function(){panelPlayer2.style.opacity = 0.3;}, time);
+
+                let blackPanels = document.getElementsByClassName("blackPanel");
+                fadeIn(blackPanels);
+                
+                let cases = document.getElementsByTagName("td");
+                fadeInTab(cases);
+
                 player_focused(game_state["current_player"],game_state["code"]);
             };
 
@@ -190,11 +340,11 @@
 
         </script>
 
-        <title>Game</title>
+        <title>Cub-e  Game</title>
     </head>
     <body>
         <button id="dark_mode">Dark mode</button>
-        
+        <button id="disconnection"><a href = "../connection/deconnection"> Disconnection</a></button>
         
         
         <h1>Cub-e</h1>
@@ -206,7 +356,7 @@
                     <div class="div_informations">
                         <p class="titreSectionPanel">Boxes taken</p>
                     </div>
-                    <div class="div!informations">
+                    <div class="div_informations">
                         <p class="infoJoueur">10</p>
                     </div>
                     <div class="div_informations">

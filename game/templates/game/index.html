@@ -183,14 +183,14 @@
     <script>
 
     let COLOR_CHOICES = new Map();
-    COLOR_CHOICES.set("BL", "Blue");
-    COLOR_CHOICES.set("PK", "Pink");
-    COLOR_CHOICES.set('YW', 'Yellow');
-    COLOR_CHOICES.set('GN', 'Green');
-    COLOR_CHOICES.set('VT', 'Violet');
-    COLOR_CHOICES.set('RD', 'Red');
-    COLOR_CHOICES.set('OE', 'Orange');
-    COLOR_CHOICES.set('CN', 'Cyan');
+    COLOR_CHOICES.set('BL', '#0099ff');
+    COLOR_CHOICES.set('PK', '#ff99ff');
+    COLOR_CHOICES.set('YW', '#ffcc66');
+    COLOR_CHOICES.set('GN', '#80ff80');
+    COLOR_CHOICES.set('VT', '#bf80ff');
+    COLOR_CHOICES.set('RD', '#b30000');
+    COLOR_CHOICES.set('OE', '#ff8c1a');
+    COLOR_CHOICES.set('CN', '#80ffff');
 
       function createDiv(){
         let div = document.getElementById("connect_div");
@@ -239,17 +239,21 @@
 				let time = 70;
 				for(let div of divs){
 					setTimeout(function(){div.classList.add("fade")}, time);
-					setTimeout(function(){div.style.opacity = 1}, time);
-					time += 400;
+          setTimeout(function(){div.style.opacity = 1}, time);
+          setTimeout(function(){div.classList.toggle("fade");}, time+1000);
+					time += 800;
 				}
-        time = 90;
+        time = 470;
         let butStart = document.getElementById("startGame");
         setTimeout(function(){butStart.classList.add("fade")}, time);
-				setTimeout(function(){butStart.style.opacity = 1}, time);
+        setTimeout(function(){butStart.style.opacity = 1}, time);
+        setTimeout(function(){butStart.classList.toggle("fade");}, time+1000);
 
+        time += 800;
         let disconnection = document.getElementById("disconnection");
         setTimeout(function(){disconnection.classList.add("fade")}, time);
-				setTimeout(function(){disconnection.style.opacity = 1}, time);
+        setTimeout(function(){disconnection.style.opacity = 1}, time);
+        setTimeout(function(){disconnection.classList.toggle("fade");}, time+1000);
 			}
 
       function zoom(){

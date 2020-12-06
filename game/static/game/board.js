@@ -46,13 +46,24 @@ function updateBoard(game){
     game_state["board"] = current_board;
 }
 
+let COLOR_CHOICES = new Map();
+                COLOR_CHOICES.set('BL', '#0099ff');
+                COLOR_CHOICES.set('PK', '#ff99ff');
+                COLOR_CHOICES.set('YW', '#ffcc66');
+                COLOR_CHOICES.set('GN', '#80ff80');
+                COLOR_CHOICES.set('VT', '#bf80ff');
+                COLOR_CHOICES.set('RD', '#b30000');
+                COLOR_CHOICES.set('OE', '#ff8c1a');
+                COLOR_CHOICES.set('CN', '#80ffff');
+
+
 function box_distribution(box,number_player){
     if(number_player == 1){
-        box.style.background = "blue";
+        box.style.background = COLOR_CHOICES.get(game_state.players[0].color);
     }
     else{
         if(number_player == 2)
-        box.style.background = "red";
+        box.style.background = COLOR_CHOICES.get(game_state.players[1].color);
     }
     if(box.childElementCount != 0){
         box.childNodes[0].remove();

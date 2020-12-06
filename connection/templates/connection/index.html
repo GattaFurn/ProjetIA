@@ -135,15 +135,15 @@
 
 		</style>
 		<script type="text/javascript">
-			let couleurs = new Map();
-			couleurs.set("BL", "Blue");
-			couleurs.set("PK", "Pink");
-			couleurs.set("YW", "Yellow");
-			couleurs.set("GN", "Green");
-			couleurs.set("VT", "Violet");
-			couleurs.set("RD", "Red");
-			couleurs.set("OE", "Orange");
-			couleurs.set("CN", "Cyan");
+			let COLOR_CHOICES = new Map();
+    			COLOR_CHOICES.set('BL', '#0099ff');
+    			COLOR_CHOICES.set('PK', '#ff99ff');
+    			COLOR_CHOICES.set('YW', '#ffcc66');
+    			COLOR_CHOICES.set('GN', '#80ff80');
+    			COLOR_CHOICES.set('VT', '#bf80ff');
+    			COLOR_CHOICES.set('RD', '#b30000');
+    			COLOR_CHOICES.set('OE', '#ff8c1a');
+    			COLOR_CHOICES.set('CN', '#80ffff');
 
 			function fadeIn(){
 				let divs = document.getElementsByClassName("connect_form");
@@ -158,7 +158,7 @@
 			function colorChoice(){
 				let listOptions = document.getElementsByTagName("option");
 				for (let elem of listOptions){
-					for(let [key, value] of couleurs){
+					for(let [key, value] of COLOR_CHOICES){
 						if(elem.value == key)
 							elem.style.backgroundColor = value;
 					}
