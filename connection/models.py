@@ -1,14 +1,14 @@
 from django.db import models
 
 COLOR_CHOICES = [
-    ('BL', 'Blue'),
-    ('PK', 'Pink'),
-    ('YW', 'Yellow'),
-    ('GN', 'Green'),
-    ('VT', 'Violet'),
-    ('RD', 'Red'),
-    ('OE', 'Orange'),
-    ('CN', 'Cyan'),
+    ('BL', '#0099ff'),
+    ('PK', '#ff99ff'),
+    ('YW', '#ffcc66'),
+    ('GN', '#80ff80'),
+    ('VT', '#bf80ff'),
+    ('RD', '#b30000'),
+    ('OE', '#ff8c1a'),
+    ('CN', '#80ffff'),
 ]
 # Create your models here.
 class Utilisateur(models.Model):
