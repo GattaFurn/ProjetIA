@@ -302,7 +302,7 @@
                     info.style.backgroundColor = lightenDarkenColor(COLOR_CHOICES.get(game_state.players[1].color), -80);
                 }
             }
-            /*
+            
             function casesEmpty(){
                 let cellules = document.getElementsByTagName("td");
                 let cellulesVides = [];
@@ -312,12 +312,12 @@
                 }
                 return cellulesVides;
             }
-            */
+            
 
             let isDarkMode = false;
             function darkMode(){
                 let body = document.body;
-                let cellulesTab = document.getElementsByTagName("td");
+                let cellulesTab = casesEmpty();
                 let buttons = document.getElementsByTagName("button");
                 let liens = document.getElementsByTagName("a");
                 if(isDarkMode){
