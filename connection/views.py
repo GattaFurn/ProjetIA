@@ -20,7 +20,7 @@ COLOR_CHOICES = (
     ('CN', 'Cyan'),
 )
 
-IA_CHOICES = (("Nitron - Easy", "Nitron - Easy"),("Torton - Medium","Torton - Medium"),("Vatron - Difficult", "Vatron - Difficult"))
+IA_CHOICES = (("Nitron", "Nitron - Easy"),("Torton","Torton - Medium"),("Vatron", "Vatron - Difficult"))
 
 class ConnectionFormPlayer(forms.Form):
     username = forms.CharField(label ="Username", max_length=50)
