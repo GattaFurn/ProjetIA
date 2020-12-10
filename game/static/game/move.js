@@ -21,6 +21,7 @@ function player_focused(player_turn,code){
   let panel_player2 = document.getElementById("panelPlayer2");
   let panel_player1 = document.getElementById("panelPlayer1");
   
+  console.log(panel_player1);
   if(code != 0){
     panel_player1.classList.add("player_panel_not_your_turn");
     panel_player2.classList.add("player_panel_not_your_turn");
@@ -40,6 +41,7 @@ function player_focused(player_turn,code){
 
 function modified_state_button(button_1,button_2){
   for(let button of button_1.querySelectorAll("button")){
+    console.log(button)
     button.setAttribute("disabled", "");
   }
   for(let button of button_2.querySelectorAll("button")){
