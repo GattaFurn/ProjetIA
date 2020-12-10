@@ -307,7 +307,8 @@
                 let cellules = document.getElementsByTagName("td");
                 let cellulesVides = [];
                 for(let cellule of cellules){
-                    if(cellule.style.backgroundColor == "#D98880" || cellule.style.backgroundColor == "#4d4d4d")
+                    console.log(cellule.style.backgroundColor);
+                    if(cellule.style.backgroundColor == "" || cellule.style.backgroundColor == "#4d4d4d")
                         cellulesVides.push(cellule);
                 }
                 return cellulesVides;
@@ -318,6 +319,7 @@
             function darkMode(){
                 let body = document.body;
                 let cellulesTab = casesEmpty();
+                console.log(cellulesTab);
                 let buttons = document.getElementsByTagName("button");
                 let liens = document.getElementsByTagName("a");
                 if(isDarkMode){
