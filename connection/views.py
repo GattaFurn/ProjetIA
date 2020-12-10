@@ -20,7 +20,7 @@ COLOR_CHOICES = (
     ('CN', 'Cyan'),
 )
 
-IA_CHOICES = (("None", ""),("Torton", "Torton"))
+IA_CHOICES = (("Nitron - Easy", "Nitron - Easy"),("Torton - Medium","Torton - Medium"),("Vatron - Difficult", "Vatron - Difficult"))
 
 class ConnectionFormPlayer(forms.Form):
     username = forms.CharField(label ="Username", max_length=50)
@@ -57,7 +57,7 @@ def index(request):
                 if(password == None):
                     ia = IA.objects.get(pseudo = iachoice)
                     ia_player = Player.objects.get(ia = ia)
-                    user = {"id":ia_player.id,"username":ia.pseudo,"color":ia.color,"type":"IA"}
+                    user = {"id":ia_player.id,"username":ia.pseudo,"color":ia.color,"type":"IA","eps":ia.eps}
                 else: 
                     utilisateur = Utilisateur.objects.get(pseudo = username, password = password)
                     utilisateur_player = Player.objects.get(utilisateur = utilisateur)
@@ -68,6 +68,9 @@ def index(request):
                 else:
                     if(request.session['player1'].get("id") == user.get("id")):
                         data = "Le joueur a déjà été selectionné"
+                        return reconnection_to_the_page(request,data)
+                    if(request.session['player1'].get("type") == "IA"):
+                        data = "Une ia a déjà été selectionnée"
                         return reconnection_to_the_page(request,data)
                     request.session['player2'] = user
                 return redirect('../game')
