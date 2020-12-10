@@ -1,6 +1,9 @@
 let tableau = new Array();
 
 function createBoard(){
+    let info = document.getElementsByClassName("infoJoueur");
+    info[0].innerHTML = 0;
+    info[2].innerHTML = 0;
     let current_board = game_state["board"];
     let table = document.createElement("table");
     table.id = "board_letter_number";
@@ -25,7 +28,7 @@ function createBoard(){
         ligne.appendChild(celulle);
         for (let iCol = 0; iCol < 8; iCol++){
             let celulle = document.createElement("td");
-            box_distribution(celulle,current_board[iLig][iCol])
+            box_distribution(celulle,current_board[iLig][iCol],info)
             ligne.appendChild(celulle);
             tableau[iLig][iCol] = celulle;
         }
@@ -35,11 +38,14 @@ function createBoard(){
 }
 
 function updateBoard(game){
+    let info = document.getElementsByClassName("infoJoueur");
+    info[0].innerHTML = 0;
+    info[2].innerHTML = 0;
     game_state = JSON.parse(game);
     current_board = game_state["board"]
     for (let iLig = 0; iLig < 8; iLig++){
         for (let iCol = 0; iCol < 8; iCol++){
-            box_distribution(tableau[iLig][iCol],current_board[iLig][iCol]);
+            box_distribution(tableau[iLig][iCol],current_board[iLig][iCol],info);
         }
     }
     player_position(game_state.players[0].position,game_state.players[1].position);
@@ -57,13 +63,16 @@ let COLOR_CHOICES = new Map();
                 COLOR_CHOICES.set('CN', '#80ffff');
 
 
-function box_distribution(box,number_player){
+function box_distribution(box,number_player,info){
     if(number_player == 1){
+        info[0].innerHTML = parseInt(info[0].innerHTML) + 1;
         box.style.background = COLOR_CHOICES.get(game_state.players[0].color);
     }
     else{
-        if(number_player == 2)
-        box.style.background = COLOR_CHOICES.get(game_state.players[1].color);
+        if(number_player == 2){
+            info[2].innerHTML = parseInt(info[2].innerHTML) + 1;;
+            box.style.background = COLOR_CHOICES.get(game_state.players[1].color);
+        }
     }
     if(box.childElementCount != 0){
         box.childNodes[0].remove();
