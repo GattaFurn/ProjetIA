@@ -307,8 +307,7 @@
                 let cellules = document.getElementsByTagName("td");
                 let cellulesVides = [];
                 for(let cellule of cellules){
-                    console.log(cellule.style.backgroundColor);
-                    if(cellule.style.backgroundColor == "" || cellule.style.backgroundColor == "#4d4d4d")
+                    if(cellule.style.backgroundColor == "" || cellule.style.backgroundColor == 'rgb(77, 77, 77)' || cellule.style.backgroundColor == 'rgb(217, 136, 128)')
                         cellulesVides.push(cellule);
                 }
                 return cellulesVides;
@@ -319,7 +318,6 @@
             function darkMode(){
                 let body = document.body;
                 let cellulesTab = casesEmpty();
-                console.log(cellulesTab);
                 let buttons = document.getElementsByTagName("button");
                 let liens = document.getElementsByTagName("a");
                 if(isDarkMode){
@@ -361,8 +359,6 @@
                 }
                 
             }
-
-            
 
             window.onload = function(){
                 bouton_creation();
@@ -440,7 +436,7 @@
         
         <h1>Cub-e</h1>
         
-        <di id="game_content">
+        <div id="game_content">
             <div class="blackPanel">
                 <div  class = "player_panel" id="panelPlayer1">
                     <h2>Player 1</h2>
@@ -448,7 +444,7 @@
                         <p class="titreSectionPanel">Boxes taken</p>
                     </div>
                     <div class="div_informations">
-                        <p class="infoJoueur" id="boxesTaken">10</p>
+                        <p class="infoJoueur" id="boxesTaken">1</p>
                     </div>
                     <div class="div_informations">
                         <p class="titreSectionPanel">Travel history</p>
@@ -473,7 +469,7 @@
                         <p class="titreSectionPanel">Boxes taken</p>
                     </div>
                     <div class="div!informations">
-                        <p class="infoJoueur">10</p>
+                        <p class="infoJoueur">1</p>
                     </div>
                     <div class="div_informations">
                         <p class="titreSectionPanel">Travel history</p>
