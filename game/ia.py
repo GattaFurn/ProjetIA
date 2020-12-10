@@ -17,11 +17,11 @@ def index(game_state):
     direction = [0,1,2,3]
     IA = new_game_state.get("players")[1]
     row_q_table = get_qTable(new_game_state)
-    IA["at"] = take_action(row_q_table, 0.4,direction)
+    IA["at"] = take_action(row_q_table, IA["eps"],direction)
     IA["stp1"] = step(IA["at"],IA["st"])
     while(IA["stp1"] == IA["st"] or not game.business.correct_move(new_game_state,IA["stp1"])):
             row_q_table[IA["at"]] = 0
-            IA["at"] = take_action(row_q_table, 0.4,direction)
+            IA["at"] = take_action(row_q_table, IA["eps"],direction)
             IA["stp1"] = step(IA["at"],IA["st"])
     if(new_game_state.get("board")[IA["stp1"][0]][IA["stp1"][1]] == 0):
         game.business.apply_move(new_game_state,IA["stp1"])
@@ -30,7 +30,7 @@ def index(game_state):
         IA["box_taken"] = 0
     IA["position"] = IA["stp1"]
     fake_row_q_table = get_qTable(new_game_state)
-    IA["atp1"] = take_action(fake_row_q_table, 0.0,[0,1,2,3])
+    IA["atp1"] = take_action(fake_row_q_table,IA["eps"],[0,1,2,3])
     update_q_function(game_state,new_game_state,row_q_table,fake_row_q_table)
     game.business.switch_player(new_game_state)
     return JsonResponse({"game_state":new_game_state})
