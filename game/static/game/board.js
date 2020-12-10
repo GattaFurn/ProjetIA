@@ -50,6 +50,16 @@ function updateBoard(game){
     }
     player_position(game_state.players[0].position,game_state.players[1].position);
     game_state["board"] = current_board;
+    if(game_state["code"] != 0)
+        if(document.getElementsByClassName("infoJoueur")[0].innerHTML == document.getElementsByClassName("infoJoueur")[2].innerHTML)
+            alert("And it's a tie!");
+        else{
+            if(document.getElementsByClassName("infoJoueur")[0].innerHTML >= document.getElementsByClassName("infoJoueur")[2].innerHTML)
+                alert(`Congratulations ${game_state.players[0].username}, you are the winner!`);
+            else
+                alert(`Congratulations ${game_state.players[1].username}, you are the winner!`);
+        }
+            
 }
 
 let COLOR_CHOICES = new Map();
@@ -63,7 +73,7 @@ let COLOR_CHOICES = new Map();
                 COLOR_CHOICES.set('CN', '#80ffff');
 
 
-function box_distribution(box,number_player,info){
+function box_distribution(box,number_player,info,){
     if(number_player == 1){
         info[0].innerHTML = parseInt(info[0].innerHTML) + 1;
         box.style.background = COLOR_CHOICES.get(game_state.players[0].color);

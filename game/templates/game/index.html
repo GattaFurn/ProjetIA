@@ -23,8 +23,12 @@
 		}
 		#disconnection{
 			position: absolute;
-			left: 1560px;
+			left: 1525px;
       opacity: 0;
+      height: 40px;
+      width : 140px;
+      cursor:  pointer;
+      outline: none;
 		}
 		.connect_form{
 				width: 400px;
@@ -305,7 +309,7 @@
 </head>
 <body>
     
-    <button id="disconnection"><a href = "../connection/deconnection"> Disconnection</a></button>
+  <a href="javascript:if(confirm('Would you really disconnect you?')) document.location.href='../connection/deconnection'"><button id="disconnection">Disconnection</button></a>
    
     <h1 id="profile_title">Welcome Back !</h1>
     

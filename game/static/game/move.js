@@ -22,16 +22,23 @@ function player_focused(player_turn,code){
   let panel_player1 = document.getElementById("panelPlayer1");
   if(code != 0){
     panel_player1.classList.add("player_panel_not_your_turn");
+    panel_player1.style.opacity = 0.3;
     panel_player2.classList.add("player_panel_not_your_turn");
+    panel_player2.style.opacity = 0.3;
+    
   }else{
     if(player_turn == 1){
       panel_player1.classList.add("player_panel_not_your_turn");
+      panel_player1.style.opacity = 0.3;
       panel_player2.classList.remove("player_panel_not_your_turn");
+      panel_player2.style.opacity = 1;
       modified_state_button(panel_player1,panel_player2)
     }
     else{
       panel_player2.classList.add("player_panel_not_your_turn");
+      panel_player2.style.opacity = 0.3;
       panel_player1.classList.remove("player_panel_not_your_turn");
+      panel_player1.style.opacity = 1;
       modified_state_button(panel_player2,panel_player1)
     }
   }

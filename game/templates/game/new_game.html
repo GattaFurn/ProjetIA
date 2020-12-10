@@ -72,20 +72,6 @@
             #dark_mode{
 			    position: absolute;
 			    margin-bottom: 1200px;
-			    margin-left: 1400px;
-                font-size: 20px;
-                background-color: #28B463;
-                height: 40px;
-                width : 110px;
-                border-radius: 10px;
-                outline: none;
-                border: none;
-                opacity: 0;
-                color: black;
-		    }
-            #newGame{
-                position: absolute;
-			    margin-bottom: 1200px;
 			    margin-left: 1278px;
                 font-size: 20px;
                 background-color: #28B463;
@@ -96,6 +82,22 @@
                 border: none;
                 opacity: 0;
                 color: black;
+                cursor:  pointer;
+		    }
+            #newGame{
+                position: absolute;
+			    margin-bottom: 1200px;
+			    margin-left: 1400px;
+                font-size: 20px;
+                background-color: #28B463;
+                height: 40px;
+                width : 110px;
+                border-radius: 10px;
+                outline: none;
+                border: none;
+                opacity: 0;
+                color: black;
+                cursor:  pointer;
             }
             #newGame:hover{
                 animation: zoom 0.25s;
@@ -182,6 +184,7 @@
                 border: none; 
                 opacity: 0;   
                 color: black;
+                cursor:  pointer;
 		    }
             #disconnection:hover{
 				animation: zoom 0.25s;
@@ -229,6 +232,14 @@
                 setTimeout(function(){elem.classList.toggle("fade");}, time+1000);
                 
             }
+            function fadeInUniqueDark(elem){
+				let time = 70;
+				setTimeout(function(){elem.classList.add("fade")}, time);
+                setTimeout(function(){elem.style.opacity = 0.3;}, time);
+                setTimeout(function(){elem.classList.toggle("fade");}, time+1000);
+                
+            }
+
             
             function setColorPanelLight(){
                 let panels = document.getElementsByClassName("player_panel");
@@ -312,6 +323,7 @@
                 }
                 return cellulesVides;
             }
+
             
 
             let isDarkMode = false;
@@ -386,7 +398,7 @@
                 fadeInUnique(panelPlayer1);
 
                 let panelPlayer2 = document.getElementById("panelPlayer2");
-                fadeInUnique(panelPlayer2);
+                fadeInUniqueDark(panelPlayer2);
                 
                 //let panelPlayer2 = document.getElementById("player2_panel");
                 //let time = 870;
@@ -428,10 +440,18 @@
         <title>Cub-e  Game</title>
     </head>
     <body>
-        
+        <script type="text/javascript">
+            jQuery(function(){
+                    function _confirm()
+                    {
+                        return (confirm('Would you really remake a game?'));
+                    }
+                    $('a').click(_confirm);
+            });
+        </script>
         <button id="dark_mode">Dark mode</button>
-        <button id="newGame">New game</button>
-        <button id="disconnection"><a href = "../connection/deconnection"> Disconnection</a></button>
+        <a href="javascript:if(confirm('Would you really remake a game?')) document.location.href='../game'"><button id="newGame">New game</button></a>
+        <a href="javascript:if(confirm('Would you really disconnect you?')) document.location.href='../connection/deconnection'"><button id="disconnection">Disconnection</button></a>
         
         
         <h1>Cub-e</h1>
@@ -444,7 +464,7 @@
                         <p class="titreSectionPanel">Boxes taken</p>
                     </div>
                     <div class="div_informations">
-                        <p class="infoJoueur" id="boxesTaken">1</p>
+                        <p class="infoJoueur">1</p>
                     </div>
                     <div class="div_informations">
                         <p class="titreSectionPanel">Travel history</p>
