@@ -7,6 +7,7 @@
     		*{
 				Font-family: Blippo, fantasy;
 			}
+
             body{
                 background-color: #C0392B;
             }
@@ -53,17 +54,9 @@
                 border-radius: 10px;
                 background-color: #28B463;
                 outline: none;
+                color: black;
             }
-            #player1_panel_color{
-                
-            }
-            #player2_panel_color{
-                
-            }
-            .player_panel_not_your_turn {
-                animation: fadeinDark 0.3s;
-                opacity: 0.3;
-            }
+            
             @keyframes fadeinDark{
 				from{
 					opacity: 1;
@@ -72,6 +65,10 @@
 					opacity: 0.3;
 				}
 			}
+            .player_panel_not_your_turn {
+                animation: fadeinDark 0.3s;
+                opacity: 0.3;
+            }
             #dark_mode{
 			    position: absolute;
 			    margin-bottom: 1200px;
@@ -84,7 +81,26 @@
                 outline: none;
                 border: none;
                 opacity: 0;
+                color: black;
 		    }
+            #newGame{
+                position: absolute;
+			    margin-bottom: 1200px;
+			    margin-left: 1278px;
+                font-size: 20px;
+                background-color: #28B463;
+                height: 40px;
+                width : 110px;
+                border-radius: 10px;
+                outline: none;
+                border: none;
+                opacity: 0;
+                color: black;
+            }
+            #newGame:hover{
+                animation: zoom 0.25s;
+				-webkit-transform: scale(1.10);
+            }
             #dark_mode:hover{
 				animation: zoom 0.25s;
 				-webkit-transform: scale(1.10);
@@ -134,17 +150,6 @@
 			.fade{
 				animation: fadein 1s;
 			}
-            @keyframes fadeinDark{
-				from{
-					opacity: 0;
-				}
-				to{
-					opacity: 0.3;
-				}
-			}
-            .fadeDark{
-                animation: fadinDark 1s;
-            }
             .blackPanel{
                 background-color: black;
                 border : none;
@@ -175,7 +180,8 @@
                 border-radius: 10px;
                 outline: none;
                 border: none; 
-                opacity: 0;          
+                opacity: 0;   
+                color: black;
 		    }
             #disconnection:hover{
 				animation: zoom 0.25s;
@@ -195,19 +201,14 @@
             var pic1 = "{% static "image/logoCub-e.png" %}";
             var pic2 = "{% static "image/logoCub-e.png" %}";
 
-            function zoom(){
-                let panels = document.getElementsByClassName("black_panel");
-                for(let panel of panels){
-                    div.classList.add("zoom");
-                }
-      }
+            
 
             function fadeIn(divs){
 				let time = 70;
 				for(let div of divs){
 					setTimeout(function(){div.classList.add("fade")}, time);
                     setTimeout(function(){div.style.opacity = 1;}, time);
-                    setTimeout(function(){elem.classList.toggle("fade");}, time+1000);
+                    setTimeout(function(){div.classList.toggle("fade");}, time+1000);
 					time += 800;
 				}
             }
@@ -216,7 +217,7 @@
 				for(let cellule of cellules){
 					setTimeout(function(){cellule.classList.add("fade")}, time);
                     setTimeout(function(){cellule.style.opacity = 1;}, time);
-                    setTimeout(function(){elem.classList.toggle("fade");}, time+1000);
+                    setTimeout(function(){cellule.classList.toggle("fade");}, time+1000);
 					time += 40;
 				}
             }
@@ -229,11 +230,19 @@
                 
             }
             
-            function setColorPanel(){
+            function setColorPanelLight(){
                 let panels = document.getElementsByClassName("player_panel");
                 let iPlayer = 0;
                 for(let panel of panels){
                     panel.style.backgroundColor = COLOR_CHOICES.get(game_state.players[iPlayer].color);
+                    iPlayer++;
+                }
+            }
+            function setColorPanelDark(){
+                let panels = document.getElementsByClassName("player_panel");
+                let iPlayer = 0;
+                for(let panel of panels){
+                    panel.style.backgroundColor = lightenDarkenColor(COLOR_CHOICES.get(game_state.players[iPlayer].color), -120);
                     iPlayer++;
                 }
             }
@@ -245,7 +254,7 @@
                     iPlayer++;
                 }
             }
-            function LightenDarkenColor(col,amt) {
+            function lightenDarkenColor(col,amt) {
 
     var usePound = false;
     if ( col[0] == "#" ) {
@@ -274,39 +283,118 @@
 }
             
             
-            function setColorInfoJoueur(){
-                let infos = document.getElementById("player1_panel_color").getElementsByClassName("infoJoueur");
+            function setColorInfoJoueurLight(){
+                let infos = document.getElementById("panelPlayer1").getElementsByClassName("infoJoueur");
                 for(let info of infos){
-                    info.style.backgroundColor = LightenDarkenColor(COLOR_CHOICES.get(game_state.players[0].color), 60);
+                    info.style.backgroundColor = lightenDarkenColor(COLOR_CHOICES.get(game_state.players[0].color), 60);
                 }
-                infos = document.getElementById("player2_panel_color").getElementsByClassName("infoJoueur");
+                infos = document.getElementById("panelPlayer2").getElementsByClassName("infoJoueur");
                 for(let info of infos){
-                    info.style.backgroundColor = LightenDarkenColor(COLOR_CHOICES.get(game_state.players[1].color), 60);
+                    info.style.backgroundColor = lightenDarkenColor(COLOR_CHOICES.get(game_state.players[1].color), 60);
                 }
             }
+            function setColorInfoJoueurDark(){
+                let infos = document.getElementById("panelPlayer1").getElementsByClassName("infoJoueur");
+                for(let info of infos){
+                    info.style.backgroundColor = lightenDarkenColor(COLOR_CHOICES.get(game_state.players[0].color), -80);
+                }
+                infos = document.getElementById("panelPlayer2").getElementsByClassName("infoJoueur");
+                for(let info of infos){
+                    info.style.backgroundColor = lightenDarkenColor(COLOR_CHOICES.get(game_state.players[1].color), -80);
+                }
+            }
+            /*
+            function casesEmpty(){
+                let cellules = document.getElementsByTagName("td");
+                let cellulesVides = [];
+                for(let cellule of cellules){
+                    if(cellule.style.backgroundColor == "#D98880" || cellule.style.backgroundColor == "#4d4d4d")
+                        cellulesVides.push(cellule);
+                }
+                return cellulesVides;
+            }
+            */
+
+            let isDarkMode = false;
+            function darkMode(){
+                let body = document.body;
+                let cellulesTab = document.getElementsByTagName("td");
+                let buttons = document.getElementsByTagName("button");
+                let liens = document.getElementsByTagName("a");
+                if(isDarkMode){
+                    document.querySelector("*").style.color = "black";
+                    body.style.backgroundColor = "#C0392B";
+                    for(let cellule of cellulesTab){
+                        cellule.style.backgroundColor = "#D98880";
+                    }
+                    setColorPanelLight();
+                    setColorInfoJoueurLight();
+                    for(let button of buttons){
+                        button.style.backgroundColor = "#28B463";
+                        button.style.color = "black";
+                    }
+                    for(let lien of liens){
+                        lien.style.color = "black";
+                    }
+                    this.innerHTML = "Dark mode";
+                    isDarkMode = false;
+                }
+                else{
+                    document.querySelector("*").style.color = "white";
+                    body.style.backgroundColor = "#262626";
+                    for(let cellule of cellulesTab){
+                        cellule.style.backgroundColor = "#4d4d4d";
+                    }
+                    setColorPanelDark();
+                    setColorInfoJoueurDark();
+                    for(let button of buttons){
+                        button.style.backgroundColor = "#145214";
+                        button.style.color = "white";
+                    }
+                    for(let lien of liens){
+                        lien.style.color = "white";
+                    }
+                    this.innerHTML = "Light mode";
+                    
+                    isDarkMode = true;
+                }
+                
+            }
+
             
 
             window.onload = function(){
                 bouton_creation();
                 button_function();
                 createBoard();
-                setColorPanel();
+                
+                setColorPanelLight();
                 setPlayerName();
-                setColorInfoJoueur();
-                zoom();
+                setColorInfoJoueurLight();
+                
+                
                 let disconnection = document.getElementById("disconnection")
                 fadeInUnique(disconnection);
 
-                let darkMode = document.getElementById("dark_mode");
-                fadeInUnique(darkMode);
-
-                let panelPlayer1 = document.getElementById("player1_panel_color");
-                fadeInUnique(panelPlayer1);
+                let darkModeButton = document.getElementById("dark_mode");
+                fadeInUnique(darkModeButton);
                 
-                let panelPlayer2 = document.getElementById("player2_panel_color");
-                let time = 870;
-				setTimeout(function(){panelPlayer2.classList.add("fadeDark")}, time);
-				setTimeout(function(){panelPlayer2.style.opacity = 0.3;}, time);
+                darkModeButton.addEventListener("click", darkMode);
+
+                let newGame = document.getElementById("newGame");
+                fadeInUnique(newGame);
+                
+
+                let panelPlayer1 = document.getElementById("panelPlayer1");
+                fadeInUnique(panelPlayer1);
+
+                let panelPlayer2 = document.getElementById("panelPlayer2");
+                fadeInUnique(panelPlayer2);
+                
+                //let panelPlayer2 = document.getElementById("player2_panel");
+                //let time = 870;
+				//setTimeout(function(){panelPlayer2.classList.add("fadeDark")}, time);
+				//setTimeout(function(){panelPlayer2.style.opacity = 0.3;}, time);
 
                 let blackPanels = document.getElementsByClassName("blackPanel");
                 fadeIn(blackPanels);
@@ -343,7 +431,9 @@
         <title>Cub-e  Game</title>
     </head>
     <body>
+        
         <button id="dark_mode">Dark mode</button>
+        <button id="newGame">New game</button>
         <button id="disconnection"><a href = "../connection/deconnection"> Disconnection</a></button>
         
         
@@ -351,19 +441,19 @@
         
         <di id="game_content">
             <div class="blackPanel">
-                <div  class = "player_panel" id="player1_panel_color">
+                <div  class = "player_panel" id="panelPlayer1">
                     <h2>Player 1</h2>
                     <div class="div_informations">
                         <p class="titreSectionPanel">Boxes taken</p>
                     </div>
                     <div class="div_informations">
-                        <p class="infoJoueur">10</p>
+                        <p class="infoJoueur" id="boxesTaken">10</p>
                     </div>
                     <div class="div_informations">
                         <p class="titreSectionPanel">Travel history</p>
                     </div>
                     <div>
-                        <p class="infoJoueur">De la case A1 vers la case A2</p>
+                        <p class="infoJoueur" id="lastMove">De la case A1 vers la case A2</p>
                     </div>
                     <div class="button">   
                     </div>        
@@ -376,7 +466,7 @@
             </div>
 
             <div class="blackPanel">
-                <div  class = "player_panel" id="player2_panel_color">
+                <div  class = "player_panel" id="panelPlayer2">
                     <h2>Player 2</h2>
                     <div class="div_informations">
                         <p class="titreSectionPanel">Boxes taken</p>

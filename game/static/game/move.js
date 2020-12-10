@@ -18,8 +18,9 @@ async function main(action) {
 } 
 
 function player_focused(player_turn,code){
-  let panel_player2 = document.getElementById("player2_panel_color");
-  let panel_player1 = document.getElementById("player1_panel_color");
+  let panel_player2 = document.getElementById("panelPlayer2");
+  let panel_player1 = document.getElementById("panelPlayer1");
+  
   if(code != 0){
     panel_player1.classList.add("player_panel_not_your_turn");
     panel_player2.classList.add("player_panel_not_your_turn");
