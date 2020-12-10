@@ -44,7 +44,7 @@ function updateBoard(game){
     }
     player_position(game_state.players[0].position,game_state.players[1].position);
     game_state["board"] = current_board;
-    alert(game_state);
+    
 }
 
 let COLOR_CHOICES = new Map();
