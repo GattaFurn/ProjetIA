@@ -5,6 +5,7 @@ from connection.models import *
 class IA(models.Model):
     pseudo = models.CharField(max_length=50)
     color = models.CharField(max_length=2,choices = COLOR_CHOICES, default = 'BL')
+    eps = models.FloatField(default = 0)
 
     def __str__(self):
         return str(self.id) +" - "+ self.pseudo

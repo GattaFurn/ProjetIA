@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 import json
+from django.shortcuts import redirect
+
 
 from django import forms
 import random
@@ -41,28 +43,7 @@ def index(request):
                 "code" : 0
             }
             return render(request, 'game/new_game.html',{"game_state":game_state})
-
-        return HttpResponse("KO")
-
-    game_state = {
-        "game_id" : 11,
-        "board" : [[1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,2]],
-        "players" : [{
-                "id" :  10,
-                "name" : "Alice",
-                "color" : "cyan",
-                "position" : [0,0]
-            },{
-                "id" :  20,
-                "name" : "Bob",
-                "color" : "orange",
-                "position" : [7,7]
-            }],
-        "current_player" : 1,
-        "code" : 0
-    }
-
-    return HttpResponse(json.dumps(game_state))
+    return redirect('../connection')
 
 def player_creation(player,position):
     player["position"] = [0,0] if position == 1 else [7,7]
