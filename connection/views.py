@@ -69,7 +69,7 @@ def index(request):
                     if(request.session['player1'].get("id") == user.get("id")):
                         data = "Le joueur a déjà été selectionné"
                         return reconnection_to_the_page(request,data)
-                    if(request.session['player1'].get("type") == user["type"]):
+                    if(request.session['player1'].get("type") == "IA" and request.session['player1'].get("type") == user["type"]):
                         data = "Une ia a déjà été selectionnée"
                         return reconnection_to_the_page(request,data)
                     request.session['player2'] = user
