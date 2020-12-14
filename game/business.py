@@ -1,5 +1,5 @@
 from django.http import HttpResponse, JsonResponse
-import game.ia
+import game.ia as ia
 import json
 
 def index(request):
@@ -9,16 +9,15 @@ def index(request):
         move = data.get("move")
         if(correct_move(game_state,move)):
             if(game_state.get("board")[move[0]][move[1]] == 0):
-                apply_move(game_state,move)
-                position = game_state["players"][game_state["current_player"]]["position"]
-                game_state["players"][game_state["current_player"]]["box_taken"] = zone_search(game_state["board"],game_state["current_player"],position)
+                game_state = apply_move(game_state,move)
+                game_state["players"][game_state["current_player"]]["box_taken"],game_state["board"] = zone_search(game_state["board"],game_state["current_player"],game_state["players"][game_state["current_player"]]["position"])
             else:
-                apply_move(game_state,move)
+                game_state = apply_move(game_state,move)
                 game_state["players"][game_state["current_player"]]["box_taken"] = 0
-            game_is_win(game_state)
-            switch_player(game_state)
+            game_state = game_is_win(game_state)
+            game_state = switch_player(game_state)
         if(game_state["players"][game_state["current_player"]]["type"] == "IA"):
-            return game.ia.index(game_state)
+            return JsonResponse({"game_state":ia.index(game_state)})
     return JsonResponse({"game_state":game_state})
     
 def zone_search(board,current_player,position):
@@ -28,12 +27,13 @@ def zone_search(board,current_player,position):
     while (ind < len(elem) and zone == []):
         zone = zone_blocker(zone,elem[ind][0],elem[ind][1],board,current_player)
         ind+=1
-    remplissage_zone_block(board,zone,current_player)
-    return len(zone) + 1
+    board = remplissage_zone_block(board,zone,current_player)
+    return len(zone) + 1, board
 
 def remplissage_zone_block(board,zone,current_player):
     for elem in zone:
-        board[elem[0]][elem[1]] = current_player+1
+        board[elem[0]][elem[1]] = current_player + 1
+    return board
 
 def zone_blocker(zone,ligne,colonne,board,current_player):
     if(board[ligne][colonne] == ((current_player + 1)%2+1)):
@@ -71,10 +71,12 @@ def correct_move(game_state,move):
 def apply_move(game_state,move) :
     game_state["board"][move[0]][move[1]] = (game_state["current_player"] + 1)
     game_state["players"][game_state["current_player"]]["position"] = move
+    return game_state
     
 def switch_player(game_state):
     if(game_state["code"] == 0):
         game_state["current_player"] = (game_state["current_player"]+1) % 2
+    return game_state
 
 def game_is_win(game_state):
     nb_cases_player1 = 0
@@ -88,8 +90,9 @@ def game_is_win(game_state):
         game_state["code"] = 2
     elif(nb_cases_player1 == 32 and nb_cases_player2 == 32):
         game_state["code"] = 3
-    if(game_state["players"][1]["type"] == "IA"):
-        return nb_cases_player1,nb_cases_player2
+    if(game_state["players"][game_state["current_player"]]["type"] == "IA"):
+        return nb_cases_player1,nb_cases_player2,game_state
+    return game_state
 
 
     

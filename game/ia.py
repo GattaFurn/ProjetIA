@@ -2,7 +2,7 @@ import random
 import numpy as np
 from game.models import Qtable
 from django.core.exceptions import ObjectDoesNotExist
-import game.business
+import game.business as business
 from django.http import HttpResponse, JsonResponse
 
 actions = [
@@ -14,26 +14,26 @@ actions = [
 
 def index(game_state):
     new_game_state = game_state.copy()
-    direction = [0,1,2,3]
     IA = new_game_state.get("players")[1]
     row_q_table = get_qTable(new_game_state)
-    IA["at"] = take_action(row_q_table, IA["eps"],direction)
+    IA["at"] = take_action(row_q_table, IA["eps"])
     IA["stp1"] = step(IA["at"],IA["st"])
-    while(IA["stp1"] == IA["st"] or not game.business.correct_move(new_game_state,IA["stp1"])):
+    while(IA["stp1"] == IA["st"] or not business.correct_move(new_game_state,IA["stp1"])):
             row_q_table[IA["at"]] = 0
-            IA["at"] = take_action(row_q_table, IA["eps"],direction)
+            IA["at"] = take_action(row_q_table, IA["eps"])
             IA["stp1"] = step(IA["at"],IA["st"])
     if(new_game_state.get("board")[IA["stp1"][0]][IA["stp1"][1]] == 0):
-        game.business.apply_move(new_game_state,IA["stp1"])
-        IA["box_taken"] = game.business.zone_search(new_game_state["board"],new_game_state["current_player"],IA["stp1"])
+        game_state = business.apply_move(new_game_state,IA["stp1"])
+        IA["box_taken"],game_state["board"]= business.zone_search(new_game_state["board"],new_game_state["current_player"],IA["stp1"])
     else:
+        game_state = business.apply_move(new_game_state,IA["stp1"])
         IA["box_taken"] = 0
     IA["position"] = IA["stp1"]
     fake_row_q_table = get_qTable(new_game_state)
-    IA["atp1"] = take_action(fake_row_q_table,IA["eps"],[0,1,2,3])
-    update_q_function(game_state,new_game_state,row_q_table,fake_row_q_table)
-    game.business.switch_player(new_game_state)
-    return JsonResponse({"game_state":new_game_state})
+    IA["atp1"] = take_action(fake_row_q_table,IA["eps"])
+    game_state = update_q_function(game_state,new_game_state,row_q_table,fake_row_q_table)
+    game_state = business.switch_player(new_game_state)
+    return new_game_state
 
 def get_qTable(game_state):
     try:
@@ -52,15 +52,13 @@ def step(action, st): #OK
 
     return  [ligne,colone]
 
-def take_action(Q_table, eps, direction): #Permet de savoir s'il doit explorer ou exploiter 
+def take_action(Q_table, eps): #Permet de savoir s'il doit explorer ou exploiter 
     # Take an action
     if random.uniform(0, 1) < eps:
-        random.shuffle(direction)
-        action = direction.pop()
+        action = random.randint(0,3)
     else: # Or greedy action
         if(Q_table.count(0) == 4):
-            random.shuffle(direction)
-            action = direction.pop()
+            action = random.randint(0,3)
         else:
             action = np.argmax(Q_table)
     return action
@@ -68,7 +66,7 @@ def take_action(Q_table, eps, direction): #Permet de savoir s'il doit explorer o
 def reward(game_state):
     r = 0
     r += game_state["players"][1]["box_taken"] - game_state["players"][0]["box_taken"] #Pour avoir le nombre de case prise pour le tour
-    case1,case2 = game.business.game_is_win(game_state)
+    case1,case2,game_state = business.game_is_win(game_state)
     if(game_state["code"] != 0 and game_state["code"] != 3):
         r += (100 + case1) if(game_state["code"] == 2) else (-100 - case2)
     return r
@@ -93,3 +91,4 @@ def update_q_function(game_state,new_game_state,row_q_table,fake_row_q_table):
         qTable.right = Q
     qTable.save()
     IA["st"] = stp1
+    return game_state
