@@ -21,7 +21,7 @@ def training(request):
                 game_state = switch_player(game_state)
             else:
                 game_state = index(game_state)
-            affichage_plateau(game_state)
+            #affichage_plateau(game_state)
         print("fini")
         if(eps != 1):
             eps += step
