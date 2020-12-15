@@ -49,5 +49,6 @@ def player_creation(player,position):
     player["position"] = [0,0] if position == 1 else [7,7]
     if(player["type"] == "IA"):
         player["st"] = player["position"]
+        player["stp1"] = 0
         player["atp1"] = player["at"] = 0
     player["box_taken"] = 0

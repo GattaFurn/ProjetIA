@@ -7,7 +7,6 @@ from game.models import Player,IA
 from django.core.exceptions import ObjectDoesNotExist
 import json
 
-
 #iterables
 COLOR_CHOICES = (
     ('BL', "Blue"),
