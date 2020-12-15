@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Cub-e  Statistics</title>
+	<meta charset="utf-8">
+	<style type="text/css">
+	*{
+		Font-family: Blippo, fantasy;
+	}
+	body{
+		background-color:  #C0392B;
+	}
+	.panelStat{
+		width: 700px;
+		height: 260px;
+		border-radius: 20px;
+		background-color:  #CD6155;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+		padding-top: 20px;
+		opacity: 0;
+	}
+	#panelLeaderBoard{
+		width: 700px;
+		height: 280px;
+		border-radius: 20px;
+		background-color:  #CD6155;
+		opacity: 0;
+	}
+	.contentPage{
+		display: flex;
+		justify-content: center;
+		width: 100%;
+		flex-direction: row;
+		margin-bottom: 70px;
+	}
+	.espacement{
+		width: 70px;
+	}
+	#return{
+		position: absolute;
+		left: 1525px;
+      	height: 40px;
+      	width : 140px;
+      	cursor:  pointer;
+      	outline: none;
+      	font-size: 20px;
+      	background-color: #28B463;
+      	border : none;
+		border-radius: 7px;
+		animation: fadein 1s;
+	}
+	h1{
+		margin-top: 40px;
+		margin-bottom: 60px;
+        font-size: 70px;
+        text-align: center;
+        animation: fadein 1s;
+	}
+	a{
+      text-decoration: none;
+      color: black;
+    }
+    h2{
+    	margin-left: 30px;
+    	display: inline;
+    	font-size: 28px;
+    	height: 35px;
+    	margin-top: 0px;
+    }
+    .values{
+    	display: inline;
+    	margin-right: 30px;
+    	width: 170px;
+    	height: 35px;
+    	font-size: 25px;
+    	border-radius: 10px;
+    	background-color: #D98880;
+    	text-align: center;
+		padding-top: 8px;
+
+    }
+    .infoStat{
+    	width: 100%;
+    	display: flex;
+    	flex-direction: row;
+    	justify-content: space-between;
+    }
+    @keyframes fadein{
+		from{
+			opacity: 0;
+		}
+		to{
+			opacity: 1;
+		}
+	}
+	.fade{
+		animation: fadein 1s;
+	}
+	@keyframes zoom{
+		from{
+			-webkit-transform: scale(1);
+		}
+		to{
+			-webkit-transform: scale(1.05);
+		}
+	}
+	.zoom:hover{
+		animation: zoom 0.25s;
+		-webkit-transform: scale(1.05);
+	}
+	@keyframes zoomButton{
+		from{
+			-webkit-transform: scale(1);
+		}
+		to{
+			-webkit-transform: scale(1.10);
+		}
+	}
+	button:hover{
+		animation: zoom 0.25s;
+		-webkit-transform: scale(1.10);
+	}
+
+	
+	#LeaderBoard{
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+		align-items: flex-start;
+		height: 100%;
+	}
+	.h2LeaderBoard{
+		margin-left: 0px;
+		margin-top: 20px;
+	}
+	#resultLeaderBoard1{
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+		width: 230px;
+		align-items: center;
+	}
+	#resultLeaderBoard2{
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+		align-items: center;
+	}
+	#resultLeaderBoard3{
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+		width: 160px;
+		align-items: center;
+	}
+	.panelResult{
+		height: 200px;
+		width: 100%;
+		
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+		align-items: center;
+		padding-bottom: 30px;
+	}
+	#panelResultTop3{
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: flex-end;
+		height: 180px;
+		padding-bottom: 30px;
+	}
+	#pile1{
+		width: 60px;
+		height: 100px;
+		
+		border-radius: 5px;
+		background-color: #999999;
+	}
+	#pile2{
+		width: 90px;
+		height: 150px;
+		
+		border-radius: 5px;
+		background-color: #e6b800;
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+	#pile3{
+		width: 60px;
+		height: 60px;
+		border-radius: 5px;
+		background-color: #993300;
+	}
+	.top3{
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	#nameWorstPlayer{
+		font-size: 22px;
+    	border-radius: 10px;
+    	background-color: #D98880;
+    	text-align: center;
+		height: 35px;
+		width: 150px;
+		padding-top: 9px;
+	}
+	p{
+		font-size: 22px;
+		display : inline;
+		width: 50px;
+		margin-left: 10px;
+	}
+	
+	.playerTop3{
+		margin-bottom: 10px;
+	}
+	#sentenceWorstPlayer{
+		width: 150px;
+	}
+	.percentWinAI{
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+		align-items: center;
+		font-size: 22px;
+	}
+	.valueWinRate{
+		width: 50px;
+		text-align: center;
+		border-radius: 10px;
+		background-color: #D98880;
+		margin-left: 10px;
+	}
+	</style>
+	<script type="text/javascript">
+		
+
+
+		function fadeIn(){
+				let divs = document.getElementsByClassName("panelStat");
+				let time = 70;
+				let iDiv = 0
+				for(let div of divs){
+					setTimeout(function(){div.classList.add("fade")}, time);
+					setTimeout(function(){div.style.opacity = 1;}, time);
+					setTimeout(function(){div.classList.toggle("fade");}, time+1000);
+					if(iDiv == 1)
+						time += 800;
+					else
+						time += 400;
+					iDiv ++;
+				}
+			}
+
+		window.onload = function(){
+			fadeIn();
+			let panelLeaderBoard = document.getElementById("panelLeaderBoard");
+			let time = 870;
+			setTimeout(function(){panelLeaderBoard.classList.add("fade")}, time);
+			setTimeout(function(){panelLeaderBoard.style.opacity = 1;}, time);
+			setTimeout(function(){panelLeaderBoard.classList.toggle("fade");}, time+1000);
+			let divs = document.getElementsByClassName("panelStat");
+			for(let div of divs){
+				div.classList.add("zoom");
+			}
+			panelLeaderBoard.classList.add("zoom");
+			
+			
+
+		}
+	</script>
+</head>
+<body>
+	<a href="../connection/"><button id="return">Return</button></a>
+	<h1>Numbers don't lie</h1>
+	<div class="contentPage">
+		<div class="panelStat">
+			<div class="infoStat">
+				<h2>Games played</h2>
+				<div class="values">10</div>
+			</div>
+			<div class="infoStat">
+				<h2>Player VS player games</h2>
+				<div class="values">10</div>
+			</div>
+			<div class="infoStat">
+				<h2>Player vs AI games</h2>
+				<div class="values">10</div>
+			</div>
+		</div>
+		<div class="espacement"></div>
+		<div class="panelStat">
+			<div class="infoStat">
+				<h2>Average duration of a game</h2>
+				<div class="values">10</div>
+			</div>
+			<div class="infoStat">
+				<h2>The shortest game</h2>
+				<div class="values">10</div>
+			</div>
+			<div class="infoStat">
+				<h2>The longest game</h2>
+				<div class="values">10</div>
+			</div>
+		</div>
+	</div>
+	<div class="contentPage">
+		<div id="panelLeaderBoard">
+			<div id="LeaderBoard">
+				<div id="resultLeaderBoard1">
+					<h2 class="h2LeaderBoard">Top 3 players</h2>
+					<div id="panelResultTop3">
+						<div class="top3">
+							<div class="playerTop3">Thomas</div>
+							<div id="pile1"></div>
+						</div>
+						<div class="top3">
+							<div class="playerTop3">Thomas</div>
+							<div id="pile2"></div>
+						</div>
+						<div class="top3">
+							<div class="playerTop3">Thomas</div>
+							<div id="pile3"></div>
+						</div>
+					</div>
+				</div>
+				<div id="resultLeaderBoard2">
+					<h2 class="h2LeaderBoard">Worst player</h2>
+					<div class="panelResult">
+						<div id="nameWorstPlayer">Thomas</div>
+						<p id="sentenceWorstPlayer">Sorry, but you really need to be better...</p>
+					</div>
+				</div>
+				<div id="resultLeaderBoard3">
+					<h2 class="h2LeaderBoard">AI win %</h2>
+					<div class="panelResult">
+						<div class="percentWinAI">
+							<div>Nitron</div>
+							<div class="valueWinRate">100</div>
+							<p>%</p>
+						</div>
+						<div class="percentWinAI">
+							<div>Torton</div>
+							<div class="valueWinRate">100</div>
+							<p>%</p>
+						</div>
+						<div class="percentWinAI">
+							<div>Vatron</div>
+							<div class="valueWinRate">100</div>
+							<p>%</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="espacement"></div>
+		<div class="panelStat">
+			<div class="infoStat">
+				<h2>Total number of boxes taken</h2>
+				<div class="values">10</div>
+			</div>
+			<div class="infoStat">
+				<h2>Maximum boxes taken at once</h2>
+				<div class="values">10</div>
+			</div>
+			<div class="infoStat">
+				<h2>Average boxes taken at once</h2>
+				<div class="values">10</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

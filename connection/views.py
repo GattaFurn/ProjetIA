@@ -9,7 +9,7 @@ import json
 
 #iterables
 COLOR_CHOICES = (
-    ('BL', "Blue"),
+    
     ('PK', "Pink"),
     ('YW', 'Yellow'),
     ('GN', 'Green'),
@@ -94,6 +94,9 @@ def deconnection(request):
     request.session["player1"] = None
     request.session["player2"] = None
     return redirect('../connection')
+
+def statistics(request):
+    return render(request,"connection/statistics.html")
 
 
 def reconnection_to_the_page(request,data):
