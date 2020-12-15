@@ -71,6 +71,7 @@ let COLOR_CHOICES = new Map();
                 COLOR_CHOICES.set('RD', '#b30000');
                 COLOR_CHOICES.set('OE', '#ff8c1a');
                 COLOR_CHOICES.set('CN', '#80ffff');
+                
 
 
 function box_distribution(box,number_player,info,){

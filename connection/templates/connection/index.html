@@ -78,7 +78,7 @@
 				outline: none;
 				border-radius: 7px 7px 0px 0px;
 			}
-			button{
+			.buttonValid{
 				font-size: 36px;
 				height: 120px;
 				width : 300px;
@@ -132,11 +132,23 @@
 			.fade{
 				animation: fadein 1s;
 			}
-
+			#statistics{
+				position: absolute;
+				left: 1525px;
+      			height: 40px;
+      			width : 140px;
+      			cursor:  pointer;
+   			   	outline: none;
+     		 	font-size: 20px;
+     		 	background-color: #28B463;
+     		 	border : none;
+				border-radius: 7px;
+				animation: fadein 1s;
+			}
 		</style>
 		<script type="text/javascript">
 			let COLOR_CHOICES = new Map();
-    			COLOR_CHOICES.set('BL', '#0099ff');
+    			
     			COLOR_CHOICES.set('PK', '#ff99ff');
     			COLOR_CHOICES.set('YW', '#ffcc66');
     			COLOR_CHOICES.set('GN', '#80ff80');
@@ -184,6 +196,9 @@
 				alert(received_data);
 			
 	  </script>
+
+	<a href="../statistics"><button class="aniBut" id="statistics">Statistics</button></a>
+
 	<h1 id="connect_title">Welcome to Cub-e</h1>
 
     <div id="connect_div">
@@ -196,7 +211,7 @@
 					{{formPlayer.as_p}} <!--recupere la variable form--> 
 				</div>
 		    	<div class="connect_valid">
-		    		<button type="submit" id="signIn" class="aniBut">Sign in</button>
+		    		<button type="submit" id="signIn" class="aniBut buttonValid">Sign in</button>
 		    	</div>
 		    </form>
 	    </div>
@@ -209,7 +224,7 @@
 					{{formNewPlayer.as_p }}
 				</div>
 		    	<div class="connect_valid">
-		    		<button id="signUp" type="submit" class="aniBut">Sign up</button>
+		    		<button id="signUp" type="submit" class="aniBut buttonValid">Sign up</button>
 		    	</div>
 	    	</form>
 	    </div>
@@ -222,7 +237,7 @@
 					{{formIA.as_p}}
 				</div>
 		    	<div class="connect_valid">
-		    		<button id="choose" type="submit" class="aniBut">Choose</button>
+		    		<button id="choose" type="submit" class="aniBut buttonValid">Choose</button>
 		    	</div>
 	    	</form>
 	    </div>
