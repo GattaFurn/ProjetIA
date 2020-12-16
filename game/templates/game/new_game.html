@@ -395,7 +395,6 @@
             }
 
 
-            let chronoIsStart = false;
             let startTime = 0;
             let start = 0;
             let end = 0;
@@ -416,16 +415,17 @@
                 }
                 document.getElementById("chrono").innerHTML = hr + ":" + min + ":" + sec;
                 timerID = setTimeout("chrono()", 10);
+                if(game_state.code !=0){
+                    chronoStop();
+                }
             }
             function chronoStart(){
-                if(!chronoIsStart){
-                    start = new Date();
-                    chrono();
-                    this.removeEventListener("click", chronoStart);
-                    chronoIsStart = true
+                start = new Date();
+                chrono();
+                let buttonsMove = document.getElementsByClassName("button_move");
+                for(let but of buttonsMove){
+                    but.removeEventListener("click", chronoStart);
                 }
-                else
-                    this.removeEventListener("click", chronoStart);
             }
             function chronoStop(){
                 clearTimeout(timerID);

@@ -5,7 +5,7 @@ import json
 import time
 from django.shortcuts import redirect
 
-NB_ITERATION = 5
+NB_ITERATION = 20
 
 def training(request):
     eps = 0
