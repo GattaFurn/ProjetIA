@@ -26,6 +26,7 @@ function player_focused(player_turn,code){
     panel_player2.classList.add("player_panel_not_your_turn");
     panel_player2.style.opacity = 0.3;
     
+    
   }else{
     if(player_turn == 1){
       panel_player1.classList.add("player_panel_not_your_turn");

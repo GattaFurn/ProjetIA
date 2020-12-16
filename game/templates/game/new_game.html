@@ -194,6 +194,23 @@
                 text-decoration: none;
                 color: black;
             }
+            #chrono{
+                position: absolute;
+			    margin-bottom: 1200px;
+			    margin-left: 65px;
+                font-size: 30px;
+                background-color: rgb(239, 60, 60);
+                height: 42px;
+                width : 220px;
+                border-radius: 10px;
+                border: none;
+                opacity: 0;
+                color: black;
+                
+                align-items: center;
+                text-align: center;
+                padding-top: 15px;
+            }
         </style> 
         {{game_state|json_script:"game_state"}}
         <script>var game_state = JSON.parse(document.getElementById('game_state').textContent);</script>
@@ -328,6 +345,7 @@
 
             let isDarkMode = false;
             function darkMode(){
+                let chrono = document.getElementById("chrono");
                 let body = document.body;
                 let cellulesTab = casesEmpty();
                 let buttons = document.getElementsByTagName("button");
@@ -347,6 +365,8 @@
                     for(let lien of liens){
                         lien.style.color = "black";
                     }
+                    chrono.style.backgroundColor = "rgb(239, 60, 60)";
+                    chrono.style.color = 'black';
                     this.innerHTML = "Dark mode";
                     isDarkMode = false;
                 }
@@ -365,12 +385,52 @@
                     for(let lien of liens){
                         lien.style.color = "white";
                     }
+                    chrono.style.backgroundColor = "rgb(99, 0, 0)";
+                    chrono.style.color = 'white';
                     this.innerHTML = "Light mode";
                     
                     isDarkMode = true;
                 }
                 
             }
+
+
+            let chronoIsStart = false;
+            let startTime = 0;
+            let start = 0;
+            let end = 0;
+            let diff = 0;
+            let timerID = 0;
+            function chrono(){
+                end = new Date();
+                diff = end - start;
+                diff = new Date(diff);
+                var sec = diff.getSeconds();
+                var min = diff.getMinutes();
+                var hr = diff.getHours()-1;
+                if (min < 10){
+                    min = "0" + min;
+                }
+                if (sec < 10){
+                    sec = "0" + sec;
+                }
+                document.getElementById("chrono").innerHTML = hr + ":" + min + ":" + sec;
+                timerID = setTimeout("chrono()", 10);
+            }
+            function chronoStart(){
+                if(!chronoIsStart){
+                    start = new Date();
+                    chrono();
+                    this.removeEventListener("click", chronoStart);
+                    chronoIsStart = true
+                }
+                else
+                    this.removeEventListener("click", chronoStart);
+            }
+            function chronoStop(){
+                clearTimeout(timerID);
+            }
+
 
             window.onload = function(){
                 bouton_creation();
@@ -389,9 +449,14 @@
                 fadeInUnique(darkModeButton);
                 
                 darkModeButton.addEventListener("click", darkMode);
+                
 
                 let newGame = document.getElementById("newGame");
                 fadeInUnique(newGame);
+                
+                
+                let chrono = document.getElementById("chrono");
+                fadeInUnique(chrono);
                 
 
                 let panelPlayer1 = document.getElementById("panelPlayer1");
@@ -399,11 +464,6 @@
 
                 let panelPlayer2 = document.getElementById("panelPlayer2");
                 fadeInUniqueDark(panelPlayer2);
-                
-                //let panelPlayer2 = document.getElementById("player2_panel");
-                //let time = 870;
-				//setTimeout(function(){panelPlayer2.classList.add("fadeDark")}, time);
-				//setTimeout(function(){panelPlayer2.style.opacity = 0.3;}, time);
 
                 let blackPanels = document.getElementsByClassName("blackPanel");
                 fadeIn(blackPanels);
@@ -412,6 +472,12 @@
                 fadeInTab(cases);
 
                 player_focused(game_state["current_player"],game_state["code"]);
+                
+
+                let buttonsMove = document.getElementsByClassName("button_move");
+                for(let but of buttonsMove){
+                    but.addEventListener("click", chronoStart);
+                }
             };
 
             function bouton_creation(){
@@ -449,6 +515,9 @@
                     $('a').click(_confirm);
             });
         </script>
+
+        <div id="chrono">0:00:00</div>
+
         <button id="dark_mode">Dark mode</button>
         <a href="javascript:if(confirm('Would you really remake a game?')) document.location.href='../game'"><button id="newGame">New game</button></a>
         <a href="javascript:if(confirm('Would you really disconnect you?')) document.location.href='../connection/deconnection'"><button id="disconnection">Disconnection</button></a>

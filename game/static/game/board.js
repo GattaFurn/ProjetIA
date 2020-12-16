@@ -50,7 +50,7 @@ function updateBoard(game){
     }
     player_position(game_state.players[0].position,game_state.players[1].position);
     game_state["board"] = current_board;
-    if(game_state["code"] != 0)
+    if(game_state["code"] != 0){
         if(document.getElementsByClassName("infoJoueur")[0].innerHTML == document.getElementsByClassName("infoJoueur")[2].innerHTML)
             alert("And it's a tie!");
         else{
@@ -59,7 +59,7 @@ function updateBoard(game){
             else
                 alert(`Congratulations ${game_state.players[1].username}, you are the winner!`);
         }
-            
+    }    
 }
 
 let COLOR_CHOICES = new Map();
