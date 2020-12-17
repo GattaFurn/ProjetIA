@@ -1,145 +1,109 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Cub-e  Statistics</title>
-	<meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="static/connexion/CSS/statistics.css">
-	<script type="text/javascript">
-		
-
-
-		function fadeIn(){
-				let divs = document.getElementsByClassName("panelStat");
-				let time = 70;
-				let iDiv = 0
-				for(let div of divs){
-					setTimeout(function(){div.classList.add("fade")}, time);
-					setTimeout(function(){div.style.opacity = 1;}, time);
-					setTimeout(function(){div.classList.toggle("fade");}, time+1000);
-					if(iDiv == 1)
-						time += 800;
-					else
-						time += 400;
-					iDiv ++;
-				}
-			}
-
-		window.onload = function(){
-			fadeIn();
-			let panelLeaderBoard = document.getElementById("panelLeaderBoard");
-			let time = 870;
-			setTimeout(function(){panelLeaderBoard.classList.add("fade")}, time);
-			setTimeout(function(){panelLeaderBoard.style.opacity = 1;}, time);
-			setTimeout(function(){panelLeaderBoard.classList.toggle("fade");}, time+1000);
-			let divs = document.getElementsByClassName("panelStat");
-			for(let div of divs){
-				div.classList.add("zoom");
-			}
-			panelLeaderBoard.classList.add("zoom");
-			
-			
-
-		}
-	</script>
-</head>
-<body>
-	<a href="../connection/"><button id="return">Return</button></a>
-	<h1>Numbers don't lie</h1>
-	<div class="contentPage">
-		<div class="panelStat">
-			<div class="infoStat">
-				<h2>Games played</h2>
-				<div class="values">10</div>
+	<head>
+		<title>Cub-e  Statistics</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="static/connexion/CSS/statistics.css">
+		<script src="static/connexion/Javascript/statistics.js"></script>
+	</head>
+	<body>
+		<a href="../connection/"><button id="return">Return</button></a>
+		<h1>Numbers don't lie</h1>
+		<div class="contentPage">
+			<div class="panelStat">
+				<div class="infoStat">
+					<h2>Games played</h2>
+					<div class="values">10</div>
+				</div>
+				<div class="infoStat">
+					<h2>Player VS player games</h2>
+					<div class="values">10</div>
+				</div>
+				<div class="infoStat">
+					<h2>Player vs AI games</h2>
+					<div class="values">10</div>
+				</div>
 			</div>
-			<div class="infoStat">
-				<h2>Player VS player games</h2>
-				<div class="values">10</div>
-			</div>
-			<div class="infoStat">
-				<h2>Player vs AI games</h2>
-				<div class="values">10</div>
+			<div class="espacement"></div>
+			<div class="panelStat">
+				<div class="infoStat">
+					<h2>Average duration of a game</h2>
+					<div class="values">10</div>
+				</div>
+				<div class="infoStat">
+					<h2>The shortest game</h2>
+					<div class="values">10</div>
+				</div>
+				<div class="infoStat">
+					<h2>The longest game</h2>
+					<div class="values">10</div>
+				</div>
 			</div>
 		</div>
-		<div class="espacement"></div>
-		<div class="panelStat">
-			<div class="infoStat">
-				<h2>Average duration of a game</h2>
-				<div class="values">10</div>
-			</div>
-			<div class="infoStat">
-				<h2>The shortest game</h2>
-				<div class="values">10</div>
-			</div>
-			<div class="infoStat">
-				<h2>The longest game</h2>
-				<div class="values">10</div>
-			</div>
-		</div>
-	</div>
-	<div class="contentPage">
-		<div id="panelLeaderBoard">
-			<div id="LeaderBoard">
-				<div id="resultLeaderBoard1">
-					<h2 class="h2LeaderBoard">Top 3 players</h2>
-					<div id="panelResultTop3">
-						<div class="top3">
-							<div class="playerTop3">Thomas</div>
-							<div id="pile1"></div>
-						</div>
-						<div class="top3">
-							<div class="playerTop3">Thomas</div>
-							<div id="pile2"></div>
-						</div>
-						<div class="top3">
-							<div class="playerTop3">Thomas</div>
-							<div id="pile3"></div>
+		<div class="contentPage">
+			<div id="panelLeaderBoard">
+				<div id="LeaderBoard">
+					<div id="resultLeaderBoard1">
+						<h2 class="h2LeaderBoard">Top 3 players</h2>
+						<div id="panelResultTop3">
+							<div class="top3">
+								<div class="playerTop3">Thomas</div>
+								<div id="pile1"></div>
+							</div>
+							<div class="top3">
+								<div class="playerTop3">Thomas</div>
+								<div id="pile2"></div>
+							</div>
+							<div class="top3">
+								<div class="playerTop3">Thomas</div>
+								<div id="pile3"></div>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div id="resultLeaderBoard2">
-					<h2 class="h2LeaderBoard">Worst player</h2>
-					<div class="panelResult">
-						<div id="nameWorstPlayer">Thomas</div>
-						<p id="sentenceWorstPlayer">Sorry, but you really need to be better...</p>
+					<div id="resultLeaderBoard2">
+						<h2 class="h2LeaderBoard">Worst player</h2>
+						<div class="panelResult">
+							<div id="nameWorstPlayer">Thomas</div>
+							<p id="sentenceWorstPlayer">Sorry, but you really need to be better...</p>
+						</div>
 					</div>
-				</div>
-				<div id="resultLeaderBoard3">
-					<h2 class="h2LeaderBoard">AI win %</h2>
-					<div class="panelResult">
-						<div class="percentWinAI">
-							<div>Nitron</div>
-							<div class="valueWinRate">100</div>
-							<p>%</p>
-						</div>
-						<div class="percentWinAI">
-							<div>Torton</div>
-							<div class="valueWinRate">100</div>
-							<p>%</p>
-						</div>
-						<div class="percentWinAI">
-							<div>Vatron</div>
-							<div class="valueWinRate">100</div>
-							<p>%</p>
+					<div id="resultLeaderBoard3">
+						<h2 class="h2LeaderBoard">AI win %</h2>
+						<div class="panelResult">
+							<div class="percentWinAI">
+								<div>Nitron</div>
+								<div class="valueWinRate">100</div>
+								<p>%</p>
+							</div>
+							<div class="percentWinAI">
+								<div>Torton</div>
+								<div class="valueWinRate">100</div>
+								<p>%</p>
+							</div>
+							<div class="percentWinAI">
+								<div>Vatron</div>
+								<div class="valueWinRate">100</div>
+								<p>%</p>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+			<div class="espacement"></div>
+			<div class="panelStat">
+				<div class="infoStat">
+					<h2>Total number of boxes taken</h2>
+					<div class="values">10</div>
+				</div>
+				<div class="infoStat">
+					<h2>Maximum boxes taken at once</h2>
+					<div class="values">10</div>
+				</div>
+				<div class="infoStat">
+					<h2>Average boxes taken at once</h2>
+					<div class="values">10</div>
+				</div>
+			</div>
 		</div>
-		<div class="espacement"></div>
-		<div class="panelStat">
-			<div class="infoStat">
-				<h2>Total number of boxes taken</h2>
-				<div class="values">10</div>
-			</div>
-			<div class="infoStat">
-				<h2>Maximum boxes taken at once</h2>
-				<div class="values">10</div>
-			</div>
-			<div class="infoStat">
-				<h2>Average boxes taken at once</h2>
-				<div class="values">10</div>
-			</div>
-		</div>
-	</div>
-</body>
+	</body>
 </html>
