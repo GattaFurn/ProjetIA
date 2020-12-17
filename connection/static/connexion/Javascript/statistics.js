@@ -1,6 +1,6 @@
 function fadeIn(){
 	let divs = document.getElementsByClassName("panelStat");
-	let time = 70;
+	let time = 5000;
 	let iDiv = 0;
 	for(let div of divs){
 		setTimeout(function(){div.classList.add("fade")}, time);

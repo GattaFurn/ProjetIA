@@ -9,7 +9,7 @@ COLOR_CHOICES.set('CN', '#80ffff');
 
 function fadeIn(){
 	let divs = document.getElementsByClassName("connect_form");
-	let time = 70;
+	let time = 500;
 	for(let div of divs){
 		setTimeout(function(){div.classList.add("fade")}, time);
 		setTimeout(function(){div.style.opacity = 1;}, time);
