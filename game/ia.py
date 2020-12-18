@@ -23,16 +23,16 @@ def index(game_state):
             IA["at"] = take_action(row_q_table, IA["eps"])
             IA["stp1"] = step(IA["at"],IA["st"])
     if(new_game_state.get("board")[IA["stp1"][0]][IA["stp1"][1]] == 0):
-        game_state = business.apply_move(new_game_state,IA["stp1"])
-        IA["box_taken"],game_state["board"]= business.zone_search(new_game_state["board"],new_game_state["current_player"],IA["stp1"])
+        new_game_state["board"][IA["stp1"][0]][IA["stp1"][1]],new_game_state["players"][new_game_state["current_player"]]["position"] = business.apply_move(new_game_state,IA["stp1"])
+        IA["box_taken"],new_game_state["board"]= business.zone_search(new_game_state["board"],new_game_state["current_player"],IA["stp1"])
     else:
-        game_state = business.apply_move(new_game_state,IA["stp1"])
+        new_game_state["board"][IA["stp1"][0]][IA["stp1"][1]],new_game_state["players"][new_game_state["current_player"]]["position"] = business.apply_move(new_game_state,IA["stp1"])
         IA["box_taken"] = 0
     IA["position"] = IA["stp1"]
     fake_row_q_table = get_qTable(new_game_state)
     IA["atp1"] = take_action(fake_row_q_table,IA["eps"])
-    game_state = update_q_function(game_state,new_game_state,row_q_table,fake_row_q_table)
-    game_state = business.switch_player(new_game_state)
+    new_game_state["code"],new_game_state.get("players")[1] = update_q_function(game_state,new_game_state,row_q_table,fake_row_q_table)
+    new_game_state["current_player"] = business.switch_player(new_game_state)
     return new_game_state
 
 def get_qTable(game_state):
@@ -66,14 +66,14 @@ def take_action(Q_table, eps): #Permet de savoir s'il doit explorer ou exploiter
 def reward(game_state):
     r = 0
     r += game_state["players"][1]["box_taken"] - game_state["players"][0]["box_taken"] #Pour avoir le nombre de case prise pour le tour
-    case1,case2,game_state = business.game_is_win(game_state)
-    if(game_state["code"] != 0 and game_state["code"] != 3):
-        r += (100 + case1) if(game_state["code"] == 2) else (-100 - case2)
-    return r
+    case1,case2,code = business.game_is_win(game_state)
+    if(code != 0 and code != 3):
+        r += (100 + case1) if(code == 2) else (-100 - case2)
+    return r,code
 
 def update_q_function(game_state,new_game_state,row_q_table,fake_row_q_table):
-    IA = new_game_state.get("players")[1]
-    r = reward(new_game_state) 
+    IA = new_game_state.get("players")[1].copy()
+    r,code = reward(new_game_state) 
     stp1 =  IA["stp1"]
     step = stp1[0]*8+stp1[1]
     pos = IA["st"][0]*8+IA["st"][1]
@@ -91,4 +91,4 @@ def update_q_function(game_state,new_game_state,row_q_table,fake_row_q_table):
         qTable.right = Q
     qTable.save()
     IA["st"] = stp1
-    return game_state
+    return code, IA

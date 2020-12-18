@@ -9,13 +9,13 @@ def index(request):
         move = data.get("move")
         if(correct_move(game_state,move)):
             if(game_state.get("board")[move[0]][move[1]] == 0):
-                game_state = apply_move(game_state,move)
+                game_state["board"][move[0]][move[1]],game_state["players"][game_state["current_player"]]["position"] = apply_move(game_state,move)
                 game_state["players"][game_state["current_player"]]["box_taken"],game_state["board"] = zone_search(game_state["board"],game_state["current_player"],game_state["players"][game_state["current_player"]]["position"])
             else:
-                game_state = apply_move(game_state,move)
+                game_state["board"][move[0]][move[1]],game_state["players"][game_state["current_player"]]["position"] = apply_move(game_state,move)
                 game_state["players"][game_state["current_player"]]["box_taken"] = 0
-            game_state = game_is_win(game_state)
-            game_state = switch_player(game_state)
+            game_state["code"] = game_is_win(game_state)
+            game_state["current_player"] = switch_player(game_state)
         if(game_state["players"][game_state["current_player"]]["type"] == "IA"):
             return JsonResponse({"game_state":ia.index(game_state)})
     return JsonResponse({"game_state":game_state})
@@ -61,38 +61,38 @@ def voisin(zone,ligne,colonne,board,current_player):
     return voisin
 
 def correct_move(game_state,move):
-    position_player = game_state["players"][game_state["current_player"]]["position"]
-    board = game_state["board"]
-    if(move[0]>=0 and move[1]>=0 and move[0]<=7 and move[1]<=7): #pas en dehors du tableau
-        if(board[move[0]][move[1]] != (((game_state["current_player"]+1)%2)+1)): #pas sur la case d'une autre joueur
-            return True
-    return False
+    return ((move[0]>=0 and move[1]>=0 and move[0]<=7 and move[1]<=7) and (game_state["board"][move[0]][move[1]] != (((game_state["current_player"]+1)%2)+1)))
+    #board = game_state["board"]
+    #if(move[0]>=0 and move[1]>=0 and move[0]<=7 and move[1]<=7): #pas en dehors du tableau
+    #    if(board[move[0]][move[1]] != (((game_state["current_player"]+1)%2)+1)): #pas sur la case d'une autre joueur
+    #        return True
+    #return False
 
 def apply_move(game_state,move) :
-    game_state["board"][move[0]][move[1]] = (game_state["current_player"] + 1)
-    game_state["players"][game_state["current_player"]]["position"] = move
-    return game_state
+    return (game_state["current_player"] + 1), move
+    #game_state["board"][move[0]][move[1]] = (game_state["current_player"] + 1)
+    #game_state["players"][game_state["current_player"]]["position"] = move
+    #return game_state
     
 def switch_player(game_state):
-    if(game_state["code"] == 0):
-        game_state["current_player"] = (game_state["current_player"]+1) % 2
-    return game_state
+    return (game_state["current_player"]+1) % 2 if game_state["code"] == 0 else game_state["current_player"]
 
 def game_is_win(game_state):
     nb_cases_player1 = 0
     nb_cases_player2 = 0
+    code = 0
     for line in game_state["board"]:
         nb_cases_player1 += line.count(1)
         nb_cases_player2 += line.count(2)
     if(nb_cases_player1 > 32):
-        game_state["code"] = 1
+        code = 1
     elif(nb_cases_player2 > 32):
-        game_state["code"] = 2
+        code = 2
     elif(nb_cases_player1 == 32 and nb_cases_player2 == 32):
-        game_state["code"] = 3
+        code = 3
     if(game_state["players"][game_state["current_player"]]["type"] == "IA"):
-        return nb_cases_player1,nb_cases_player2,game_state
-    return game_state
+        return nb_cases_player1,nb_cases_player2,code
+    return  code
 
 
     

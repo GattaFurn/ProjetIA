@@ -61,6 +61,7 @@ def index(request):
                     utilisateur = Utilisateur.objects.get(pseudo = username, password = password)
                     utilisateur_player = Player.objects.get(utilisateur = utilisateur)
                     user = {"id":utilisateur_player.id,"username":utilisateur.pseudo,"color":utilisateur.color,"type":"User"}
+                    
                 if(request.session.get('player1') == None):
                     request.session['player1'] = user
                     return redirect('../game')

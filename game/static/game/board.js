@@ -51,10 +51,10 @@ function updateBoard(game){
     player_position(game_state.players[0].position,game_state.players[1].position);
     game_state["board"] = current_board;
     if(game_state["code"] != 0){
-        if(document.getElementsByClassName("infoJoueur")[0].innerHTML == document.getElementsByClassName("infoJoueur")[2].innerHTML)
+        if(game_state.code == 3)
             alert("And it's a tie!");
         else{
-            if(document.getElementsByClassName("infoJoueur")[0].innerHTML >= document.getElementsByClassName("infoJoueur")[2].innerHTML)
+            if(game_state.code == 1)
                 alert(`Congratulations ${game_state.players[0].username}, you are the winner!`);
             else
                 alert(`Congratulations ${game_state.players[1].username}, you are the winner!`);

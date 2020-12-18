@@ -15,10 +15,10 @@ def training(request):
         while(game_state["code"]==0):
             if(game_state["current_player"] == 0):
                 move = random_play(game_state)
-                game_state = apply_move(game_state,move)
-                game_state = game_is_win(game_state)
+                game_state["board"][move[0]][move[1]],game_state["players"][game_state["current_player"]]["position"] = apply_move(game_state,move)
+                game_state["code"] = game_is_win(game_state)
                 game_state["players"][0]["box_taken"],game_state["board"] = zone_search(game_state["board"],0,game_state["players"][0]["position"])
-                game_state = switch_player(game_state)
+                game_state["current_player"] = switch_player(game_state)
             else:
                 game_state = index(game_state)
             #affichage_plateau(game_state)
