@@ -5,11 +5,12 @@ import json
 import time
 from django.shortcuts import redirect
 
-NB_ITERATION = 20
+NB_ITERATION = 200000
 
 def training(request):
-    eps = 0
-    step = 1 / (NB_ITERATION / 2)
+    eps = max(1 * 0.996, 0.05)
+    #step = 0.01
+    #reach = NB_ITERATION/100
     game_state = reset(eps)
     for i in range(NB_ITERATION):
         while(game_state["code"]==0):
@@ -21,10 +22,12 @@ def training(request):
                 game_state["current_player"] = switch_player(game_state)
             else:
                 game_state = index(game_state)
-            #affichage_plateau(game_state)
+            #display_board(game_state)
         print("fini")
+        # if(i % reach == 0):
+        #   eps += step
         if(eps != 1):
-            eps += step
+            eps =  max(eps * 0.996, 0.05)
         game_state = reset(eps)
     print("Totalement fini")
     return redirect('../connection')
@@ -54,7 +57,7 @@ def random_play(game_state):
         move[1] += actions[action][1]
     return move
 
-def affichage_plateau(game_state):
+def display_board(game_state):
     """
         Show the grid
     """

@@ -67,23 +67,24 @@ def index(request):
                     return redirect('../game')
                 else:
                     if(request.session['player1'].get("id") == user.get("id")):
-                        data = "Le joueur a déjà été selectionné"
+                        data = "The player has already been selected"
                         return reconnection_to_the_page(request,data)
                     if(request.session['player1'].get("type") == "IA" and request.session['player1'].get("type") == user["type"]):
-                        data = "Une ia a déjà été selectionnée"
+                        data = "One AI has already been selected"
                         return reconnection_to_the_page(request,data)
                     request.session['player2'] = user
                 return redirect('../game')
             except ObjectDoesNotExist:
-                data = "Le joueur n'existe pas"
+                data = "The player does not exist or the username/password is incorrect."
                 return reconnection_to_the_page(request,data)
         else:
             try:
                 utilisateur = Utilisateur.objects.get(pseudo = username)
-                return HttpResponse("L'utilisateur existe déjà")
+                data = "The user already exists"
+                return reconnection_to_the_page(request,data)
             except ObjectDoesNotExist:
                
-                data = "Le joueur à bien été crée, veuillez vous connectez maintenant!"
+                data = "The player has been created, please log in now!"
                 
                 new_utilisateur = Utilisateur.objects.create(pseudo = username, password = password, color = colorchoice)
                 Player.objects.create(utilisateur = new_utilisateur)

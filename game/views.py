@@ -17,18 +17,23 @@ class NewGameForm(forms.Form):
 def index(request):
     if request.method == "GET": #quand c'est la premiere fois qu'on vient
         form = NewGameForm()
+        if(request.session['player1'] == None):
+            return redirect('../connection')
+
         form.fields["player1_name"].initial= request.session['player1'].get("username")
         form.fields["player1_color"].initial = request.session['player1'].get("color")
+
         if(request.session['player2'] == None):
             return render(request, "game/index.html", { "form": form ,"player1":request.session['player1'],"player2":None})
-        else:
-            form.fields["player2_name"].initial= request.session['player2'].get("username")
-            form.fields["player2_color"].initial = request.session['player2'].get("color")
-            if(request.session['player1']["type"] == "IA"):
-                request.session['player1'],request.session['player2'] = request.session['player2'],request.session['player1']
-            return render(request, "game/index.html", { "form": form ,"player1":request.session['player1'],"player2":request.session['player2']})
 
-    if request.method == "POST": #quand on a les noms des joueurs pour commencer la partie
+        form.fields["player2_name"].initial= request.session['player2'].get("username")
+        form.fields["player2_color"].initial = request.session['player2'].get("color")
+        
+        if(request.session['player1']["type"] == "IA"):
+            request.session['player1'],request.session['player2'] = request.session['player2'],request.session['player1']
+        return render(request, "game/index.html", { "form": form ,"player1":request.session['player1'],"player2":request.session['player2']})
+
+    if request.method == "POST":
         form = NewGameForm(request.POST)
         if form.is_valid():
             player1 = request.session['player1'].copy()

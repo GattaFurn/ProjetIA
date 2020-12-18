@@ -22,15 +22,15 @@ def index(request):
     
 def zone_search(board,current_player,position):
     zone = []
-    elem = voisin(zone,position[0],position[1],board,current_player)
+    elem = neighbour(zone,position[0],position[1],board,current_player)
     ind = 0
     while (ind < len(elem) and zone == []):
         zone = zone_blocker(zone,elem[ind][0],elem[ind][1],board,current_player)
         ind+=1
-    board = remplissage_zone_block(board,zone,current_player)
-    return len(zone) + 1, board
+    board = fill_zone_blocked(board,zone,current_player)
+    return len(zone), board
 
-def remplissage_zone_block(board,zone,current_player):
+def fill_zone_blocked(board,zone,current_player):
     for elem in zone:
         board[elem[0]][elem[1]] = current_player + 1
     return board
@@ -41,14 +41,14 @@ def zone_blocker(zone,ligne,colonne,board,current_player):
         return zone
     if(board[ligne][colonne] == 0):
         zone.append([ligne,colonne])
-        voisin_case = voisin(zone,ligne,colonne,board,current_player)
+        voisin_case = neighbour(zone,ligne,colonne,board,current_player)
         ind = 0
         while(ind < len(voisin_case) and zone != []):
             zone = zone_blocker(zone,voisin_case[ind][0],voisin_case[ind][1],board,current_player)
             ind+=1 
     return zone
 
-def voisin(zone,ligne,colonne,board,current_player):
+def neighbour(zone,ligne,colonne,board,current_player):
     voisin = []
     if(ligne-1 >= 0 and [ligne-1, colonne] not in zone and board[ligne-1][colonne] != current_player+1): #Haut
         voisin.append([ligne-1,colonne])
@@ -62,17 +62,9 @@ def voisin(zone,ligne,colonne,board,current_player):
 
 def correct_move(game_state,move):
     return ((move[0]>=0 and move[1]>=0 and move[0]<=7 and move[1]<=7) and (game_state["board"][move[0]][move[1]] != (((game_state["current_player"]+1)%2)+1)))
-    #board = game_state["board"]
-    #if(move[0]>=0 and move[1]>=0 and move[0]<=7 and move[1]<=7): #pas en dehors du tableau
-    #    if(board[move[0]][move[1]] != (((game_state["current_player"]+1)%2)+1)): #pas sur la case d'une autre joueur
-    #        return True
-    #return False
 
 def apply_move(game_state,move) :
     return (game_state["current_player"] + 1), move
-    #game_state["board"][move[0]][move[1]] = (game_state["current_player"] + 1)
-    #game_state["players"][game_state["current_player"]]["position"] = move
-    #return game_state
     
 def switch_player(game_state):
     return (game_state["current_player"]+1) % 2 if game_state["code"] == 0 else game_state["current_player"]
