@@ -28,7 +28,7 @@ function fadeInUnique(elem){
 function fadeInUniqueDark(elem){
     let time = 70;
     setTimeout(function(){elem.classList.add("fade")}, time);
-    setTimeout(function(){elem.style.opacity = 0.3;}, time);
+    setTimeout(function(){elem.style.opacity = 0.4;}, time);
     setTimeout(function(){elem.classList.toggle("fade");}, time+1000);
 }
 

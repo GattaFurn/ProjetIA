@@ -131,7 +131,7 @@
 }
 .player_panel_not_your_turn {
     animation: fadeinDark 0.3s;
-    opacity: 0.3;
+    opacity: 0.4;
 }
 .casesHeader{
     background-color: #C0392B;
@@ -211,7 +211,7 @@ h2{
         opacity: 1;
     }
     to{
-        opacity: 0.3;
+        opacity: 0.4;
     }
 }
 
