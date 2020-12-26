@@ -8,8 +8,7 @@ from django.core.exceptions import ObjectDoesNotExist
 import json
 
 #iterables
-COLOR_CHOICES = (
-    
+COLOR_CHOICES = ( 
     ('PK', "Pink"),
     ('YW', 'Yellow'),
     ('GN', 'Green'),

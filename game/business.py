@@ -28,7 +28,7 @@ def zone_search(board,current_player,position):
         zone = zone_blocker(zone,elem[ind][0],elem[ind][1],board,current_player)
         ind+=1
     board = fill_zone_blocked(board,zone,current_player)
-    return len(zone), board
+    return len(zone)+1, board
 
 def fill_zone_blocked(board,zone,current_player):
     for elem in zone:

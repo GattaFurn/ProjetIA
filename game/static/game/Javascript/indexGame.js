@@ -2,7 +2,7 @@ let COLOR_CHOICES = new Map();
 COLOR_CHOICES.set('BL', '#0099ff');
 COLOR_CHOICES.set('PK', '#ff99ff');
 COLOR_CHOICES.set('YW', '#ffcc66');
-COLOR_CHOICES.set('GN', '#80ff80');
+COLOR_CHOICES.set('GN', '#d9ffb3');
 COLOR_CHOICES.set('VT', '#bf80ff');
 COLOR_CHOICES.set('RD', '#b30000');
 COLOR_CHOICES.set('OE', '#ff8c1a');

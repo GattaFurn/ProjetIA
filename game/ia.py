@@ -31,7 +31,8 @@ def index(game_state):
     IA["position"] = IA["stp1"]
     fake_row_q_table = get_qTable(new_game_state)
     IA["atp1"] = take_action(fake_row_q_table,IA["eps"])
-    new_game_state["code"],new_game_state.get("players")[1] = update_q_function(game_state,new_game_state,row_q_table,fake_row_q_table)
+    new_game_state["code"]= update_q_function(game_state,new_game_state,row_q_table,fake_row_q_table)
+    IA["st"] = IA["stp1"]
     new_game_state["current_player"] = business.switch_player(new_game_state)
     return new_game_state
 
@@ -47,21 +48,17 @@ def step(action, st): #OK
     """
         Action: 0, 1, 2, 3
     """
-    colone = max(0, min(st[1] + actions[action][1],7)) #On prend une action en évitant que la personne ne dépasse le tableau
-    ligne = max(0, min(st[0] + actions[action][0],7)) #On prend une action en évitant que la personne ne dépasse le tableau
-
-    return  [ligne,colone]
+    return[max(0, min(st[0] + actions[action][0],7)),max(0, min(st[1] + actions[action][1],7))]
 
 def take_action(Q_table, eps): #Permet de savoir s'il doit explorer ou exploiter 
     # Take an action
     if random.uniform(0, 1) < eps:
-        action = random.randint(0,3)
+        return(random.randint(0,3))
     else: # Or greedy action
         if(Q_table.count(0) == 4):
-            action = random.randint(0,3)
+            return(random.randint(0,3))
         else:
-            action = np.argmax(Q_table)
-    return action
+            return(int(np.argmax(Q_table)))
 
 def reward(game_state):
     r = 0
@@ -92,5 +89,4 @@ def update_q_function(game_state,new_game_state,row_q_table,fake_row_q_table):
     else:
         qTable.right = Q
     qTable.save()
-    IA["st"] = stp1
-    return code, IA
+    return code

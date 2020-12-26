@@ -1,5 +1,3 @@
-
-
 function fadeIn(divs){
     let time = 70;
     for(let div of divs){

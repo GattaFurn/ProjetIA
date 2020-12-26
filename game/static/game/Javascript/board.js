@@ -41,6 +41,7 @@ function updateBoard(game){
     let info = document.getElementsByClassName("infoJoueur");
     info[0].innerHTML = 0;
     info[2].innerHTML = 0;
+    console.log(game)
     game_state = JSON.parse(game);
     current_board = game_state["board"]
     for (let iLig = 0; iLig < 8; iLig++){
