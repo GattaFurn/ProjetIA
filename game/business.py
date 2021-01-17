@@ -1,6 +1,9 @@
 from django.http import HttpResponse, JsonResponse
 import game.ia as ia
 import json
+from .models import Game
+from .models import Player
+import datetime 
 
 def index(request):
     data = json.loads(request.body)
@@ -17,7 +20,9 @@ def index(request):
             game_state["code"] = game_is_win(game_state)
             game_state["current_player"] = switch_player(game_state)
         if(game_state["players"][game_state["current_player"]]["type"] == "IA"):
-            return JsonResponse({"game_state":ia.index(game_state)})
+             game_state = ia.index(game_state)
+        if(game_state["code"] != 0):
+            save_in_db(game_state)
     return JsonResponse({"game_state":game_state})
     
 def zone_search(board,current_player,position):
@@ -70,12 +75,8 @@ def switch_player(game_state):
     return (game_state["current_player"]+1) % 2 if game_state["code"] == 0 else game_state["current_player"]
 
 def game_is_win(game_state):
-    nb_cases_player1 = 0
-    nb_cases_player2 = 0
     code = 0
-    for line in game_state["board"]:
-        nb_cases_player1 += line.count(1)
-        nb_cases_player2 += line.count(2)
+    nb_cases_player1,nb_cases_player2 = box_counting(game_state["board"])
     if(nb_cases_player1 > 32):
         code = 1
     elif(nb_cases_player2 > 32):
@@ -86,5 +87,17 @@ def game_is_win(game_state):
         return nb_cases_player1,nb_cases_player2,code
     return  code
 
+def box_counting(board):
+    nb_cases_player1 = 0
+    nb_cases_player2 = 0
+    for line in board:
+        nb_cases_player1 += line.count(1)
+        nb_cases_player2 += line.count(2)
+    return nb_cases_player1,nb_cases_player2
 
-    
+def save_in_db(game_state):
+    player_1 =  Player.objects.get(id = game_state["players"][0]["id"])
+    player_2 =  Player.objects.get(id = game_state["players"][1]["id"])
+    nb_cases_player1,nb_cases_player2 = box_counting(game_state["board"])
+    play_time = datetime.time(int(game_state["time"][0]),int(game_state["time"][1:3]),int(game_state["time"][3:5]))
+    Game.objects.create(board = game_state["board"], positionPlayer1 = game_state.get("players")[0]["position"],currentPlayer = game_state["current_player"],positionPlayer2 = game_state.get("players")[1]["position"] ,player1 = player_1, player2 = player_2,time = play_time,player1Box = nb_cases_player1, player2Box = nb_cases_player2)

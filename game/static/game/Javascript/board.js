@@ -41,7 +41,6 @@ function updateBoard(game){
     let info = document.getElementsByClassName("infoJoueur");
     info[0].innerHTML = 0;
     info[2].innerHTML = 0;
-    console.log(game)
     game_state = JSON.parse(game);
     current_board = game_state["board"]
     for (let iLig = 0; iLig < 8; iLig++){
@@ -49,6 +48,7 @@ function updateBoard(game){
             box_distribution(tableau[iLig][iCol],current_board[iLig][iCol],info);
         }
     }
+    game_state["time"] = get_time();
     player_position(game_state.players[0].position,game_state.players[1].position);
     game_state["board"] = current_board;
     if(game_state["code"] != 0){
@@ -62,6 +62,15 @@ function updateBoard(game){
         }
     }    
 }
+
+
+function get_time(){
+    let time = document.getElementById("chrono");
+    let result = `${time.innerHTML.substr(0,1)}`;
+    result += `${time.innerHTML.substr(2,2)}`;
+    result += `${time.innerHTML.substr(5,6)}`;
+    return result;
+  }
 
 let COLOR_CHOICES = new Map();
                 COLOR_CHOICES.set('BL', '#0099ff');

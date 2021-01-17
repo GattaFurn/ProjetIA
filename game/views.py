@@ -41,11 +41,11 @@ def index(request):
             player2 = request.session['player2'].copy()
             player_creation(player2,2)
             game_state = {
-                "game_id" : 11,
                 "board" : [[1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,2]],
                 "players" : [player1,player2],
                 "current_player" : 0,
-                "code" : 0
+                "code" : 0,
+                "time": ""
             }
             return render(request, 'game/new_game.html',{"game_state":game_state})
     return redirect('../connection')

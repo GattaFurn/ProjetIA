@@ -1,5 +1,6 @@
 from django.db import models
 from connection.models import *
+from datetime import * 
 
 # Create your models here.
 class IA(models.Model):
@@ -21,15 +22,20 @@ class Player(models.Model):
             return str(self.id) + "-" + self.ia.pseudo
 
 class Game(models.Model):
-    board = models.TextField()
+    board = models.TextField(default = "")
     positionPlayer1 = models.CharField(max_length=6)
     positionPlayer2 = models.CharField(max_length=6)
     currentPlayer = models.IntegerField(choices = [(0,0),(1,1)])
     player1 = models.ForeignKey(Player, on_delete=models.CASCADE, related_name='player1')
     player2 = models.ForeignKey(Player, on_delete=models.CASCADE, related_name='player2')
+    player1Box = models.IntegerField(default = 1)
+    player2Box = models.IntegerField(default = 1)
+    time = models.TimeField(default = datetime.now())
+    maxBoxTakenWithArea = models.IntegerField(default = 1)
+
 
 class Qtable(models.Model):
-    board = models.TextField()
+    board = models.TextField(default = "")
     posP1 = models.CharField(max_length=6)
     posP2 = models.CharField(max_length=6)
     playerTurn = models.IntegerField(choices = [(0,0),(1,1)])

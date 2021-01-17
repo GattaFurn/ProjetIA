@@ -37,7 +37,6 @@ def reset(eps):
     player2 = {"position":[7,7],"st":[7,7],"atp1":0,"at":0,"box_taken":0,"eps":eps,"stp1":0,"type":"IA"}
     player1 = {"position":[0,0],"box_taken":0,"type":"random"}
     game_state = {
-    "game_id" : 11,
     "board" : [[1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,2]],
     "players" : [player1,player2],
     "current_player" : 0,
