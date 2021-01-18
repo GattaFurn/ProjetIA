@@ -105,15 +105,16 @@ def statistics(request):
     nbPlayerGame = Game.objects.filter(player2__in=player).count()
 
     timeInMinute = Game.objects.values('time')
-    timeInMinute = [(entry["time"].hour*60 + entry["time"].minute + entry["time"].second/60) for entry in timeInMinute]
+    timeInMinute = [(entry["time"].hour*3600 + entry["time"].minute*60 + entry["time"].second) for entry in timeInMinute]
     averageTime = mean(timeInMinute)
     maxTime = max(timeInMinute)
     minTime = min(timeInMinute)
 
     boxTaken = Game.objects.values('player1Box','player2Box')
+    boxTakenArea = [entry["maxBoxTakenWithArea"] for entry in Game.objects.values('maxBoxTakenWithArea')]
     boxTaken = [entry["player1Box"] for entry in boxTaken]+[entry["player2Box"] for entry in boxTaken]
     totalBoxTaken = sum(boxTaken)
-    maxBoxTaken = max(boxTaken)
+    maxBoxTaken = max(boxTakenArea)
     averageBoxTaken = mean(boxTaken)
     return render(request,"connection/statistics.html",{ "nbGamePlayed":nbGamePlayed,"nbIaGame": nbIaGame , "nbPlayerGame": nbPlayerGame,"averageTime":averageTime,"maxTime":maxTime,"minTime":minTime,"totalBoxTaken":totalBoxTaken,"maxBoxTaken":maxBoxTaken,"averageBoxTaken":averageBoxTaken})
 

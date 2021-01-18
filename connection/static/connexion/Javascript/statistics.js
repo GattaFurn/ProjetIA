@@ -34,8 +34,8 @@ function complete_number(){
 	document.getElementById("IaGame").append(nbIaGame);
 	document.getElementById("PlayerGame").append(nbPlayerGame);
 	document.getElementById("averageDuration").append(averageTime.toFixed(2));
-	document.getElementById("maxDuration").append(maxTime.toFixed(2));
-	document.getElementById("minDuration").append(minTime.toFixed(2));
+	document.getElementById("maxDuration").append(maxTime);
+	document.getElementById("minDuration").append(minTime);
 	document.getElementById("totalBox").append(totalBoxTaken);
 	document.getElementById("maxBox").append(maxBoxTaken);
 	document.getElementById("averageBox").append(averageBoxTaken.toFixed(2));
