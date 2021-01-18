@@ -45,7 +45,8 @@ def index(request):
                 "players" : [player1,player2],
                 "current_player" : 0,
                 "code" : 0,
-                "time": ""
+                "time": "",
+                "maxBoxTaken":1
             }
             return render(request, 'game/new_game.html',{"game_state":game_state})
     return redirect('../connection')

@@ -5,6 +5,26 @@
 		<meta charset="utf-8">
 		<link rel="stylesheet" type="text/css" href="static/connexion/CSS/statistics.css">
 		<script src="static/connexion/Javascript/statistics.js"></script>
+		{{ nbGamePlayed|json_script:"nbGamePlayed" }}
+    	{{ nbIaGame|json_script:"nbIaGame" }}
+		{{ nbPlayerGame|json_script:"nbPlayerGame" }}
+		{{ averageTime|json_script:"averageTime" }}
+		{{ maxTime|json_script:"maxTime" }}
+		{{ minTime|json_script:"minTime" }}
+		{{ totalBoxTaken|json_script:"totalBoxTaken" }}
+		{{ maxBoxTaken|json_script:"maxBoxTaken" }}
+		{{ averageBoxTaken|json_script:"averageBoxTaken" }}
+		<script>
+			var nbGamePlayed = JSON.parse(document.getElementById('nbGamePlayed').textContent);
+			var nbIaGame = JSON.parse(document.getElementById('nbIaGame').textContent);
+			var nbPlayerGame = JSON.parse(document.getElementById('nbPlayerGame').textContent);
+			var averageTime = JSON.parse(document.getElementById('averageTime').textContent);
+			var maxTime = JSON.parse(document.getElementById('maxTime').textContent);
+			var minTime = JSON.parse(document.getElementById('minTime').textContent);
+			var totalBoxTaken = JSON.parse(document.getElementById('totalBoxTaken').textContent);
+			var maxBoxTaken = JSON.parse(document.getElementById('maxBoxTaken').textContent);
+			var averageBoxTaken = JSON.parse(document.getElementById('averageBoxTaken').textContent);
+		</script
 	</head>
 	<body>
 		<a href="../connection/"><button id="return">Return</button></a>
@@ -13,30 +33,30 @@
 			<div class="panelStat">
 				<div class="infoStat">
 					<h2>Games played</h2>
-					<div class="values">10</div>
+					<div id = "GamePlayed" class="values"></div>
 				</div>
 				<div class="infoStat">
 					<h2>Player VS player games</h2>
-					<div class="values">10</div>
+					<div id = "PlayerGame" class="values"></div>
 				</div>
 				<div class="infoStat">
 					<h2>Player vs AI games</h2>
-					<div class="values">10</div>
+					<div id = "IaGame" class="values"></div>
 				</div>
 			</div>
 			<div class="espacement"></div>
 			<div class="panelStat">
 				<div class="infoStat">
 					<h2>Average duration of a game</h2>
-					<div class="values">10</div>
+					<div id = "averageDuration" class="values"></div>
 				</div>
 				<div class="infoStat">
 					<h2>The shortest game</h2>
-					<div class="values">10</div>
+					<div id = "minDuration" class="values"></div>
 				</div>
 				<div class="infoStat">
 					<h2>The longest game</h2>
-					<div class="values">10</div>
+					<div id = "maxDuration" class="values"></div>
 				</div>
 			</div>
 		</div>
@@ -93,15 +113,15 @@
 			<div class="panelStat">
 				<div class="infoStat">
 					<h2>Total number of boxes taken</h2>
-					<div class="values">10</div>
+					<div id ="totalBox" class="values"></div>
 				</div>
 				<div class="infoStat">
 					<h2>Maximum boxes taken at once</h2>
-					<div class="values">10</div>
+					<div id ="maxBox" class="values"></div>
 				</div>
 				<div class="infoStat">
 					<h2>Average boxes taken at once</h2>
-					<div class="values">10</div>
+					<div id = "averageBox" class="values"></div>
 				</div>
 			</div>
 		</div>

@@ -26,4 +26,17 @@ window.onload = function(){
 		div.classList.add("zoom");
 	}
 	panelLeaderBoard.classList.add("zoom");
+	complete_number();
 }
+
+function complete_number(){
+	document.getElementById("GamePlayed").append(nbGamePlayed);
+	document.getElementById("IaGame").append(nbIaGame);
+	document.getElementById("PlayerGame").append(nbPlayerGame);
+	document.getElementById("averageDuration").append(averageTime.toFixed(2));
+	document.getElementById("maxDuration").append(maxTime.toFixed(2));
+	document.getElementById("minDuration").append(minTime.toFixed(2));
+	document.getElementById("totalBox").append(totalBoxTaken);
+	document.getElementById("maxBox").append(maxBoxTaken);
+	document.getElementById("averageBox").append(averageBoxTaken.toFixed(2));
+} 

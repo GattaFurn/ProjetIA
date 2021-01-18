@@ -3,9 +3,10 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django import forms
 from django.shortcuts import redirect
 from .models import Utilisateur
-from game.models import Player,IA
+from game.models import Player,IA,Game
 from django.core.exceptions import ObjectDoesNotExist
 import json
+from statistics import mean
 
 #iterables
 COLOR_CHOICES = ( 
@@ -97,7 +98,24 @@ def deconnection(request):
     return redirect('../connection')
 
 def statistics(request):
-    return render(request,"connection/statistics.html")
+    ia = Player.objects.filter(utilisateur__isnull = True)
+    player = Player.objects.filter(ia__isnull = True)
+    nbGamePlayed = Game.objects.count()
+    nbIaGame = Game.objects.filter(player2__in=ia).count()
+    nbPlayerGame = Game.objects.filter(player2__in=player).count()
+
+    timeInMinute = Game.objects.values('time')
+    timeInMinute = [(entry["time"].hour*60 + entry["time"].minute + entry["time"].second/60) for entry in timeInMinute]
+    averageTime = mean(timeInMinute)
+    maxTime = max(timeInMinute)
+    minTime = min(timeInMinute)
+
+    boxTaken = Game.objects.values('player1Box','player2Box')
+    boxTaken = [entry["player1Box"] for entry in boxTaken]+[entry["player2Box"] for entry in boxTaken]
+    totalBoxTaken = sum(boxTaken)
+    maxBoxTaken = max(boxTaken)
+    averageBoxTaken = mean(boxTaken)
+    return render(request,"connection/statistics.html",{ "nbGamePlayed":nbGamePlayed,"nbIaGame": nbIaGame , "nbPlayerGame": nbPlayerGame,"averageTime":averageTime,"maxTime":maxTime,"minTime":minTime,"totalBoxTaken":totalBoxTaken,"maxBoxTaken":maxBoxTaken,"averageBoxTaken":averageBoxTaken})
 
 
 def reconnection_to_the_page(request,data):
