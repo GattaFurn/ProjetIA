@@ -21,7 +21,7 @@ function fadeInTab(cellules){
 function fadeInUnique(elem){
     let time = 70;
     setTimeout(function(){elem.classList.add("fade")}, time);
-    setTimeout(function(){elem.style.opacity = 1;}, time);
+    setTimeout(function(){elem.style.opacity = 1;}, time); 
     setTimeout(function(){elem.classList.toggle("fade");}, time+1000);
 }
 
@@ -34,9 +34,9 @@ function fadeInUniqueDark(elem){
 
 function setPlayerName(){
     let namePlayers = document.getElementsByTagName("h2");
-    let iPlayer = 0;
+    let iPlayer = 1;
     for(let name of namePlayers){
-        name.innerHTML = game_state.players[iPlayer].username;
+        name.innerHTML = game_state["player"+iPlayer+"_username"];
         iPlayer++;
     }
 }
@@ -61,34 +61,34 @@ function lightenDarkenColor(col,amt) {
 }
 
 function setColorPanelLight(){
-    document.getElementById("panelPlayer1").style.backgroundColor = COLOR_CHOICES.get(game_state.players[0].color);
-    document.getElementById("panelPlayer2").style.backgroundColor = COLOR_CHOICES.get(game_state.players[1].color);
+    document.getElementById("panelPlayer1").style.backgroundColor = COLOR_CHOICES.get(game_state.player1_color);
+    document.getElementById("panelPlayer2").style.backgroundColor = COLOR_CHOICES.get(game_state.player2_color);
 }
 
 function setColorPanelDark(){
-    document.getElementById("panelPlayer1").style.backgroundColor = lightenDarkenColor(COLOR_CHOICES.get(game_state.players[0].color), -120);
-    document.getElementById("panelPlayer2").style.backgroundColor = lightenDarkenColor(COLOR_CHOICES.get(game_state.players[1].color), -120);
+    document.getElementById("panelPlayer1").style.backgroundColor = lightenDarkenColor(COLOR_CHOICES.get(game_state.player1_color), -120);
+    document.getElementById("panelPlayer2").style.backgroundColor = lightenDarkenColor(COLOR_CHOICES.get(game_state.player2_color), -120);
 }
 
 function setColorInfoJoueurLight(){
     let infos = document.getElementById("panelPlayer1").getElementsByClassName("infoJoueur");
     for(let info of infos){
-        info.style.backgroundColor = lightenDarkenColor(COLOR_CHOICES.get(game_state.players[0].color), 60);
+        info.style.backgroundColor = lightenDarkenColor(COLOR_CHOICES.get(game_state.player1_color), 60);
     }
     infos = document.getElementById("panelPlayer2").getElementsByClassName("infoJoueur");
     for(let info of infos){
-        info.style.backgroundColor = lightenDarkenColor(COLOR_CHOICES.get(game_state.players[1].color), 60);
+        info.style.backgroundColor = lightenDarkenColor(COLOR_CHOICES.get(game_state.player2_color), 60);
     }
 }
 
 function setColorInfoJoueurDark(){
     let infos = document.getElementById("panelPlayer1").getElementsByClassName("infoJoueur");
     for(let info of infos){
-        info.style.backgroundColor = lightenDarkenColor(COLOR_CHOICES.get(game_state.players[0].color), -80);
+        info.style.backgroundColor = lightenDarkenColor(COLOR_CHOICES.get(game_state.player1_color), -80);
     }
     infos = document.getElementById("panelPlayer2").getElementsByClassName("infoJoueur");
     for(let info of infos){
-        info.style.backgroundColor = lightenDarkenColor(COLOR_CHOICES.get(game_state.players[1].color), -80);
+        info.style.backgroundColor = lightenDarkenColor(COLOR_CHOICES.get(game_state.player2_color), -80);
     }
 }
 

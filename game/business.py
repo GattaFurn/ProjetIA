@@ -6,54 +6,62 @@ from .models import Player
 import datetime 
 import itertools 
 
-def index(request):
+def gameplay(request):
     data = json.loads(request.body)
-    game_state = data.get("game_state")
+    game = Game.objects.get(id = request.session["idGame"])
+    game_state = game.__dict__
+    game_state["board"] = json.loads(game_state["board"])
+    game_state["position_player1"] = json.loads(game_state["position_player1"])
+    game_state["position_player2"] = json.loads(game_state["position_player2"])
+
+    current_player = game_state["current_player"]
+    positionPlayer = "position_player"+str(current_player+1)
+    playerBoxTurn = "player"+str(current_player+1)+"BoxTurn"
     if(game_state["code"] == 0):
         move = data.get("move")
         if(correct_move(game_state,move)):
             if(game_state.get("board")[move[0]][move[1]] == 0):
-                game_state["board"][move[0]][move[1]],game_state["players"][game_state["current_player"]]["position"] = apply_move(game_state,move)
-                game_state["players"][game_state["current_player"]]["box_taken"],game_state["board"] = zone_search(game_state["board"],game_state["current_player"],game_state["players"][game_state["current_player"]]["position"])
+                game_state["board"][move[0]][move[1]],game_state[positionPlayer] = apply_move(game_state,move)
+                game_state[playerBoxTurn] = zone_search(game_state["board"],current_player,game_state[positionPlayer])
             else:
-                game_state["board"][move[0]][move[1]],game_state["players"][game_state["current_player"]]["position"] = apply_move(game_state,move)
-                game_state["players"][game_state["current_player"]]["box_taken"] = 0
+                game_state["board"][move[0]][move[1]],game_state[positionPlayer] = apply_move(game_state,move)
+                game_state[playerBoxTurn] = 0
             game_state["code"] = game_is_win(game_state)
             game_state["current_player"] = switch_player(game_state)
-        if(game_state["players"][game_state["current_player"]]["type"] == "IA"):
-             game_state = ia.index(game_state)
-        game_state["maxBoxTaken"] = max([game_state["players"][0]["box_taken"],game_state["players"][1]["box_taken"],game_state["maxBoxTaken"]])
-        if(game_state["code"] != 0):
-            save_in_db(game_state)
-    return JsonResponse({"game_state":game_state})
+        if(game_state["ia_info_id"] != None and game_state["code"] == 0):
+             game_state = ia.ia_playing(game_state)
+        game_state["max_box_taken_with_area"] = max([game_state["player1_box_turn"],game_state["player2_box_turn"],game_state["max_box_taken_with_area"]])
+        save_in_DB(game_state,game,data.get("time"))
+    del game_state["_state"]
+    del game_state["time"]
+    return JsonResponse({"game_state":json.loads(json.dumps(game_state))})
 
 def zone_search(board,current_player,position):
     zone = []
     elem = neighbour(zone,position[0],position[1],board,current_player)
     ind = 0
     while (ind < len(elem) and zone == []):
-        zone = zone_blocker(zone,elem[ind][0],elem[ind][1],board,current_player)
+        zone = zone_block(zone,elem[ind][0],elem[ind][1],board,current_player)
         ind+=1
     zone.sort()
-    zone = list(zone for zone,_ in itertools.groupby(zone)) 
-    board = fill_zone_blocked(board,zone,current_player)
-    return len(zone)+1, board
+    zone = [i for n, i in enumerate(zone) if i not in zone[:n]]
+    fille_zone_blocked(board,zone,current_player)
+    return 1 if len(zone) == 0 else len(zone)+1
 
-def fill_zone_blocked(board,zone,current_player):
+def fille_zone_blocked(board,zone,current_player):
     for elem in zone:
         board[elem[0]][elem[1]] = current_player + 1
-    return board
 
-def zone_blocker(zone,ligne,colonne,board,current_player):
+def zone_block(zone,ligne,colonne,board,current_player):
     if(board[ligne][colonne] == ((current_player + 1)%2+1)):
         zone = []
         return zone
     if(board[ligne][colonne] == 0):
         zone.append([ligne,colonne])
-        voisin_case = neighbour(zone,ligne,colonne,board,current_player)
+        voisincase = neighbour(zone,ligne,colonne,board,current_player)
         ind = 0
-        while(ind < len(voisin_case) and zone != []):
-            zone = zone_blocker(zone,voisin_case[ind][0],voisin_case[ind][1],board,current_player)
+        while(ind < len(voisincase) and zone != []):
+            zone = zone_block(zone,voisincase[ind][0],voisincase[ind][1],board,current_player)
             ind+=1 
     return zone
 
@@ -76,32 +84,39 @@ def apply_move(game_state,move) :
     return (game_state["current_player"] + 1), move
     
 def switch_player(game_state):
-    return (game_state["current_player"]+1) % 2 if game_state["code"] == 0 else game_state["current_player"]
+    return ((game_state["current_player"]+1) % 2) if game_state["code"] == 0 else game_state["current_player"]
 
 def game_is_win(game_state):
     code = 0
-    nb_cases_player1,nb_cases_player2 = box_counting(game_state["board"])
-    if(nb_cases_player1 > 32):
+    nbCasesPlayer1,nbCasesPlayer2 = box_counting(game_state["board"])
+    if(nbCasesPlayer1 > 32):
         code = 1
-    elif(nb_cases_player2 > 32):
+    elif(nbCasesPlayer2 > 32):
         code = 2
-    elif(nb_cases_player1 == 32 and nb_cases_player2 == 32):
+    elif(nbCasesPlayer1 == 32 and nbCasesPlayer2 == 32):
         code = 3
-    if(game_state["players"][game_state["current_player"]]["type"] == "IA"):
-        return nb_cases_player1,nb_cases_player2,code
-    return  code
+    if(game_state["ia_info_id"] != None and game_state["current_player"] == 1):
+        return nbCasesPlayer1,nbCasesPlayer2,code
+    return code
 
 def box_counting(board):
-    nb_cases_player1 = 0
-    nb_cases_player2 = 0
+    nbCasesPlayer1 = 0
+    nbCasesPlayer2 = 0
     for line in board:
-        nb_cases_player1 += line.count(1)
-        nb_cases_player2 += line.count(2)
-    return nb_cases_player1,nb_cases_player2
+        nbCasesPlayer1 += line.count(1)
+        nbCasesPlayer2 += line.count(2)
+    return nbCasesPlayer1,nbCasesPlayer2
 
-def save_in_db(game_state):
-    player_1 =  Player.objects.get(id = game_state["players"][0]["id"])
-    player_2 =  Player.objects.get(id = game_state["players"][1]["id"])
-    nb_cases_player1,nb_cases_player2 = box_counting(game_state["board"])
-    play_time = datetime.time(int(game_state["time"][0]),int(game_state["time"][1:3]),int(game_state["time"][3:5]))
-    Game.objects.create(maxBoxTakenWithArea = game_state["maxBoxTaken"],board = game_state["board"], positionPlayer1 = game_state.get("players")[0]["position"],currentPlayer = game_state["current_player"],positionPlayer2 = game_state.get("players")[1]["position"] ,player1 = player_1, player2 = player_2,time = play_time,player1Box = nb_cases_player1, player2Box = nb_cases_player2)
+def save_in_DB(game_state,game,time):
+    game.board = game_state["board"]
+    game.max_box_taken_with_area = game_state["max_box_taken_with_area"]
+    game.position_player1 = game_state["position_player1"]
+    game.position_player2 = game_state["position_player2"]
+    game.current_player = game_state["current_player"]
+    game.time = datetime.time(int(time[0]),int(time[1:3]),int(time[3:5]))
+    game.code = game_state["code"]
+    game.player1_box_turn = game_state["player1_box_turn"]
+    game.player2_box_turn = game_state["player2_box_turn"]
+    game.player1_box_total = game_state["player1_box_total"]+game_state["player1_box_turn"]
+    game.player2_box_total = game_state["player2_box_total"]+game_state["player2_box_turn"]
+    game.save()

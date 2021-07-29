@@ -5,25 +5,25 @@
 		<meta charset="utf-8">
 		<link rel="stylesheet" type="text/css" href="static/connexion/CSS/statistics.css">
 		<script src="static/connexion/Javascript/statistics.js"></script>
-		{{ nbGamePlayed|json_script:"nbGamePlayed" }}
-    	{{ nbIaGame|json_script:"nbIaGame" }}
-		{{ nbPlayerGame|json_script:"nbPlayerGame" }}
-		{{ averageTime|json_script:"averageTime" }}
-		{{ maxTime|json_script:"maxTime" }}
-		{{ minTime|json_script:"minTime" }}
-		{{ totalBoxTaken|json_script:"totalBoxTaken" }}
-		{{ maxBoxTaken|json_script:"maxBoxTaken" }}
-		{{ averageBoxTaken|json_script:"averageBoxTaken" }}
+		{{ nb_game_played|json_script:"nb_game_played" }}
+    	{{ nb_Ia_Game|json_script:"nb_Ia_Game" }}
+		{{ nb_player_game|json_script:"nb_player_game" }}
+		{{ average_time|json_script:"average_time" }}
+		{{ max_time|json_script:"max_time" }}
+		{{ min_time|json_script:"min_time" }}
+		{{ total_box_taken|json_script:"total_box_taken" }}
+		{{ max_box_taken|json_script:"max_box_taken" }}
+		{{ average_box_taken|json_script:"average_box_taken" }}
 		<script>
-			var nbGamePlayed = JSON.parse(document.getElementById('nbGamePlayed').textContent);
-			var nbIaGame = JSON.parse(document.getElementById('nbIaGame').textContent);
-			var nbPlayerGame = JSON.parse(document.getElementById('nbPlayerGame').textContent);
-			var averageTime = JSON.parse(document.getElementById('averageTime').textContent);
-			var maxTime = JSON.parse(document.getElementById('maxTime').textContent);
-			var minTime = JSON.parse(document.getElementById('minTime').textContent);
-			var totalBoxTaken = JSON.parse(document.getElementById('totalBoxTaken').textContent);
-			var maxBoxTaken = JSON.parse(document.getElementById('maxBoxTaken').textContent);
-			var averageBoxTaken = JSON.parse(document.getElementById('averageBoxTaken').textContent);
+			var nb_game_played = JSON.parse(document.getElementById('nb_game_played').textContent);
+			var nb_Ia_Game = JSON.parse(document.getElementById('nb_Ia_Game').textContent);
+			var nb_player_game = JSON.parse(document.getElementById('nb_player_game').textContent);
+			var average_time = JSON.parse(document.getElementById('average_time').textContent);
+			var max_time = JSON.parse(document.getElementById('max_time').textContent);
+			var min_time = JSON.parse(document.getElementById('min_time').textContent);
+			var total_box_taken = JSON.parse(document.getElementById('total_box_taken').textContent);
+			var max_box_taken = JSON.parse(document.getElementById('max_box_taken').textContent);
+			var average_box_taken = JSON.parse(document.getElementById('average_box_taken').textContent);
 		</script
 	</head>
 	<body>

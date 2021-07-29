@@ -30,13 +30,13 @@ window.onload = function(){
 }
 
 function complete_number(){
-	document.getElementById("GamePlayed").append(nbGamePlayed);
-	document.getElementById("IaGame").append(nbIaGame);
-	document.getElementById("PlayerGame").append(nbPlayerGame);
-	document.getElementById("averageDuration").append(averageTime.toFixed(2));
-	document.getElementById("maxDuration").append(maxTime);
-	document.getElementById("minDuration").append(minTime);
-	document.getElementById("totalBox").append(totalBoxTaken);
-	document.getElementById("maxBox").append(maxBoxTaken);
-	document.getElementById("averageBox").append(averageBoxTaken.toFixed(2));
+	document.getElementById("GamePlayed").append(nb_game_played);
+	document.getElementById("IaGame").append(nb_Ia_Game);
+	document.getElementById("PlayerGame").append(nb_player_game);
+	document.getElementById("averageDuration").append(average_time.toFixed(2));
+	document.getElementById("maxDuration").append(max_time);
+	document.getElementById("minDuration").append(min_time);
+	document.getElementById("totalBox").append(total_box_taken);
+	document.getElementById("maxBox").append(max_box_taken);
+	document.getElementById("averageBox").append(average_box_taken.toFixed(2));
 } 

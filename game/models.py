@@ -12,40 +12,54 @@ class IA(models.Model):
         return str(self.id) +" - "+ self.pseudo
 
 class Player(models.Model):
-    utilisateur = models.OneToOneField(Utilisateur, on_delete=models.CASCADE,null = True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE,null = True, blank=True)
     ia = models.OneToOneField(IA, on_delete=models.CASCADE,null = True, blank=True)
 
     def __str__(self):
-        if(self.utilisateur):
-            return str(self.id) + "-" + self.utilisateur.pseudo
+        if(self.user):
+            return str(self.id) + "-" + self.user.pseudo
         else:
             return str(self.id) + "-" + self.ia.pseudo
 
+class AIInfo(models.Model):
+    st = models.CharField(max_length=6)
+    stp1 = models.CharField(max_length=6)
+    at = models.IntegerField(choices = [(0,0),(1,1),(2,2),(3,3)])
+    atp1 = models.IntegerField(choices = [(0,0),(1,1),(2,2),(3,3)])
+    eps = models.FloatField(default = 0)
+
+    def __str__(self):
+        return str(self.id)
+
 class Game(models.Model):
     board = models.TextField(default = "")
-    positionPlayer1 = models.CharField(max_length=6)
-    positionPlayer2 = models.CharField(max_length=6)
-    currentPlayer = models.IntegerField(choices = [(0,0),(1,1)])
+    position_player1 = models.CharField(max_length=6)
+    position_player2 = models.CharField(max_length=6)
+    current_player = models.IntegerField(choices = [(0,0),(1,1)])
     player1 = models.ForeignKey(Player, on_delete=models.CASCADE, related_name='player1')
     player2 = models.ForeignKey(Player, on_delete=models.CASCADE, related_name='player2')
-    player1Box = models.IntegerField(default = 1)
-    player2Box = models.IntegerField(default = 1)
-    time = models.TimeField(default = datetime.now())
-    maxBoxTakenWithArea = models.IntegerField(default = 1)
+    player1_box_total = models.IntegerField(default = 1)
+    player2_box_total = models.IntegerField(default = 1)
+    player1_box_turn = models.IntegerField(default = 1)
+    player2_box_turn = models.IntegerField(default = 1)
+    time = models.TimeField(default = datetime(1997,11,25))
+    max_box_taken_with_area = models.IntegerField(default = 1)
+    ia_info = models.ForeignKey(AIInfo, on_delete=models.CASCADE, related_name='ia_info')
+    code = models.IntegerField(default = 0)
 
 
 class Qtable(models.Model):
     board = models.TextField(default = "")
-    posP1 = models.CharField(max_length=6)
-    posP2 = models.CharField(max_length=6)
-    playerTurn = models.IntegerField(choices = [(0,0),(1,1)])
+    pos_p1 = models.CharField(max_length=6)
+    pos_p2 = models.CharField(max_length=6)
+    player_turn = models.IntegerField(choices = [(0,0),(1,1)])
     up = models.FloatField(default = 0)
     down = models.FloatField(default = 0)
     left = models.FloatField(default = 0)
     right = models.FloatField(default = 0)
 
     class Meta:
-        unique_together = (("board","posP1","posP2","playerTurn"),)
+        unique_together = ("board","pos_p1","pos_p2","player_turn")
 
     def __str__(self):
         return str(self.id)

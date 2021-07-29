@@ -11,7 +11,7 @@ COLOR_CHOICES = [
     ('CN', '#80ffff'),
 ]
 # Create your models here.
-class Utilisateur(models.Model):
+class User(models.Model):
     pseudo = models.CharField(max_length=50)
     password = models.CharField(max_length=20)
     color = models.CharField(max_length=2,choices = COLOR_CHOICES,default = 'BL')

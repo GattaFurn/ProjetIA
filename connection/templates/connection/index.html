@@ -22,7 +22,7 @@
 				<form method="POST" action="/connection/"> <!--Action : url vers lequel les données doivent être envoyée-->
 					{% csrf_token %} <!--protection contre certaines actions malveillantes-->
 					<div class="div_form">
-						{{formPlayer.as_p}} <!--recupere la variable form--> 
+						{{form_player.as_p}} <!--recupere la variable form--> 
 					</div>
 					<div class="connect_valid">
 						<button type="submit" id="signIn" class="aniBut buttonValid">Sign in</button>
@@ -34,7 +34,7 @@
 				<form method="POST" action="/connection/">
 					{% csrf_token %} <!--protection contre certaines actions malveillantes-->
 					<div class="div_form">
-						{{formNewPlayer.as_p }}
+						{{form_new_player.as_p }}
 					</div>
 					<div class="connect_valid">
 						<button id="signUp" type="submit" class="aniBut buttonValid">Sign up</button>
@@ -46,7 +46,7 @@
 				<form method="POST" action="/connection/">
 					{% csrf_token %} <!--protection contre certaines actions malveillantes-->
 					<div class="div_form">
-						{{formIA.as_p}}
+						{{form_IA.as_p}}
 					</div>
 					<div class="connect_valid">
 						<button id="choose" type="submit" class="aniBut buttonValid">Choose</button>
